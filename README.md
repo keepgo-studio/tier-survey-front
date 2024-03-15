@@ -1,36 +1,61 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+front: next + vercel로
+  client 측 프로젝트
 
-## Getting Started
+  streamer, viewer, feedback 사이트
 
-First, run the development server:
+  모두 동적페이지로 생성
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+  - [ ] riot status 확인하는 로직 (https://developer.riotgames.com/api-status/)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+back: firebase
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-## Learn More
+needed api
+games
+  riot - [x]
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. game 선택
+2. 개최자/참가자 선택
+3. riot id 로그인 (연습 필요)
+4. 개최자는 
+  새롭게 만드는 사람이라면 바로 qr코드 + password 입력창으로
+  기존 유저라면 통계 url로 redirecting
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+  limit time 설정
+  qr 코드 생성 (연습 필요)
+    url -> /hash한 id/랜덤 넘버(0~100,000)를 hash한 값(hashNum)
+    store에서 hashNum값이 같은지 확인
+    password 입력해야 참석 가능
+    limit_time 끝나면 파기
+  
+  통계 url -> /hashID/dashboard
+    만약 해당 스트리머가 로그인하지 않았는데 그냥 이 링크로 접속하면 아무것도 안뜸
+    qr 타이머가 돌고 잇는동안은 로딩창이 뜨게 하기
 
-## Deploy on Vercel
+    qr 재생성 기능 (다시 limit timer 설정 페이지로 돌아감)
+      1. 완전 재생성
+      2. 기존 데이터 활용
+  
+  통계 사이트에서는
+    1. table로 랭킹 (nickname, tier, level, 선호 챔피언, ) (연습 필요)
+      - 닉네임 검색
+    2. 티어 비율 pie chart
+    3. 챔피언 비율 pie chart
+    4. 
+  
+5. 참가자는
+  qr스캔
+    닉네임이 드러나느것을 동의할 때만 참석
+    password 입력
+  통계 url로 이동하기 버튼
+    
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+FSD 구조를 적용
+물론 필자의 입맛에 맞추어 약간의 변형이 있을 수 있음.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+import 제약이 있다보니 index.ts라는 Barrel file pattern을 써야하는데
+성능상 괜찮을지는 염두해 둬야겠다.
+
+a ~ e까지 순서를 두는 import eslint를 만들고 싶었는데 아직은 방법을 모르겠다
