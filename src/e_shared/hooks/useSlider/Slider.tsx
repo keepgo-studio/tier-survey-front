@@ -1,8 +1,8 @@
 "use client";
 
 import React, { Children, useEffect, useRef, useState } from "react";
-import { parseNumMinMax } from "@/e_shared/utils/utils";
-import MouseCoor from "./MouseCoor";
+import { parseMinMax } from "@/e_shared/utils/utils";
+import { attachDragAnimation } from "./slider.core";
 
 export default function Slider({
   children,
@@ -20,7 +20,7 @@ export default function Slider({
     if (index !== undefined) {
       const n = Children.count(children);
 
-      const val = parseNumMinMax(index, 0, n - 1);
+      const val = parseMinMax(index, 0, n - 1);
       setCurrentIdx(() => val);
 
       if (onMoved) onMoved(val);
@@ -32,47 +32,23 @@ export default function Slider({
     if (onMoved) onMoved(currentIdx);
   }, [currentIdx]);
 
-  const containerRef = useRef<HTMLDivElement>(null);
+
+  const rootRef = useRef<HTMLDivElement>(null);
   const cardWrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (containerRef.current && cardWrapperRef.current) {
-      const container = containerRef.current,
-        cardWrapper = cardWrapperRef.current;
-      // [...cardWrapper.children]
-      container.style.width = String(cardWrapper.offsetWidth) + "px";
-      container.style.height = String(cardWrapper.offsetHeight) + "px";
-
-      const coor = new MouseCoor();
-      
-      container.addEventListener("mousedown", (e) => {
-        coor.mousedown(e.x, e.y);
-      });
-
-      (["mouseup", "mouseleave"] as const).forEach((eventName) =>
-        container.addEventListener(eventName, (e) => {
-          if (!coor.isMouseDown) return;
-
-          const velocity = coor.mouseup(e.x, e.y);
-        })
-      );
+    if (rootRef.current && cardWrapperRef.current) {
+      attachDragAnimation(rootRef.current, cardWrapperRef.current, "100%");
     }
   }, []);
 
   return (
-    <section className="relative" ref={containerRef}>
-      <div className="absolute flex flex-nowrap" ref={cardWrapperRef}>
+    <section className="w-full relative overflow-hidden" ref={rootRef}>
+      <div className="absolute top-0 left-0 flex flex-nowrap  gap-4" ref={cardWrapperRef}>
         {Children.map(children, (child) => (
-          <div className="">{child}</div>
+          <div className="flex-shrink-0">{child}</div>
         ))}
       </div>
     </section>
   );
 }
-
-// const moveSlide = (dir: "+1" | "-1") => {
-//   const n = Children.count(children);
-//   let d = dir === "+1" ? 1 : -1;
-
-//   setCurrentIdx(prev => parseNumMinMax(prev + d, 0, n - 1));
-// }
