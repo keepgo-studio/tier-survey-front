@@ -44,7 +44,7 @@ export default function Slider({
 
   return (
     <section className="w-full relative overflow-hidden" ref={rootRef}>
-      <div className="absolute top-0 left-0 flex flex-nowrap  gap-4" ref={cardWrapperRef}>
+      <div className="absolute top-0 left-0 flex flex-nowrap" ref={cardWrapperRef}>
         {Children.map(children, (child) => (
           <div className="flex-shrink-0">{child}</div>
         ))}

@@ -17,3 +17,12 @@ export const SharedHooks = {
   useQuery,
   useSlider
 }
+
+
+import * as utils from "./utils/utils";
+import * as vars from "./utils/vars";
+
+export const SharedUtils = {
+  ...utils,
+  ...vars
+}

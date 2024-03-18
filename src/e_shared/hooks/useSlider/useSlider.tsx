@@ -1,7 +1,7 @@
 'use client'
 
 import Slider from './Slider';
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 
 export default function useSlider() {
   const [currentIdx, setCurrentIdx] = useState(0);
