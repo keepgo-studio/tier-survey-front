@@ -110,6 +110,8 @@ export function attachDragAnimation(rootElem: HTMLElement, cardWrapperElem: HTML
     elem.style.opacity = String((1 - ratio) * (1 - opacityStart) + opacityStart);
 
     elem.style.zIndex = String(elem === curretElem ? 1 : -1);
+
+    elem.style.pointerEvents = ratio === 0 ? '' : 'none';
   }
 
   function renderChildren() {
@@ -134,7 +136,7 @@ export function attachDragAnimation(rootElem: HTMLElement, cardWrapperElem: HTML
       cardWrapperElem.style.left = String(-State.x) + "px";
     } else if (method === 'smooth') {
       const t1 = Date.now();
-  
+
       const animate = () => {
         if (coor.isMouseDown) return;
         
@@ -146,17 +148,27 @@ export function attachDragAnimation(rootElem: HTMLElement, cardWrapperElem: HTML
         State.setX(d);
         cardWrapperElem.style.left = String(-State.x) + "px";
 
-        if (State.x === State.end.right || State.x === State.end.left) {
-          // if x reach end of corner, back to position immediately
+        // if mouse reach end of corner or stopped, back to position immediately
+        if (from === dest || dest >= State.end.right || dest <= State.end.left) {
           moveToX(State.x, positionMap.get(curretElem), 'smooth');
+          return;
         }
-        else if (time < 0.35) {
-          // render smooth until t 0.35
-          requestAnimationFrame(animate);
+
+        // preserve mouse animation
+        if (dest !== positionMap.get(curretElem)) {
+          // preserve until t 0.25
+          if (time < 0.25) {
+            requestAnimationFrame(animate);
+          } else {
+            moveToX(State.x, positionMap.get(curretElem), 'smooth');  
+          }
+          return;
         }
-        else if (State.x !== positionMap.get(curretElem)) {
-          // after mouse animation, back to position
-          moveToX(State.x, positionMap.get(curretElem), 'smooth');
+        // after mouse animation, back to position
+        if (dest === positionMap.get(curretElem)) {
+          if (time < 1) {
+            requestAnimationFrame(animate);
+          }
         }
       }
 
