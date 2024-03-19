@@ -1,6 +1,6 @@
 'use client'
 
-import Slider from './Slider';
+import Slider from '../components/Slider/Slider';
 import React, { useCallback, useState } from 'react'
 
 export default function useSlider() {

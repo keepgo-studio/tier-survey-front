@@ -11,7 +11,7 @@ export default Shared;
 
 
 import useQuery from "./hooks/useQuery";
-import useSlider from "./hooks/useSlider/useSlider";
+import useSlider from "./hooks/useSlider";
 
 export const SharedHooks = {
   useQuery,
