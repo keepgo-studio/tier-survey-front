@@ -1,0 +1,16 @@
+{
+  "extends": "next",
+  "rules": {
+    "import/no-relative-parent-imports": [
+      "error",
+      {
+        "ignore": [
+          "@widgets",
+          "@features",
+          "@entities",
+          "@shared"
+        ]
+      }
+    ]
+  }
+}

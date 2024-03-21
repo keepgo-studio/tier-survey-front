@@ -25,3 +25,7 @@ body {
     text-wrap: balance;
   }
 }
+
+.fcenter {
+  @apply flex items-center justify-center
+}

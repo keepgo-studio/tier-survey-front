@@ -1,5 +1,5 @@
-import Widget from "@/b_widgets";
-import Shared from "@/e_shared";
+import Shared from "@shared";
+import Widget from "@widgets";
 
 export default function Home() {
   return (

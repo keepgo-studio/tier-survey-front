@@ -1,14 +1,16 @@
 'use client'
 
 import React from 'react'
-import { SharedHooks } from '@/e_shared'
-
-import type { SupportGameJsonItem } from '@/e_shared/types/api'
+import Link from 'next/link'
+import Image from 'next/image'
+import { SharedHooks, SupportGameJsonItem } from '@shared'
 
 const GameItem = ({ item }: { item: SupportGameJsonItem }) => {
   return (
-    <div className="rounded-md overflow-hidden">
-      <img className='w-60 h-80' src={item['logo-img']} draggable={false}/>
+    <div className="rounded-md overflow-hidden duration-default hover:brightness-75">
+      <Link href={'/qr?hashed-id=123'} draggable={false}>
+        <Image alt='hero' width={240} height={320} src={item['logo-img']} draggable={false}/>
+      </Link>
     </div>
   )
 }
@@ -22,13 +24,15 @@ export default function GameList({
 
   return (
     <section>
-      <ul>
-        {renderSlider(data.map((item, i) => (
-          <li key={i} className='w-fit'>
-            <GameItem item={item}/>
-          </li>
-        )))}
-      </ul>
+      <div className='fcenter'>
+        <ul className='w-full'>
+          {renderSlider(data.map((item, i) => (
+            <li key={i} className='w-fit'>
+              <GameItem item={item}/>
+            </li>
+          )))}
+        </ul>
+      </div>
 
       <button onClick={() => moveNext()}>next</button>
       <button onClick={() => movePrev()}>prev</button>

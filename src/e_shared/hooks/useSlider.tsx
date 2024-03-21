@@ -1,6 +1,6 @@
 'use client'
 
-import Slider from '../components/Slider/Slider';
+import Slider from '@shared-inner/components/Slider/Slider';
 import React, { useCallback, useState } from 'react'
 
 export default function useSlider() {
@@ -8,7 +8,7 @@ export default function useSlider() {
 
   const onMovedHandler = useCallback(
     (idx: number) => setCurrentIdx(idx)
-    ,[currentIdx]
+    ,[]
   );
 
   const renderSlider = (children: React.ReactNode) => (

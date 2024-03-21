@@ -1,8 +1,8 @@
 "use client";
 
 import React, { Children, useEffect, useRef, useState } from "react";
-import { parseMinMax } from "@/e_shared/utils/utils";
 import { attachDragAnimation } from "./slider.core";
+import { parseMinMax } from "@shared-inner/utils/utils";
 
 export default function Slider({
   children,
@@ -13,23 +13,25 @@ export default function Slider({
   onMoved?: (idx: number) => void;
   index?: number;
 }) {
+  const n = Children.count(children);
   const [currentIdx, setCurrentIdx] = useState(0);
 
   // 외부에서 변경되었을 때, 상위 index 값과 sync
   useEffect(() => {
     if (index !== undefined) {
-      const n = Children.count(children);
 
       const val = parseMinMax(index, 0, n - 1);
       setCurrentIdx(() => val);
 
       if (onMoved) onMoved(val);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [index]);
 
   // 내부에서 변경되었을 때, 상위 index 값과 sync
   useEffect(() => {
     if (onMoved) onMoved(currentIdx);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentIdx]);
 
 

@@ -1,9 +1,10 @@
 import React from 'react'
 import GameList from './GameList';
-import { SharedHooks } from '@/e_shared';
+import { SharedApi } from '@shared';
+
 
 export default async function GameSelect() {
-  const data = await SharedHooks.useQuery("get-all-support-games", null);
+  const data = await SharedApi.query("get-all-support-games", null);
 
   return (
     <div>

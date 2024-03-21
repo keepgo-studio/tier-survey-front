@@ -1,12 +1,12 @@
-import { Ease } from "@/e_shared/utils/vars";
 import MouseCoor from "./MouseCoor";
-import { SharedUtils } from "@/e_shared";
+import { Ease } from "@shared-inner/utils/vars";
+import { debounce, floatFormat, parseMinMax } from "@shared-inner/utils/utils";
 
 class State {
   static x = 0;
   static setX(x: number) {
     const { left, right } = this.end;
-    this.x = SharedUtils.parseMinMax(x, left, right);
+    this.x = parseMinMax(x, left, right);
   }
   
   static end = {
@@ -46,7 +46,7 @@ export function attachDragAnimation(rootElem: HTMLElement, cardWrapperElem: HTML
     }
 
     setStates();
-    window.addEventListener('resize', SharedUtils.debounce(setStates));
+    window.addEventListener('resize', debounce(setStates));
   
 
     rootElem.addEventListener('drag', (e) => e.preventDefault());
@@ -85,7 +85,7 @@ export function attachDragAnimation(rootElem: HTMLElement, cardWrapperElem: HTML
   }
 
   setPositionRenderer();
-  window.addEventListener('resize', SharedUtils.debounce(setPositionRenderer));
+  window.addEventListener('resize', debounce(setPositionRenderer));
 
   // ------------------------- style children -------------------------
   const showingMap = new Map();
@@ -104,7 +104,7 @@ export function attachDragAnimation(rootElem: HTMLElement, cardWrapperElem: HTML
   function styleChild(elem: HTMLElement) {
     const pos = positionMap.get(elem),
           limit = State.width.container / 2,
-          ratio = SharedUtils.floatFormat(SharedUtils.parseMinMax(Math.abs(pos - State.x), 0, limit) / limit);
+          ratio = floatFormat(parseMinMax(Math.abs(pos - State.x), 0, limit) / limit);
     
     elem.style.scale = String((1 - ratio) * (1 - scaleStart) + scaleStart);
     elem.style.opacity = String((1 - ratio) * (1 - opacityStart) + opacityStart);
@@ -142,7 +142,7 @@ export function attachDragAnimation(rootElem: HTMLElement, cardWrapperElem: HTML
         
         const t2 = Date.now(),
               time = Math.min(1, ((t2 - t1) / DURATION)),
-              easedT = SharedUtils.floatFormat(Ease.easeOutExpo(time)),
+              easedT = floatFormat(Ease.easeOutExpo(time)),
               d = easedT * (dest - from) + from;
 
         State.setX(d);

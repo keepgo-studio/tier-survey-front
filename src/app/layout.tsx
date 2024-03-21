@@ -1,7 +1,7 @@
 import "./globals.css";
 
 import { Inter } from "next/font/google";
-import Shared from "@/e_shared";
+import Shared from "@shared";
 
 import type { Metadata } from "next";
 

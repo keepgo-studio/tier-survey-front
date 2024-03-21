@@ -1,12 +1,21 @@
-type AvailableQueryMap = {
+// defining all available apis
+interface AvailableQueryMap {
   "get-all-support-games": null;
-  "get-all": {
-    foo: string;
+  "book-survey": {
+    keyword: string;
+    limitMinute: number;
+    hashedId: string;
   };
 };
 
-type AvailableQuery = keyof AvailableQueryMap;
+type AvailableQuery = keyof {
+  [K in keyof AvailableQueryMap]: AvailableQueryMap[K];
+};
 
 type QueryParam<T extends AvailableQuery> = AvailableQueryMap[T];
 
 type SupportGame = 'league of legends';
+
+type QueryParams = {
+  [K in keyof AvailableQueryMap]: AvailableQueryMap[K];
+};

@@ -1,20 +1,25 @@
 import Container from "./components/Container";
 import Footer from "./components/Footer";
+import Input from "./components/Input";
 import QRCode from "./components/QRCode";
 
 const Shared = {
   Container,
   Footer,
   QRCode,
+  Input
 }
 export default Shared;
 
+import query from "./api/query";
 
-import useQuery from "./hooks/useQuery";
+export const SharedApi = {
+  query
+}
+
 import useSlider from "./hooks/useSlider";
 
 export const SharedHooks = {
-  useQuery,
   useSlider
 }
 
@@ -26,3 +31,6 @@ export const SharedUtils = {
   ...utils,
   ...vars
 }
+
+export type { SupportGameJsonItem } from "./api/nextHandler";
+export type { BookReturn } from "./api/firebaseHandler";

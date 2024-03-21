@@ -18,3 +18,11 @@ export function debounce(callback: () => void, delay: number = 500) {
     stId = setTimeout(() => callback(), delay);
   }
 }
+
+export function getQuery(url: string, params: Record<string, string | number>) {
+  const query = Object.keys(params)
+    .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
+    .join('&');
+
+  return `${url}?${query}`;
+}
