@@ -11,10 +11,11 @@ const Shared = {
 }
 export default Shared;
 
-import query from "./api/query";
+import { query, serverQuery } from "./api/query";
 
 export const SharedApi = {
-  query
+  query,
+  serverQuery
 }
 
 import useSlider from "./hooks/useSlider";

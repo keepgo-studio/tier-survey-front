@@ -5,7 +5,7 @@ export type BookReturn = boolean;
 
 type validUrl = "createSurvey";
 
-async function getSurveyUrl(
+export async function getSurveyUrl(
   param: AvailableQueryMap["book-survey"]
 ): Promise<BookReturn> {
   const query = getQuery(FB_API_URL + "/leagueOfLegends-" + "createSurvey", param);
@@ -14,9 +14,3 @@ async function getSurveyUrl(
     .then(() => true)
     .catch(() => false);
 }
-
-const firebaseHandler = {
-  getSurveyUrl,
-};
-
-export default firebaseHandler;

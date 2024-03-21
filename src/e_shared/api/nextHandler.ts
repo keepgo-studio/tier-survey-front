@@ -1,17 +1,19 @@
-import { NEXT_API_URL } from "@shared-inner/utils/vars";
+"use server";
+
+import fs from "fs/promises";
+import path from "path";
 
 export type SupportGameJsonItem = {
   "game-name": SupportGame;
   "logo-img": string;
-  "available": boolean;
+  available: boolean;
 };
 
-const nextHandler = {
-  getAllSupportGames: async (): Promise<SupportGameJsonItem[]> => {
-    return await fetch(NEXT_API_URL + "/data/support-games.json").then((res) =>
-      res.json()
-    );
-  },
-};
+export async function getAllSupportGames(): Promise<SupportGameJsonItem[]> {
+  const data = await fs.readFile(
+    path.resolve("public/data/support-games.json"),
+    { encoding: "utf-8" }
+  );
 
-export default nextHandler;
+  return JSON.parse(data);
+}
