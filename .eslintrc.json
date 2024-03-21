@@ -1,5 +1,6 @@
 {
   "extends": "next",
+  "plugins": ["import"],
   "rules": {
     "import/no-relative-parent-imports": [
       "error",
@@ -9,6 +10,85 @@
           "@features",
           "@entities",
           "@shared"
+        ]
+      }
+    ],
+    "import/no-restricted-paths": [
+      "error",
+      {
+        "zones": [
+// -------------------- app --------------------
+          {
+            "target": "./src/app",
+            "from": [
+              "./src/b_widgets",
+              "./src/c_features",
+              "./src/d_entities",
+              "./src/e_shared"
+            ],
+            "except": ["./index.ts"]
+          },
+// -------------------- b_widgets --------------------
+          {
+            "target": "./src/b_widgets",
+            "from": [
+              "./src/c_features",
+              "./src/d_entities",
+              "./src/e_shared"
+            ],
+            "except": ["./index.ts"]
+          },
+          {
+            "target": "./src/b_widgets",
+            "from": [
+              "./src/app",
+              "./src/b_widgets"
+            ]
+          },
+// -------------------- c_features --------------------
+          {
+            "target": "./src/c_features",
+            "from": [
+              "./src/d_entities",
+              "./src/e_shared"
+            ],
+            "except": ["./index.ts"]
+          },
+          {
+            "target": "./src/c_features",
+            "from": [
+              "./src/app",
+              "./src/b_widgets",
+              "./src/c_features"
+            ]
+          },
+// -------------------- d_entities --------------------
+          {
+            "target": "./src/d_entities",
+            "from": [
+              "./src/e_shared"
+            ],
+            "except": ["./index.ts"]
+          },
+          {
+            "target": "./src/d_entities",
+            "from": [
+              "./src/app",
+              "./src/b_widgets",
+              "./src/c_features",
+              "./src/d_entities"
+            ]
+          },
+// -------------------- e_shared --------------------
+          {
+            "target": "./src/e_shared",
+            "from": [
+              "./src/app",
+              "./src/b_widgets",
+              "./src/c_features",
+              "./src/d_entities"
+            ]
+          }
         ]
       }
     ]
