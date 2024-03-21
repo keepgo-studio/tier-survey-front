@@ -41,8 +41,7 @@
           {
             "target": "./src/b_widgets",
             "from": [
-              "./src/app",
-              "./src/b_widgets"
+              "./src/app"
             ]
           },
 // -------------------- c_features --------------------
@@ -58,8 +57,7 @@
             "target": "./src/c_features",
             "from": [
               "./src/app",
-              "./src/b_widgets",
-              "./src/c_features"
+              "./src/b_widgets"
             ]
           },
 // -------------------- d_entities --------------------
@@ -75,8 +73,7 @@
             "from": [
               "./src/app",
               "./src/b_widgets",
-              "./src/c_features",
-              "./src/d_entities"
+              "./src/c_features"
             ]
           },
 // -------------------- e_shared --------------------
