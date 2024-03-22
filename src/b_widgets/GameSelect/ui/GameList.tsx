@@ -4,12 +4,18 @@ import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { SharedHooks, SupportGameJsonItem } from '@shared'
+import Entities from '@entities'
 
 const GameItem = ({ item }: { item: SupportGameJsonItem }) => {
+  const dispatch = Entities.hooks.useAppDispatch();
+
   return (
-    <div className="rounded-md overflow-hidden duration-default hover:brightness-75">
+    <div 
+      className="rounded-md overflow-hidden duration-default hover:brightness-75"
+      onClick={() => dispatch(Entities.user.setCurrentGame(item['game-name']))}
+    >
       <Link href={'/qr?hashed-id=123'} draggable={false}>
-        <Image alt='hero' width={240} height={320} src={item['logo-img']} draggable={false}/>
+        <Image alt='hero' width={240} height={320} src={item['logo-img']} draggable={false} priority={true} />
       </Link>
     </div>
   )
@@ -20,7 +26,7 @@ export default function GameList({
 }: {
   data: SupportGameJsonItem[]
 }) {
-  const { moveNext, movePrev, renderSlider } = SharedHooks.useSlider();
+  const { renderSlider } = SharedHooks.useSlider();
 
   return (
     <section>
@@ -33,9 +39,6 @@ export default function GameList({
           )))}
         </ul>
       </div>
-
-      <button onClick={() => moveNext()}>next</button>
-      <button onClick={() => movePrev()}>prev</button>
     </section>
   )
 }

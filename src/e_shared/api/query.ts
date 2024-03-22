@@ -7,10 +7,11 @@ type QueryReturnType<T extends AvailableQuery> =
 
 export function query<T extends AvailableQuery> (
   query: T,
+  game: SupportGame,
   params: QueryParam<T>
 ): QueryReturnType<T> {
   if (query === 'create-survey' && params) {
-    return firebaseHandler.getSurveyUrl(params) as QueryReturnType<T>;
+    return firebaseHandler.getSurveyUrl(game, params) as QueryReturnType<T>;
   }
   
   throw new Error("Wrong query, check" + query);

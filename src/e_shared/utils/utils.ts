@@ -16,13 +16,19 @@ export function debounce(callback: () => void, delay: number = 500) {
   return function () {
     clearTimeout(stId);
     stId = setTimeout(() => callback(), delay);
-  }
+  };
 }
 
 export function getQuery(url: string, params: Record<string, string | number>) {
   const query = Object.keys(params)
-    .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
-    .join('&');
+    .map((k) => encodeURIComponent(k) + "=" + encodeURIComponent(params[k]))
+    .join("&");
 
   return `${url}?${query}`;
+}
+
+export function toCamelCase(str: string) {
+  return str
+    .toLowerCase()
+    .replace(/[^a-zA-Z0-9]+(.)/g, (_, chr) => chr.toUpperCase());
 }

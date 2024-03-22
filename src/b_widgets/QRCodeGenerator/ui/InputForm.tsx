@@ -1,26 +1,41 @@
-'use client'
+"use client";
 
 import Shared, { SharedApi, SharedUtils } from "@shared";
-import { useSearchParams } from "next/navigation";
-import { FormEvent, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { FormEvent, useEffect, useState } from "react";
 import Error from "./Error";
+import Entities from "@entities";
 
-export default function InputForm({ onComplete }: { onComplete: (url: string) => void }) {
+export default function InputForm({
+  onComplete,
+}: {
+  onComplete: (url: string) => void;
+}) {
   const hashedId = useSearchParams().get("hashed-id");
+
   const [keyword, setKeyword] = useState("");
   const [limitMinute, setLimitMinute] = useState(5);
+
+  const currentGame = Entities.hooks.useAppSelector(
+    Entities.user.selectCurrentGame
+  );
+  const router = useRouter();
+
+  useEffect(() => {
+    if (currentGame === null) router.replace("/");
+  });
 
   if (!hashedId) return <Error />;
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
 
-    const data = await SharedApi.query("create-survey", {
+    const data = await SharedApi.query("create-survey", currentGame!, {
       keyword,
       limitMinute,
-      hashedId: hashedId!
+      hashedId: hashedId!,
     });
-
+    console.log(`${SharedUtils.NEXT_API_URL}/qr/client/${hashedId}`);
     if (data) onComplete(`${SharedUtils.NEXT_API_URL}/qr/client/${hashedId}`);
   }
 

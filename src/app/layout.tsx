@@ -4,13 +4,16 @@ import { Inter } from "next/font/google";
 import Shared from "@shared";
 
 import type { Metadata } from "next";
+import Entities from "@entities";
 
-const inter = Inter({ subsets: ["latin"] });
+export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: "Tier Survey",
   description: "Tier Survey Website",
 };
+
+const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({
   children,
@@ -19,9 +22,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={inter.className + " h-screen grid grid-rows-[1fr_auto]"}>
-      {children}
-      <Shared.Footer />
+      <body className={inter.className + " h-screen grid grid-rows-[auto_1fr_auto]"}>
+        <Shared.Navbar />
+        <Entities.Provider>
+        {children}
+        </Entities.Provider>
+        <Shared.Footer />
       </body>
     </html>
   );

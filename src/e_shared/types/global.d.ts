@@ -24,4 +24,4 @@ type AvailableServerQuery = keyof {
 type ServerQueryParam<T extends AvailableServerQuery> = AvailableServerQueryMap[T];
 
 
-type SupportGame = 'league of legends';
+type SupportGame = "league of legends" | "teamfight tactics" | "valorant";

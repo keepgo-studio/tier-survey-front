@@ -2,12 +2,14 @@ import Container from "./components/Container";
 import Footer from "./components/Footer";
 import Input from "./components/Input";
 import QRCode from "./components/QRCode";
+import Navbar from "./components/Navbar";
 
 const Shared = {
   Container,
   Footer,
   QRCode,
-  Input
+  Input,
+  Navbar
 }
 export default Shared;
 
