@@ -6,7 +6,7 @@ export type BookReturn = boolean;
 type validUrl = "createSurvey";
 
 export async function getSurveyUrl(
-  param: AvailableQueryMap["book-survey"]
+  param: AvailableQueryMap["create-survey"]
 ): Promise<BookReturn> {
   const query = getQuery(FB_API_URL + "/leagueOfLegends-" + "createSurvey", param);
 

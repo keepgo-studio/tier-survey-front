@@ -1,6 +1,6 @@
 // defining all available apis
 interface AvailableQueryMap {
-  "book-survey": {
+  "create-survey": {
     keyword: string;
     limitMinute: number;
     hashedId: string;

@@ -2,14 +2,14 @@ import * as firebaseHandler from "./firebaseHandler";
 
 // Define the return types for each query
 type QueryReturnType<T extends AvailableQuery> =
-  T extends 'book-survey' ? ReturnType<typeof firebaseHandler.getSurveyUrl> :
+  T extends 'create-survey' ? ReturnType<typeof firebaseHandler.getSurveyUrl> :
   never;
 
 export function query<T extends AvailableQuery> (
   query: T,
   params: QueryParam<T>
 ): QueryReturnType<T> {
-  if (query === 'book-survey' && params) {
+  if (query === 'create-survey' && params) {
     return firebaseHandler.getSurveyUrl(params) as QueryReturnType<T>;
   }
   

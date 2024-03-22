@@ -1,17 +1,9 @@
+'use client'
+
 import Shared, { SharedApi, SharedUtils } from "@shared";
 import { useSearchParams } from "next/navigation";
 import { FormEvent, useState } from "react";
 import Error from "./Error";
-
-// TODO client가 들어갈 url에 필요한 정보
-// [x] streamer hashId
-
-// TODO streamer가 qr을 생성하기 위해 보내줘야할 것 (POST)
-// [ ] streamer hashed JSON.stringify UserInfo from Riot Auth
-// [x] keyword
-// [x] limit time = 5 ~ 30
-
-// TODO survey check하는 로직이 필요
 
 export default function InputForm({ onComplete }: { onComplete: (url: string) => void }) {
   const hashedId = useSearchParams().get("hashed-id");
@@ -23,7 +15,7 @@ export default function InputForm({ onComplete }: { onComplete: (url: string) =>
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
 
-    const data = await SharedApi.query("book-survey", {
+    const data = await SharedApi.query("create-survey", {
       keyword,
       limitMinute,
       hashedId: hashedId!
