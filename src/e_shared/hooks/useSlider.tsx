@@ -23,6 +23,7 @@ export default function useSlider() {
   return {
     moveNext: () => setCurrentIdx(currentIdx + 1),
     movePrev: () => setCurrentIdx(currentIdx - 1),
-    renderSlider
+    renderSlider,
+    currentIdx
   }
 }

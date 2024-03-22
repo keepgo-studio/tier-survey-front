@@ -4,6 +4,13 @@ import React, { Children, useEffect, useRef, useState } from "react";
 import { attachDragAnimation } from "./slider.core";
 import { parseMinMax } from "@shared-inner/utils/utils";
 
+/**
+ * 
+ * @description
+ * 
+ * total width of 'Slider Component' is depends on Wrapper Component
+ * total height depends on Item's height
+ */
 export default function Slider({
   children,
   onMoved,
@@ -40,15 +47,16 @@ export default function Slider({
 
   useEffect(() => {
     if (rootRef.current && cardWrapperRef.current) {
-      attachDragAnimation(rootRef.current, cardWrapperRef.current, "100%");
+      const cleanup = attachDragAnimation(rootRef.current, cardWrapperRef.current);
+      return () => cleanup();
     }
   }, []);
 
   return (
-    <section className="w-full relative overflow-hidden" ref={rootRef}>
-      <div className="absolute top-0 left-0 flex flex-nowrap" ref={cardWrapperRef}>
-        {Children.map(children, (child) => (
-          <div className="flex-shrink-0">{child}</div>
+    <section className="w-full relative overflow-hidden" ref={rootRef} draggable={false}>
+      <div className="absolute top-0 left-0 flex flex-nowrap" ref={cardWrapperRef} draggable={false}>
+        {Children.map(children, (child, idx) => (
+          <div className="flex-shrink-0" onClick={() => setCurrentIdx(idx)}>{child}</div>
         ))}
       </div>
     </section>
