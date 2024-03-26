@@ -2,10 +2,12 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 interface UserState {
   currentGame: SupportGame | null;
+  hashedId: string | null;
 }
 
 const initialState: UserState = {
-  currentGame: null
+  currentGame: null,
+  hashedId: '123'
 };
 
 const userSlice = createSlice({
@@ -17,7 +19,8 @@ const userSlice = createSlice({
     }
   },
   selectors: {
-    selectCurrentGame: state => state.currentGame
+    selectCurrentGame: state => state.currentGame,
+    selectHashedId: state => state.hashedId
   }
 });
 

@@ -14,7 +14,7 @@ const GameItem = ({ item }: { item: SupportGameJsonItem }) => {
       className="rounded-md overflow-hidden duration-default hover:brightness-75"
       onClick={() => dispatch(Entities.user.setCurrentGame(item['game-name']))}
     >
-      <Link href={'/qr?hashed-id=123'} draggable={false}>
+      <Link href={'/qr'} draggable={false}>
         <Image alt='hero' width={240} height={320} src={item['logo-img']} draggable={false} priority={true} />
       </Link>
     </div>
