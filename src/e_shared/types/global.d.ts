@@ -1,5 +1,8 @@
 // defining all available apis
 interface AvailableQueryMap {
+  "check-survey": {
+    hashedId: string;
+  };
   "create-survey": {
     keyword: string;
     limitMinute: number;
@@ -7,9 +10,7 @@ interface AvailableQueryMap {
   };
 };
 
-type AvailableQuery = keyof {
-  [K in keyof AvailableQueryMap]: AvailableQueryMap[K];
-};
+type AvailableQuery = keyof AvailableQueryMap;
 
 type QueryParam<T extends AvailableQuery> = AvailableQueryMap[T];
 
@@ -17,9 +18,7 @@ interface AvailableServerQueryMap {
   "get-all-support-games": null;
 }
 
-type AvailableServerQuery = keyof {
-  [K in keyof AvailableServerQueryMap]: AvailableServerQueryMap[K];
-};
+type AvailableServerQuery = keyof AvailableServerQueryMap;
 
 type ServerQueryParam<T extends AvailableServerQuery> = AvailableServerQueryMap[T];
 

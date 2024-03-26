@@ -1,10 +1,9 @@
 "use client";
 
-import Shared, { SharedApi, SharedUtils } from "@shared";
-import { useRouter } from "next/navigation";
-import { FormEvent, useEffect, useState } from "react";
-import Error from "./Error";
+import Shared, { SharedApi } from "@shared";
+import { FormEvent, useState } from "react";
 import Entities from "@entities";
+import { generateQrUrl } from "./utils";
 
 export default function InputForm({
   onComplete,
@@ -12,32 +11,28 @@ export default function InputForm({
   onComplete: (url: string) => void;
 }) {
   const hashedId = Entities.hooks.useAppSelector(Entities.user.selectHashedId);
+  const currentGame = Entities.hooks.useAppSelector(
+    Entities.user.selectCurrentGame
+  );
 
   const [keyword, setKeyword] = useState("");
   const [limitMinute, setLimitMinute] = useState(5);
 
-  const currentGame = Entities.hooks.useAppSelector(
-    Entities.user.selectCurrentGame
-  );
-  const router = useRouter();
-
-  useEffect(() => {
-    if (currentGame === null) router.replace("/");
-  });
-
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
+
+    if (hashedId === null) {
+      throw new Error('[InputForm] - Cannot get hashedId');
+    }
 
     const data = await SharedApi.query("create-survey", currentGame!, {
       keyword,
       limitMinute,
-      hashedId: hashedId!,
+      hashedId: hashedId,
     });
 
-    if (data) onComplete(`${SharedUtils.NEXT_API_URL}/qr/client/${hashedId}`);
+    if (data) onComplete(generateQrUrl(hashedId));
   }
-
-  if (!hashedId) return <Error />;
 
   return (
     <form className="flex flex-col" onSubmit={onSubmit}>
@@ -55,6 +50,7 @@ export default function InputForm({
         value={limitMinute}
         onChange={(e) => setLimitMinute(Number(e.target.value))}
       />
+
       <button>Submit</button>
     </form>
   );

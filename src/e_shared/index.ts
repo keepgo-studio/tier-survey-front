@@ -3,16 +3,20 @@ import Footer from "./components/Footer";
 import Input from "./components/Input";
 import QRCode from "./components/QRCode";
 import Navbar from "./components/Navbar";
+import Loading from "./components/Loading";
 
 const Shared = {
   Container,
   Footer,
   QRCode,
   Input,
-  Navbar
+  Navbar,
+  Loading
 }
 export default Shared;
 
+
+// --------------------------------------------------------
 import { query, serverQuery } from "./api/query";
 
 export const SharedApi = {
@@ -20,6 +24,8 @@ export const SharedApi = {
   serverQuery
 }
 
+
+// --------------------------------------------------------
 import useSlider from "./hooks/useSlider";
 
 export const SharedHooks = {
@@ -27,6 +33,7 @@ export const SharedHooks = {
 }
 
 
+// --------------------------------------------------------
 import * as utils from "./utils/utils";
 import * as vars from "./utils/vars";
 
@@ -35,5 +42,7 @@ export const SharedUtils = {
   ...vars
 }
 
+
+// --------------------------------------------------------
 export type { SupportGameJsonItem } from "./api/nextHandler";
-export type { BookReturn } from "./api/firebaseHandler";
+export type { CheckSurveyResponse } from "./api/firebaseHandler";
