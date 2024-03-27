@@ -4,6 +4,7 @@ import Input from "./components/Input";
 import QRCode from "./components/QRCode";
 import Navbar from "./components/Navbar";
 import Loading from "./components/Loading";
+import Timer from "./components/Timer";
 
 const Shared = {
   Container,
@@ -11,7 +12,8 @@ const Shared = {
   QRCode,
   Input,
   Navbar,
-  Loading
+  Loading,
+  Timer
 }
 export default Shared;
 

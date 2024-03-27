@@ -5,7 +5,8 @@ import Shared, { SharedApi } from "@shared";
 import InputForm from "./InputForm";
 import Entities from "@entities";
 import { useRouter } from "next/navigation";
-import { generateQrUrl } from "./utils";
+import { generateQrUrl, generateStatUrl } from "./utils";
+import ClientWaitScreen from "./ClientWaitScreen";
 
 export default function QRCodeGenerator() {
   const hashedId = Entities.hooks.useAppSelector(Entities.user.selectHashedId);
@@ -15,6 +16,8 @@ export default function QRCodeGenerator() {
 
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(true);
+  const [endTime, setEndTime] = useState(0);
+  const [limitMinute, setLimitMinute] = useState(0);
 
   const router = useRouter();
 
@@ -28,36 +31,57 @@ export default function QRCodeGenerator() {
       hashedId,
     }).then((res) => {
       setLoading(false);
-      
+
       if (!res) {
         router.replace("/");
         return;
       }
 
-      switch(res.status) {
+      switch (res.status) {
         case "open":
           setUrl(generateQrUrl(hashedId));
+          setLimitMinute(res.data!.limitMinute);
+          setEndTime(res.data!.endTime);
           return;
         case "closed":
-          // router.replace("/stat");
+          // router.replace(generateStatUrl(currentGame));
           return;
         case "undefined":
           return;
       }
     });
-    
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (loading) return <Shared.Loading />
+
+  const [isEnd, setIsEnd] = useState(false);
+
+  useEffect(() => {
+    if (isEnd && currentGame) {
+      // router.replace(generateStatUrl(currentGame));
+    }
+  }, [isEnd, router, currentGame]);
+
+  if (loading) return <Shared.Loading />;
 
   return (
     <div className="p-6">
       {url ? (
-        <Shared.QRCode url={url} />
+        <ClientWaitScreen
+          url={url}
+          endTime={endTime}
+          limitMinute={limitMinute}
+          onEnd={() => setIsEnd(true)}
+        />
       ) : (
         <Suspense>
-          <InputForm onComplete={(url) => setUrl(url)} />
+          <InputForm
+            onComplete={(url, limitMinute, endTime) => {
+              setUrl(url);
+              setLimitMinute(limitMinute);
+              setEndTime(endTime);
+            }}
+          />
         </Suspense>
       )}
     </div>

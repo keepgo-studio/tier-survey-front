@@ -21,16 +21,14 @@ export async function getSurveyUrl(
     .catch(() => false);
 }
 
-type FS_Survey = {
-  game: SupportGame;
-  keyword: string;
+type SurveyClient = {
   limitMinute: number;
   endTime: number;
 };
 
 export type CheckSurveyResponse = {
   status: "open" | "closed" | "undefined";
-  data: FS_Survey | undefined;
+  data: SurveyClient | undefined;
 };
 
 export async function checkSurvey(

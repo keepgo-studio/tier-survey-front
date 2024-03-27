@@ -32,3 +32,7 @@ export function toCamelCase(str: string) {
     .toLowerCase()
     .replace(/[^a-zA-Z0-9]+(.)/g, (_, chr) => chr.toUpperCase());
 }
+
+export async function delay(mili: number) {
+  return new Promise(res => setTimeout(() => res(true), mili));
+}

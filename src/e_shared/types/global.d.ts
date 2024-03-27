@@ -4,7 +4,7 @@ interface AvailableQueryMap {
     hashedId: string;
   };
   "create-survey": {
-    keyword: string;
+    password: string;
     limitMinute: number;
     hashedId: string;
   };
