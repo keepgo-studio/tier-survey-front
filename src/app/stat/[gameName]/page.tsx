@@ -1,5 +1,6 @@
 import React from "react";
 import { SharedUtils } from "@shared";
+import Widget from "@widgets";
 
 export const dynamicParams = false;
 
@@ -18,5 +19,5 @@ export function generateStaticParams(): Params[] {
 }
 
 export default function page({ params }: { params: Params }) {
-  return <div>page {params.gameName}</div>;
+  return <Widget.Stat gameName={params.gameName}/>;
 }

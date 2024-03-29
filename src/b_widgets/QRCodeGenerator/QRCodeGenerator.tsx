@@ -44,7 +44,7 @@ export default function QRCodeGenerator() {
           setEndTime(res.data!.endTime);
           break;
         case "closed":
-          router.replace(generateStatUrl(currentGame));
+          router.replace(generateStatUrl(hashedId, currentGame));
           break;
         case "undefined":
           break;
@@ -59,10 +59,10 @@ export default function QRCodeGenerator() {
   const [isEnd, setIsEnd] = useState(false);
 
   useEffect(() => {
-    if (isEnd && currentGame) {
-      router.replace(generateStatUrl(currentGame));
+    if (isEnd && hashedId && currentGame) {
+      router.replace(generateStatUrl(hashedId, currentGame));
     }
-  }, [isEnd, router, currentGame]);
+  }, [isEnd, router, hashedId, currentGame]);
 
   if (loading) return  <Shared.Loading />;
 
