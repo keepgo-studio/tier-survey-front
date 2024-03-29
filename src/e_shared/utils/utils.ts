@@ -33,6 +33,15 @@ export function toCamelCase(str: string) {
     .replace(/[^a-zA-Z0-9]+(.)/g, (_, chr) => chr.toUpperCase());
 }
 
+export function toNormalSpace(str: string, mode: "camel" = "camel") {
+  switch (mode) {
+    case "camel":
+      return str
+        .replace(/([A-Z])/g, (_, chr) => " " + chr.toLowerCase())
+        .trim();
+  }
+}
+
 export async function delay(mili: number) {
-  return new Promise(res => setTimeout(() => res(true), mili));
+  return new Promise((res) => setTimeout(() => res(true), mili));
 }

@@ -1,19 +1,18 @@
 "use client";
 
 import React, { Suspense, useEffect, useState } from "react";
-import Shared, { SharedApi } from "@shared";
+import Shared, { SharedApi, SharedUtils } from "@shared";
 import InputForm from "./InputForm";
 import Entities from "@entities";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { generateQrUrl, generateStatUrl } from "./utils";
 import ClientWaitScreen from "./ClientWaitScreen";
 
 export default function QRCodeGenerator() {
+  const gameName = useSearchParams().get("gameName");
+
   const hashedId = Entities.hooks.useAppSelector(
     Entities.user.selectHashedId
-  );
-  const currentGame = Entities.hooks.useAppSelector(
-    Entities.user.selectCurrentGame
   );
 
   const [url, setUrl] = useState("");
@@ -24,10 +23,12 @@ export default function QRCodeGenerator() {
   const router = useRouter();
 
   useEffect(() => {
-    if (currentGame === null || hashedId === null) {
+    if (gameName === null || hashedId === null) {
       router.replace("/");
       return;
     }
+
+    const currentGame = SharedUtils.toNormalSpace(gameName) as SupportGame;
 
     SharedApi.query("check-survey", currentGame, {
       hashedId,
@@ -59,10 +60,12 @@ export default function QRCodeGenerator() {
   const [isEnd, setIsEnd] = useState(false);
 
   useEffect(() => {
-    if (isEnd && hashedId && currentGame) {
+    
+    if (isEnd && hashedId && gameName) {
+      const currentGame = SharedUtils.toNormalSpace(gameName) as SupportGame;
       router.replace(generateStatUrl(hashedId, currentGame));
     }
-  }, [isEnd, router, hashedId, currentGame]);
+  }, [isEnd, router, hashedId, gameName]);
 
   if (loading) return  <Shared.Loading />;
 

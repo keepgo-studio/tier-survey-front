@@ -1,9 +1,10 @@
 "use client";
 
 import { FormEvent, useCallback, useState } from "react";
-import Shared, { SharedApi, SharedHooks } from "@shared";
+import Shared, { SharedApi, SharedHooks, SharedUtils } from "@shared";
 import Entities from "@entities";
 import { generateQrUrl } from "./utils";
+import { useSearchParams } from "next/navigation";
 
 function ModalPrompt() {
   return (
@@ -23,12 +24,10 @@ export default function InputForm({
   const MIN_MINUTE = 1,
         MAX_MINUTE = 30;
 
+  const gameName = useSearchParams().get("gameName");
+
   const hashedId = Entities.hooks.useAppSelector(
     Entities.user.selectHashedId
-  );
-
-  const currentGame = Entities.hooks.useAppSelector(
-    Entities.user.selectCurrentGame
   );
 
   const [password, setPassword] = useState("");
@@ -44,7 +43,7 @@ export default function InputForm({
       throw new Error("[InputForm] - Cannot get hashedId");
     }
 
-    if (currentGame === null) {
+    if (gameName === null) {
       throw new Error("[InputForm] - Cannot get ");
     }
 
@@ -60,6 +59,8 @@ export default function InputForm({
     }
 
     setLoading(true);
+
+    const currentGame = SharedUtils.toNormalSpace(gameName) as SupportGame;
 
     const data = await SharedApi.query("create-survey", currentGame!, {
       password,

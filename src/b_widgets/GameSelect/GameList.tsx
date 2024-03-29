@@ -3,21 +3,13 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { SharedHooks, SupportGameJsonItem } from "@shared";
-import Entities from "@entities";
+import { SharedHooks, SharedUtils, SupportGameJsonItem } from "@shared";
 
 const GameItem = ({ item }: { item: SupportGameJsonItem }) => {
-  const dispatch = Entities.hooks.useAppDispatch();
-
   if (item.available) {
     return (
-      <div
-        className="rounded-md overflow-hidden"
-        onClick={() =>
-          dispatch(Entities.user.setCurrentGame(item["game-name"]))
-        }
-      >
-        <Link href="host/qr" draggable={false}>
+      <div className="rounded-md overflow-hidden">
+        <Link href={`host/qr?gameName=${SharedUtils.toCamelCase(item["game-name"])}`} draggable={false}>
           <Image
             className="duration-default hover:brightness-75"
             alt="hero"
@@ -33,10 +25,7 @@ const GameItem = ({ item }: { item: SupportGameJsonItem }) => {
   }
 
   return (
-    <div
-      className="relative rounded-md overflow-hidden"
-      onClick={() => dispatch(Entities.user.setCurrentGame(item["game-name"]))}
-    >
+    <div className="relative rounded-md overflow-hidden">
       <Image
         className="duration-default brightness-50"
         alt="hero"
