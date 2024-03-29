@@ -3,12 +3,14 @@ import Widget from "@widgets";
 
 export default function Home() {
   return (
-    <main className="w-full">
+    <>
       <Shared.Container>
-        Tier Survey
+        Tier Survey,
+        {'\n'}
+        Choose your role
       </Shared.Container>
 
-      <Widget.GameSelect />
-    </main>
+      <Widget.RoleSelect />
+    </>
   );
 }

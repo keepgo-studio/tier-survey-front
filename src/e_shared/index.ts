@@ -29,9 +29,11 @@ export const SharedApi = {
 
 // --------------------------------------------------------
 import useSlider from "./hooks/useSlider";
+import useModal from "./hooks/useModal";
 
 export const SharedHooks = {
-  useSlider
+  useSlider,
+  useModal
 }
 
 

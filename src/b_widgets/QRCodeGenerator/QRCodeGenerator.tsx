@@ -9,7 +9,9 @@ import { generateQrUrl, generateStatUrl } from "./utils";
 import ClientWaitScreen from "./ClientWaitScreen";
 
 export default function QRCodeGenerator() {
-  const hashedId = Entities.hooks.useAppSelector(Entities.user.selectHashedId);
+  const hashedId = Entities.hooks.useAppSelector(
+    Entities.user.selectHashedId
+  );
   const currentGame = Entities.hooks.useAppSelector(
     Entities.user.selectCurrentGame
   );
@@ -30,8 +32,6 @@ export default function QRCodeGenerator() {
     SharedApi.query("check-survey", currentGame, {
       hashedId,
     }).then((res) => {
-      setLoading(false);
-
       if (!res) {
         router.replace("/");
         return;
@@ -42,13 +42,15 @@ export default function QRCodeGenerator() {
           setUrl(generateQrUrl(hashedId, currentGame));
           setLimitMinute(res.data!.limitMinute);
           setEndTime(res.data!.endTime);
-          return;
+          break;
         case "closed":
-          // router.replace(generateStatUrl(currentGame));
-          return;
+          router.replace(generateStatUrl(currentGame));
+          break;
         case "undefined":
-          return;
+          break;
       }
+
+      setLoading(false);
     });
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -58,11 +60,11 @@ export default function QRCodeGenerator() {
 
   useEffect(() => {
     if (isEnd && currentGame) {
-      // router.replace(generateStatUrl(currentGame));
+      router.replace(generateStatUrl(currentGame));
     }
   }, [isEnd, router, currentGame]);
 
-  if (loading) return <Shared.Loading />;
+  if (loading) return  <Shared.Loading />;
 
   return (
     <div className="p-6">

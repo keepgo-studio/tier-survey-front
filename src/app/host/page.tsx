@@ -4,14 +4,11 @@ import Widget from '@widgets'
 
 export default function page() {
   return (
-    <div>
+    <>
       <Shared.Container>
-        Hello
-        {'\n'}
-        밥상의국거리
+        Select Game
       </Shared.Container>
-
-      <Widget.QRCodeGenerator />
-    </div>
+      <Widget.GameSelect /> 
+    </>
   )
 }

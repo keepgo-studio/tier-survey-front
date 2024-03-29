@@ -8,7 +8,10 @@ import { parseMinMax } from "@shared-inner/utils/utils";
  * 
  * @description
  * 
- * total width of 'Slider Component' is depends on Wrapper Component
+ * ## Slider Width
+ * total width of 'Slider Component' is depends on Parent Component
+ * 
+ * ## Slider Height
  * total height depends on Item's height
  */
 export default function Slider({
