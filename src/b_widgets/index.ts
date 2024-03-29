@@ -1,9 +1,11 @@
-import GameSelect from "./GameSelect/ui/GameSelect";
-import QRCodeGenerator from "./QRCodeGenerator/ui/QRCodeGenerator";
+import GameSelect from "./GameSelect/GameSelect";
+import PermissionPanel from "./PermissionPanel/PermissionPanel";
+import QRCodeGenerator from "./QRCodeGenerator/QRCodeGenerator";
 
 const Widget =  {
   GameSelect,
-  QRCodeGenerator
+  QRCodeGenerator,
+  PermissionPanel
 };
 
 export default Widget;

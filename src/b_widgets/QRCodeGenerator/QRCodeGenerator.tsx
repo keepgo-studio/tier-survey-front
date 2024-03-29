@@ -39,7 +39,7 @@ export default function QRCodeGenerator() {
 
       switch (res.status) {
         case "open":
-          setUrl(generateQrUrl(hashedId));
+          setUrl(generateQrUrl(hashedId, currentGame));
           setLimitMinute(res.data!.limitMinute);
           setEndTime(res.data!.endTime);
           return;
