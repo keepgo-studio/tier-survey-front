@@ -1,14 +1,24 @@
 "use client"
 
-import { useSearchParams } from 'next/navigation'
 import React from 'react'
+import { SharedUtils } from '@shared';
+import { useRouter, useSearchParams } from 'next/navigation'
+import LeagueOfLegendsPanel from './LeagueOfLegendsPanel';
 
 export default function PermissionPanel() {
-  const param = useSearchParams();
+  const router = useRouter();
 
-  return (
-    <section>
-            
-    </section>
-  )
+  const hostHashed = useSearchParams().get("hashedId"),
+        gameName = useSearchParams().get("gameName") ?? "",
+        currentGame = SharedUtils.toNormalSpace(gameName) as SupportGame;
+
+  if (!hostHashed || !gameName) {
+    router.replace('/');
+    return;
+  }
+
+
+  if (currentGame === 'league of legends') {
+    return <LeagueOfLegendsPanel hostHashed={hostHashed}/>
+  }
 }
