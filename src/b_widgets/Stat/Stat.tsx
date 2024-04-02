@@ -1,12 +1,14 @@
 "use client"
 
-import { useRouter, useSearchParams } from 'next/navigation'
 import React, { useEffect } from 'react'
+import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation'
+import { generateSurveyUrl } from './utils';
 
 export default function Stat({
-  gameName
+  currentGame
 }: {
-  gameName: string
+  currentGame: SupportGame
 }) {
   const searchParam = useSearchParams(),
         hashedId = searchParam.get("hashedId"),
@@ -18,6 +20,11 @@ export default function Stat({
   });
 
   return (
-    <div>Stat</div>
+    <div>
+      <section>
+        <Link href={generateSurveyUrl(currentGame)}>make survey again</Link>
+      </section>
+      Stat
+    </div>
   )
 }

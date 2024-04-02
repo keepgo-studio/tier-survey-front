@@ -9,14 +9,15 @@ import { generateQrUrl, generateStatUrl } from "./utils";
 import ClientWaitScreen from "./ClientWaitScreen";
 
 export default function QRCodeGenerator() {
-  const gameName = useSearchParams().get("gameName");
+  const gameName = useSearchParams().get("gameName"),
+        mode = useSearchParams().get("mode");
 
   const hashedId = Entities.hooks.useAppSelector(
     Entities.user.selectHashedId
   );
 
   const [url, setUrl] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [endTime, setEndTime] = useState(0);
   const [limitMinute, setLimitMinute] = useState(0);
 
@@ -29,6 +30,12 @@ export default function QRCodeGenerator() {
     }
 
     const currentGame = SharedUtils.toNormalSpace(gameName) as SupportGame;
+
+    if (mode === 'new') {
+      return;
+    }
+
+    setLoading(true);
 
     SharedApi.query("check-survey", currentGame, {
       hashedId,
