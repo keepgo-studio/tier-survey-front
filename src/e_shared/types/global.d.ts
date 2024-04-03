@@ -8,6 +8,11 @@ interface AvailableQueryMap {
     limitMinute: number;
     hashedId: string;
   };
+  "save-league-of-legends-stat": {
+    apiType: LeaugeOfLegendsApiType;
+    hashedId: string;
+    hostHashedId: string;
+  };
 };
 
 type AvailableQuery = keyof AvailableQueryMap;
@@ -24,3 +29,7 @@ type ServerQueryParam<T extends AvailableServerQuery> = AvailableServerQueryMap[
 
 
 type SupportGame = "league of legends" | "teamfight tactics" | "valorant";
+
+type LeaugeOfLegendsApiType = "SUMMONER-V4" | "LEAGUE-V4" | "CHAMPION-MASTERY-V4" | "GEO-LOCATION";
+
+type SupportApiType = LeaugeOfLegendsApiType | LocalApiType;

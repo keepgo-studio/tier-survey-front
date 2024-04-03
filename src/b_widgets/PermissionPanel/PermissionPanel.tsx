@@ -13,12 +13,11 @@ export default function PermissionPanel() {
         currentGame = SharedUtils.toNormalSpace(gameName) as SupportGame;
 
   if (!hostHashed || !gameName) {
-    router.replace('/');
+    router.push('/');
     return;
   }
 
-
   if (currentGame === 'league of legends') {
-    return <LeagueOfLegendsPanel hostHashed={hostHashed}/>
+    return <LeagueOfLegendsPanel />
   }
 }

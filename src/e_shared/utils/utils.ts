@@ -1,3 +1,5 @@
+import { NEXT_API_URL } from "./vars";
+
 export function parseMinMax(num: number, min: number, max: number) {
   if (min > max) throw new Error("Wrong usage for parseMinMax()");
 
@@ -33,6 +35,12 @@ export function toCamelCase(str: string) {
     .replace(/[^a-zA-Z0-9]+(.)/g, (_, chr) => chr.toUpperCase());
 }
 
+export function toKebabCase(str: string) {
+  return str
+    .toLowerCase()
+    .replace(/[^a-zA-Z0-9]+(.)/g, "-$1");
+}
+
 export function toNormalSpace(str: string, mode: "camel" = "camel") {
   switch (mode) {
     case "camel":
@@ -44,4 +52,10 @@ export function toNormalSpace(str: string, mode: "camel" = "camel") {
 
 export async function delay(mili: number) {
   return new Promise((res) => setTimeout(() => res(true), mili));
+}
+
+export function generateStatUrl(hashedId: string, game: SupportGame) {
+  return getQuery(`/stat/${toCamelCase(game)}`, {
+    hashedId
+  });
 }

@@ -49,4 +49,3 @@ export const SharedUtils = {
 
 // --------------------------------------------------------
 export type { SupportGameJsonItem } from "./api/nextHandler";
-export type { CheckSurveyResponse } from "./api/firebaseHandler";

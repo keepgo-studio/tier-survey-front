@@ -3,8 +3,8 @@
 import { FormEvent, useCallback, useState } from "react";
 import Shared, { SharedApi, SharedHooks, SharedUtils } from "@shared";
 import Entities from "@entities";
-import { generateQrUrl } from "./utils";
 import { useSearchParams } from "next/navigation";
+import { generateQrUrl } from "./utils";
 
 function ModalPrompt() {
   return (

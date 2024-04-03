@@ -29,6 +29,10 @@ export default function ClientWaitScreen({
       />
       {endTime}
       <Shared.QRCode url={url} />
+
+      <Shared.Container>
+        URL: {url}
+      </Shared.Container>
     </div>
   );
 }

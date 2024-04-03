@@ -5,7 +5,7 @@ interface UserState {
 }
 
 const initialState: UserState = {
-  hashedId: '123'
+  hashedId: process.env.NEXT_PUBLIC_HASHED_ID_INIT ?? null
 };
 
 const userSlice = createSlice({

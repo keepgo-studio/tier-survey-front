@@ -6,9 +6,3 @@ export function generateQrUrl(hashedId: string, gameName: SupportGame) {
     hashedId
   });
 }
-
-export function generateStatUrl(hashedId: string, game: SupportGame) {
-  return SharedUtils.getQuery(`/stat/${SharedUtils.toCamelCase(game)}`, {
-    hashedId
-  });
-}

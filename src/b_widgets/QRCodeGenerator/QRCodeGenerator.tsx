@@ -5,8 +5,8 @@ import Shared, { SharedApi, SharedUtils } from "@shared";
 import InputForm from "./InputForm";
 import Entities from "@entities";
 import { useRouter, useSearchParams } from "next/navigation";
-import { generateQrUrl, generateStatUrl } from "./utils";
 import ClientWaitScreen from "./ClientWaitScreen";
+import { generateQrUrl } from "./utils";
 
 export default function QRCodeGenerator() {
   const gameName = useSearchParams().get("gameName"),
@@ -52,7 +52,7 @@ export default function QRCodeGenerator() {
           setEndTime(res.data!.endTime);
           break;
         case "closed":
-          router.replace(generateStatUrl(hashedId, currentGame));
+          router.replace(SharedUtils.generateStatUrl(hashedId, currentGame));
           break;
         case "undefined":
           break;
@@ -70,7 +70,7 @@ export default function QRCodeGenerator() {
     
     if (isEnd && hashedId && gameName) {
       const currentGame = SharedUtils.toNormalSpace(gameName) as SupportGame;
-      router.replace(generateStatUrl(hashedId, currentGame));
+      router.replace(SharedUtils.generateStatUrl(hashedId, currentGame));
     }
   }, [isEnd, router, hashedId, gameName]);
 
