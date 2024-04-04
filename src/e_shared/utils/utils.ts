@@ -51,9 +51,3 @@ export function toNormalSpace(str: string, mode: "camel" = "camel") {
 export async function delay(mili: number) {
   return new Promise((res) => setTimeout(() => res(true), mili));
 }
-
-export function generateStatUrl(hashedId: string, game: SupportGame) {
-  return getQuery(`/stat/${toCamelCase(game)}`, {
-    hashedId
-  });
-}

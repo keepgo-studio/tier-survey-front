@@ -4,7 +4,6 @@ import { FormEvent, useCallback, useState } from "react";
 import Shared, { SharedApi, SharedHooks, SharedUtils } from "@shared";
 import Entities from "@entities";
 import { useSearchParams } from "next/navigation";
-import { generateQrUrl } from "./utils";
 
 function ModalPrompt() {
   return (
@@ -72,7 +71,7 @@ export default function InputForm({
 
     if (data) {
       onComplete(
-        generateQrUrl(hashedId, currentGame),
+        SharedUtils.generateQrUrl(hashedId, currentGame),
         limitMinute,
         Date.now() + limitMinute * 60 * 1000
       );

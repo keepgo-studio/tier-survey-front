@@ -6,7 +6,6 @@ import InputForm from "./InputForm";
 import Entities from "@entities";
 import { useRouter, useSearchParams } from "next/navigation";
 import ClientWaitScreen from "./ClientWaitScreen";
-import { generateQrUrl } from "./utils";
 
 export default function QRCodeGenerator() {
   const gameName = useSearchParams().get("gameName"),
@@ -47,7 +46,7 @@ export default function QRCodeGenerator() {
 
       switch (res.status) {
         case "open":
-          setUrl(generateQrUrl(hashedId, currentGame));
+          setUrl(SharedUtils.generateQrUrl(hashedId, currentGame));
           setLimitMinute(res.data!.limitMinute);
           setEndTime(res.data!.endTime);
           break;

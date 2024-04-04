@@ -3,7 +3,8 @@
 import React, { useEffect } from 'react'
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation'
-import { generateSurveyUrl } from './utils';
+import { SharedUtils } from '@shared';
+
 
 export default function Stat({
   currentGame
@@ -15,14 +16,19 @@ export default function Stat({
         router = useRouter();
   // [ ] check hashsedId - if same id, show 'make survey' button
   useEffect(() => {
-    if (hashedId === null) router.replace("/");
+    if (hashedId === null) {
+      router.replace("/");
+      return;
+    }
     
-  });
+  
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div>
       <section>
-        <Link href={generateSurveyUrl(currentGame)}>make survey again</Link>
+        <Link href={SharedUtils.generateSurveyUrl(currentGame, "new")}>make survey again</Link>
       </section>
       Stat
     </div>

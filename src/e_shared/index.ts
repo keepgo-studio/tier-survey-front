@@ -40,8 +40,10 @@ export const SharedHooks = {
 // --------------------------------------------------------
 import * as utils from "./utils/utils";
 import * as vars from "./utils/vars";
+import * as urls from "./utils/urls";
 
 export const SharedUtils = {
+  ...urls,
   ...utils,
   ...vars
 }
