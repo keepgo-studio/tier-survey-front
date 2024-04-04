@@ -13,7 +13,7 @@ export default function Stat({
   const searchParam = useSearchParams(),
         hashedId = searchParam.get("hashedId"),
         router = useRouter();
-
+  // [ ] check hashsedId - if same id, show 'make survey' button
   useEffect(() => {
     if (hashedId === null) router.replace("/");
     

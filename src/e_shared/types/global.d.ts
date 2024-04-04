@@ -8,11 +8,20 @@ interface AvailableQueryMap {
     limitMinute: number;
     hashedId: string;
   };
-  "save-league-of-legends-stat": {
+  "save-stat": {
+    // TODO need to append apiTypes for other games
     apiType: LeaugeOfLegendsApiType;
     hashedId: string;
     hostHashedId: string;
   };
+  "join-survey": {
+    hashedId: string;
+    hostHashedId: string;
+  }
+  "check-join-survey": {
+    hashedId: string;
+    hostHashedId: string;
+  }
 };
 
 type AvailableQuery = keyof AvailableQueryMap;

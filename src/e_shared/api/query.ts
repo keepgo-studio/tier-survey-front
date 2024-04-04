@@ -4,7 +4,9 @@ import * as firebaseHandler from "./firebaseHandler";
 type QueryReturnType<T extends AvailableQuery> = 
   T extends "create-survey" ? ReturnType<typeof firebaseHandler.getSurveyUrl> : 
   T extends "check-survey" ? ReturnType<typeof firebaseHandler.checkSurvey> :
-  T extends "save-league-of-legends-stat" ? ReturnType<typeof firebaseHandler.saveLeagueOfLegendsStat> :
+  T extends "save-stat" ? ReturnType<typeof firebaseHandler.saveStat> :
+  T extends "join-survey" ? ReturnType<typeof firebaseHandler.joinSurvey> :
+  T extends "check-join-survey" ? ReturnType<typeof firebaseHandler.checkJoinSurvey> :
   never;
 
 export function query<T extends AvailableQuery>(
@@ -23,9 +25,20 @@ export function query<T extends AvailableQuery>(
         game,
         param as QueryParam<"create-survey">
       ) as QueryReturnType<T>;
-    case "save-league-of-legends-stat":
-      return firebaseHandler.saveLeagueOfLegendsStat(
-        param as QueryParam<"save-league-of-legends-stat">
+    case "save-stat":
+      return firebaseHandler.saveStat(
+        game,
+        param as QueryParam<"save-stat">
+      ) as QueryReturnType<T>;
+    case "join-survey":
+      return firebaseHandler.joinSurvey(
+        game,
+        param as QueryParam<"join-survey">
+      ) as QueryReturnType<T>;
+    case "check-join-survey":
+      return firebaseHandler.checkJoinSurvey(
+        game,
+        param as QueryParam<"join-survey">
       ) as QueryReturnType<T>;
     
     default:

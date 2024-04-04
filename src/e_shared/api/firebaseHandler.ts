@@ -12,14 +12,13 @@ function getUrl<T extends AvailableQuery>(
   );
 }
 
-type SurveyClient = {
-  limitMinute: number;
-  endTime: number;
-};
 
 type CheckSurveyResponse = {
   status: "open" | "closed" | "undefined";
-  data: SurveyClient | undefined;
+  data: {
+    limitMinute: number;
+    endTime: number;
+  } | undefined;
 };
 
 export async function checkSurvey(
@@ -49,12 +48,13 @@ type StatResponse = {
   error: boolean;
 };
 
-export async function saveLeagueOfLegendsStat(
-  param: AvailableQueryMap["save-league-of-legends-stat"]
+export async function saveStat(
+  game: SupportGame,
+  param: AvailableQueryMap["save-stat"]
 ) {
   const res: StatResponse = { done: false, error: false };
 
-  await fetch(getUrl("save-league-of-legends-stat", "league of legends", param))
+  await fetch(getUrl("save-stat", game, param))
     .then(() => {
       res.done = true;
       res.error = false;
@@ -66,4 +66,22 @@ export async function saveLeagueOfLegendsStat(
     });
 
   return res;
+}
+
+export async function joinSurvey(
+  game: SupportGame,
+  param: AvailableQueryMap["join-survey"]
+) {
+  return await fetch(getUrl("join-survey", game, param))
+    .then(() => true)
+    .catch(() => false);
+}
+
+export async function checkJoinSurvey(
+  game: SupportGame,
+  param: AvailableQueryMap["check-join-survey"]
+) {
+  return await fetch(getUrl("check-join-survey", game, param))
+    .then(res => res.json())
+    .catch(() => false);
 }

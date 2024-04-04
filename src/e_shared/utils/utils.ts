@@ -1,5 +1,3 @@
-import { NEXT_API_URL } from "./vars";
-
 export function parseMinMax(num: number, min: number, max: number) {
   if (min > max) throw new Error("Wrong usage for parseMinMax()");
 
