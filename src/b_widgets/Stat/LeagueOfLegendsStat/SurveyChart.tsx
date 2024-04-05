@@ -15,7 +15,6 @@ export default function SurveyChart({
       hashedId
     }).then(chart => {
       if (!chart) return;
-      console.log(chart)
       setChartData({...chart});
     });
   }, [hashedId]);

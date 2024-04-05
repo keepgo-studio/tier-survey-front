@@ -6,8 +6,13 @@ import {
   type LeagueOfLegendsChampionInfo,
   SharedHooks,
 } from "@shared";
-import { getChampionName } from "./actions";
 import Image from "next/image";
+
+async function getChampionName(championId: number) {
+  const championMap = await fetch("/data/champion-map.json").then(res => res.json());
+
+  return championMap[championId];
+}
 
 type ChampionInfo = LeagueOfLegendsChampionInfo & {
   championName: string;
