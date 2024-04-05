@@ -23,14 +23,14 @@ export default function Slider({
   onMoved?: (idx: number) => void;
   index?: number;
 }) {
-  const n = Children.count(children);
   const [currentIdx, setCurrentIdx] = useState(0);
 
   // 외부에서 변경되었을 때, 상위 index 값과 sync
   useEffect(() => {
-    if (index !== undefined) {
+    if (index !== undefined && Children.count(children)) {
+      const n = Children.count(children),
+            val = parseMinMax(index, 0, n - 1);
 
-      const val = parseMinMax(index, 0, n - 1);
       setCurrentIdx(() => val);
 
       if (onMoved) onMoved(val);
@@ -49,11 +49,12 @@ export default function Slider({
   const cardWrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (rootRef.current && cardWrapperRef.current) {
+    if (Children.count(children) > 0 && rootRef.current && cardWrapperRef.current) {
       const cleanup = attachDragAnimation(rootRef.current, cardWrapperRef.current);
       return () => cleanup();
     }
-  }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [Children.count(children)]);
 
   return (
     <section className="w-full relative overflow-hidden" ref={rootRef} draggable={false}>

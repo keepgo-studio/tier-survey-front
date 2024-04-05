@@ -3,28 +3,23 @@
 import React, { useCallback, useEffect, useRef } from 'react'
 import { delay } from '@shared-inner/utils/utils';
 
-type TimerProps = React.ComponentPropsWithoutRef<"canvas"> & {
-	theme?: "primary";
+type TimerProps = {
+	theme?: "round" | "text";
   startTime: number;
   endTime: number;
   totalTime: number;
   width: number;
   height: number;
-  onEnd: () => void;
+  onEnd?: () => void;
 };
 
-export default function Timer({
-  theme = 'primary',
+const RoundTimer = ({
   startTime,
   endTime,
   totalTime,
   onEnd,
   ...props
-}: TimerProps) {
-  if (startTime > endTime || (endTime - startTime) > totalTime) {
-    throw new Error("Wrong parameters entered");
-  }
-
+}: TimerProps) => {
   const canvasRef = useRef(null);
 
   const resize = useCallback(() => {
@@ -103,7 +98,7 @@ export default function Timer({
     if (!lifeCycle.current) return;
 
     if (elapsedTime.current >= totalTime) {
-      onEnd();
+      if (onEnd) onEnd();
       return;
     }
 
@@ -145,4 +140,13 @@ export default function Timer({
   return (
     <canvas ref={canvasRef} {...props} />
   )
+}
+export default function Timer({ theme = 'round', ...props }: TimerProps) {
+  const { startTime, endTime, totalTime } = props;
+
+  if (startTime > endTime || (endTime - startTime) > totalTime) {
+    throw new Error("Wrong parameters entered");
+  }
+
+  if (theme === 'round') return <RoundTimer {...props} />;
 }

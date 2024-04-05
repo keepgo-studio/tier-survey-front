@@ -5,12 +5,21 @@ import Shared, { SharedApi, SharedHooks, SharedUtils } from "@shared";
 import Entities from "@entities";
 import { useSearchParams } from "next/navigation";
 
-function ModalPrompt() {
+const MIN_MINUTE = 1,
+      MAX_MINUTE = 30;
+
+function ConfirmContent() {
   return (
     <div>
-      <h2>Want to include your self?</h2>
+      <h2>Want to create survey?</h2>
+    </div>
+  );
+}
 
-      <p>or you can participate with QR code participants :)</p>
+function AlertContent() {
+  return (
+    <div>
+      <h2>{`type minute ${MIN_MINUTE} to ${MAX_MINUTE}`}</h2>
     </div>
   );
 }
@@ -20,9 +29,6 @@ export default function InputForm({
 }: {
   onComplete: (url: string, limitMinute: number, endTime: number) => void;
 }) {
-  const MIN_MINUTE = 1,
-        MAX_MINUTE = 30;
-
   const gameName = useSearchParams().get("gameName");
 
   const hashedId = Entities.hooks.useAppSelector(
@@ -33,7 +39,8 @@ export default function InputForm({
   const [loading, setLoading] = useState(false);
   const [limitMinuteStr, setLimitMinuteStr] = useState("0");
 
-  const { asyncOpenClose, Modal } = SharedHooks.useModal(<ModalPrompt />);
+  const { asyncOpenClose: confirm, ConfirmModal } = SharedHooks.useModal();
+  const { asyncOpenClose: alert, AlertModal } = SharedHooks.useModal();
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
@@ -49,12 +56,12 @@ export default function InputForm({
     const limitMinute = Number(limitMinuteStr);
 
     if (limitMinute < MIN_MINUTE || MAX_MINUTE < limitMinute) {
-      alert(`type minute ${MIN_MINUTE} to ${MAX_MINUTE}`);
+      await alert(<AlertContent />);
       return;
     }
 
-    if ((await asyncOpenClose()) === true) {
-      console.log("host included!"); // temporary code
+    if ((await confirm(<ConfirmContent />)) === false) {
+      return;
     }
 
     setLoading(true);
@@ -110,6 +117,7 @@ export default function InputForm({
             onChange={(e) => setPassword(e.target.value)}
           />
 
+          <label htmlFor="password">set limit minute {"(1 <= minute <= 30)"}</label>
           <Shared.Input
             required
             value={limitMinuteStr}
@@ -122,7 +130,8 @@ export default function InputForm({
       )}
       </section>
 
-      <Modal />
+      <ConfirmModal />
+      <AlertModal />
     </>
   );
 }

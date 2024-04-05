@@ -3,14 +3,14 @@ import Widget from "@widgets";
 
 export default function Home() {
   return (
-    <>
-      <Shared.Container>
+    <div className="fcenter flex-col">
+      <h1 className="text-4xl font-bold my-10">
         Tier Survey,
         {'\n'}
         Choose your role
-      </Shared.Container>
+      </h1>
 
       <Widget.RoleSelect />
-    </>
+    </div>
   );
 }

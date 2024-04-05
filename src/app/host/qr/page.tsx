@@ -5,9 +5,6 @@ import Widget from '@widgets'
 export default function page() {
   return (
     <>
-      <Shared.Container>
-        Hello
-      </Shared.Container>
       <Widget.QRCodeGenerator />
     </>
   )

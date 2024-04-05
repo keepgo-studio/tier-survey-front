@@ -1,36 +1,11 @@
-"use client"
-
-import React, { useEffect } from 'react'
-import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation'
-import { SharedUtils } from '@shared';
-
+import React from 'react'
+import LeagueOfLegends from './LeagueOfLegendsStat/LeagueOfLegendsStat'
 
 export default function Stat({
   currentGame
 }: {
   currentGame: SupportGame
 }) {
-  const searchParam = useSearchParams(),
-        hashedId = searchParam.get("hashedId"),
-        router = useRouter();
-  // [ ] check hashsedId - if same id, show 'make survey' button
-  useEffect(() => {
-    if (hashedId === null) {
-      router.replace("/");
-      return;
-    }
-    
-  
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  return (
-    <div>
-      <section>
-        <Link href={SharedUtils.generateSurveyUrl(currentGame, "new")}>make survey again</Link>
-      </section>
-      Stat
-    </div>
-  )
+  if (currentGame === "league of legends")
+    return <LeagueOfLegends />
 }

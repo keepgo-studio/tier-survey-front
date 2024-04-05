@@ -20,7 +20,7 @@ function PanelItem({
   onCheck: (checked: boolean) => void;
 }) {
   return (
-    <div>
+    <Shared.Container>
       {item.apiLink ? (
         <Link href={item.apiLink} target="_blank">
           <h3>{item.apiType}</h3>
@@ -35,12 +35,15 @@ function PanelItem({
         ))}
       </ul>
 
-      <input
-        disabled={item.required}
-        type="checkbox"
-        onChange={(e) => onCheck(e.currentTarget.checked)}
-      />
-    </div>
+      <p className="flex gap-2">
+        <input
+          disabled={item.required}
+          type="checkbox"
+          onChange={(e) => onCheck(e.currentTarget.checked)}
+        />
+        {item.required && <span className="text-yellow-600 font-bold">Required</span>}
+      </p>
+    </Shared.Container>
   );
 }
 
@@ -64,12 +67,12 @@ function Panel() {
       types: ["most loved champion"],
       required: true
     },
-    {
-      apiType: "GEO-LOCATION",
-      apiLink: null,
-      types: ["most loved champion"],
-      required: false
-    },
+    // {
+    //   apiType: "GEO-LOCATION",
+    //   apiLink: null,
+    //   types: ["current location info"],
+    //   required: false
+    // },
   ];
 
   const hashedId = useSearchParams().get("hashedId"),
@@ -94,30 +97,35 @@ function Panel() {
   }
 
   return (
-    <section>
-      <h2>Permission types</h2>
+    <section className="fcenter flex-col">
+      <h2 className="font-bold text-2xl">Request Permission</h2>
 
-      <ul>
-        {itemList.map((item, idx) => (
-          <li key={idx}>
-            <PanelItem onCheck={checked => setPanelState(prev => {
-              prev[idx].confirm = checked;
-              return [...prev];
-            })} item={item} />
-          </li>
-        ))}
-      </ul>
+      <div className="h-8"/>
 
-      <Link href={generateUrl()}>Confirm</Link>
+      <Shared.Container>
+        <ul>
+          {itemList.map((item, idx) => (
+            <li key={idx}>
+              <PanelItem onCheck={checked => setPanelState(prev => {
+                prev[idx].confirm = checked;
+                return [...prev];
+              })} item={item} />
+            </li>
+          ))}
+        </ul>
+      </Shared.Container>
+
+      <Link href={generateUrl()}>
+        <Shared.Button>Confirm</Shared.Button>
+      </Link>
     </section>
   );
 }
 
 export default function LeagueOfLegendsPanel() {
-
   return (
     <>
-      <Shared.Container>League Of Legends Permission Panel</Shared.Container>
+      <Shared.Container>League Of Legends</Shared.Container>
       <Panel />
     </>
   );

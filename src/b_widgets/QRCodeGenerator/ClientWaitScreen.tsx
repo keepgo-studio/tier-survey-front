@@ -1,7 +1,8 @@
-"use client"
+"use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Shared from "@shared";
+import Link from "next/link";
 
 export default function ClientWaitScreen({
   url,
@@ -16,9 +17,16 @@ export default function ClientWaitScreen({
 }) {
   const totalTime = limitMinute * 60 * 1000;
   const startTime = endTime - totalTime;
+// [ ] navigate to new survey button
+  const [isCopied, setIsCopied] = useState(false);
+
+  function copyHandler() {
+    navigator.clipboard.writeText(url);
+    setIsCopied(true);
+  }
 
   return (
-    <div>
+    <div className="fcenter flex-col">
       <Shared.Timer
         startTime={startTime}
         endTime={endTime}
@@ -27,12 +35,16 @@ export default function ClientWaitScreen({
         height={400}
         onEnd={onEnd}
       />
-      {endTime}
+
       <Shared.QRCode url={url} />
 
-      <Shared.Container>
-        URL: {url}
-      </Shared.Container>
+      <Link href={url} target="_blank">
+        <Shared.Container>Join survey</Shared.Container>
+      </Link>
+
+      <Shared.Button onClick={copyHandler}>
+        Copy QR URL {isCopied && '✅'}
+      </Shared.Button>
     </div>
   );
 }

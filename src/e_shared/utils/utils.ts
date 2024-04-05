@@ -7,7 +7,8 @@ export function parseMinMax(num: number, min: number, max: number) {
 }
 
 export function floatFormat(float: number) {
-  return Math.round(float * 100) / 100;
+  const d = 1000;
+  return Math.round(float * d) / d;
 }
 
 export function debounce(callback: () => void, delay: number = 500) {

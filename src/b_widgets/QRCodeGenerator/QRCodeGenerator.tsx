@@ -10,7 +10,7 @@ import ClientWaitScreen from "./ClientWaitScreen";
 export default function QRCodeGenerator() {
   const gameName = useSearchParams().get("gameName"),
         mode = useSearchParams().get("mode");
-
+// [ ] if mode is new, need to check already open survey and navigate button
   const hashedId = Entities.hooks.useAppSelector(
     Entities.user.selectHashedId
   );
@@ -76,7 +76,7 @@ export default function QRCodeGenerator() {
   if (loading) return  <Shared.Loading />;
 
   return (
-    <div className="p-6">
+    <div className="p-6 fcenter">
       {url ? (
         <ClientWaitScreen
           url={url}

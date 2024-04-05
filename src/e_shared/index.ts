@@ -5,6 +5,7 @@ import QRCode from "./components/QRCode";
 import Navbar from "./components/Navbar";
 import Loading from "./components/Loading";
 import Timer from "./components/Timer";
+import Button from "./components/Button";
 
 const Shared = {
   Container,
@@ -13,7 +14,8 @@ const Shared = {
   Input,
   Navbar,
   Loading,
-  Timer
+  Timer,
+  Button
 }
 export default Shared;
 
@@ -51,3 +53,7 @@ export const SharedUtils = {
 
 // --------------------------------------------------------
 export type { SupportGameJsonItem } from "./api/nextHandler";
+export type { 
+  LeagueOfLegendsChampionInfo,
+  LeagueOfLegendsChart
+} from "./api/firebaseHandler";

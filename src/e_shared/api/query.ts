@@ -7,6 +7,9 @@ type QueryReturnType<T extends AvailableQuery> =
   T extends "save-stat" ? ReturnType<typeof firebaseHandler.saveStat> :
   T extends "join-survey" ? ReturnType<typeof firebaseHandler.joinSurvey> :
   T extends "check-join-survey" ? ReturnType<typeof firebaseHandler.checkJoinSurvey> :
+  T extends "get-user" ? ReturnType<typeof firebaseHandler.getUser> :
+  T extends "get-stat" ? ReturnType<typeof firebaseHandler.getStat> :
+  T extends "get-chart" ? ReturnType<typeof firebaseHandler.getChart> :
   never;
 
 export function query<T extends AvailableQuery>(
@@ -38,9 +41,23 @@ export function query<T extends AvailableQuery>(
     case "check-join-survey":
       return firebaseHandler.checkJoinSurvey(
         game,
-        param as QueryParam<"join-survey">
+        param as QueryParam<"check-join-survey">
       ) as QueryReturnType<T>;
-    
+    case "get-user":
+      return firebaseHandler.getUser(
+        game,
+        param as QueryParam<"get-user">
+      ) as QueryReturnType<T>;
+    case "get-stat":
+      return firebaseHandler.getStat(
+        game,
+        param as QueryParam<"get-stat">
+      ) as QueryReturnType<T>;
+    case "get-chart":
+      return firebaseHandler.getChart(
+        game,
+        param as QueryParam<"get-chart">
+      ) as QueryReturnType<T>;
     default:
       throw new Error("[query] Wrong query, check" + query);
   }

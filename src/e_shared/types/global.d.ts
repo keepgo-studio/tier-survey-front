@@ -21,7 +21,19 @@ interface AvailableQueryMap {
   "check-join-survey": {
     hashedId: string;
     hostHashedId: string;
-  }
+  },
+  "get-user": {
+    hashedId: string;
+  };
+  "get-stat": {
+    hashedId: string;
+  };
+  "get-chart": {
+    hashedId: string;
+  };
+  "get-top-table": {
+    hashedId: string;
+  };
 };
 
 type AvailableQuery = keyof AvailableQueryMap;
@@ -42,3 +54,17 @@ type SupportGame = "league of legends" | "teamfight tactics" | "valorant";
 type LeaugeOfLegendsApiType = "SUMMONER-V4" | "LEAGUE-V4" | "CHAMPION-MASTERY-V4" | "GEO-LOCATION";
 
 type SupportApiType = LeaugeOfLegendsApiType | LocalApiType;
+
+type LeagueOfLegendsTier =
+  | "CHALLENGER"
+  | "GRANDMASTER"
+  | "MASTER"
+  | "DIAMOND"
+  | "EMERALD"
+  | "PLATINUM"
+  | "GOLD"
+  | "SILVER"
+  | "BRONZE"
+  | "IRON";
+
+type LeagueOfLegendsRank = "I" | "II" | "III" | "IV";

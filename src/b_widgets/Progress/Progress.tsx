@@ -6,6 +6,7 @@ import { SharedApi, SharedUtils } from '@shared';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import { addLeaveBarrier, removeLeaveBarrier } from './utils';
+import CompletePanel from './CompletePanel';
 
 export default function Progress() {
   const hashedId = Entities.hooks.useAppSelector(Entities.user.selectHashedId);
@@ -17,11 +18,13 @@ export default function Progress() {
 
   const [statusList, setStatusList] = useState(apiList.map(() => false));
   const [doneMessage, setDoneMessage] = useState("");
+  const [endTime, setEndTime] = useState(0);
+  const [limitMinute, setLimitMinute] = useState(0);
 
   const router = useRouter();
 
   const process = async () => {
-    if (!hostHashedId || !hashedId) {
+    if (!hostHashedId || !hashedId || !currentGame) {
       return;
     }
 
@@ -44,6 +47,9 @@ export default function Progress() {
       router.push(SharedUtils.generateStatUrl(hostHashedId, currentGame))
       return;
     }
+
+    setEndTime(checkSurveyResult.data!.endTime);
+    setLimitMinute(checkSurveyResult.data!.limitMinute);
 
     const checkJoinResult = await SharedApi.query("check-join-survey", currentGame, {
       hashedId,
@@ -91,28 +97,26 @@ export default function Progress() {
   }
 
   useEffect(() => {
-    if (!hashedId) {
-      // router.push("/login");
-      router.push("/");
-      return;
-    }
-
-    if (!hostHashedId || !currentGame) {
-      router.push("/");
-      return;
-    }
-
     addLeaveBarrier();
-    
-    process();
+    process().then(() => removeLeaveBarrier());
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  if (!hashedId) {
+    // router.push("/login");
+    router.push("/");
+    return <div />;
+  }
+
+  if (!hostHashedId || !currentGame) {
+    router.push("/");
+    return <div />;
+  }
 
   return (
     <section>
       {doneMessage ? (
-        <h1>{doneMessage}</h1>
+        <CompletePanel game={currentGame} hostHashedId={hostHashedId} endTime={endTime} limitMinute={limitMinute} msg={doneMessage}/>
       ) : (
         <ul>
         {apiList.map((api, idx) => (

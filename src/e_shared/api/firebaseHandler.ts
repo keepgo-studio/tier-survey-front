@@ -85,3 +85,56 @@ export async function checkJoinSurvey(
     .then(res => res.json())
     .catch(() => false);
 }
+
+type GameUser ={
+  name: string;
+  profileIconId: number;
+  level: number;
+};
+
+export async function getUser(
+  game: SupportGame,
+  param: AvailableQueryMap["get-user"]
+): Promise<GameUser | undefined> {
+  return await fetch(getUrl("get-user", game, param))
+    .then(res => res.json())
+    .catch(() => undefined);
+}
+
+export type LeagueOfLegendsChampionInfo = {
+  championId: number;
+  championLevel: number;
+  championPoints: number;
+};
+
+type GameStat ={
+  tierNumeric: number,
+  champions: LeagueOfLegendsChampionInfo[]
+};
+
+export async function getStat(
+  game: SupportGame,
+  param: AvailableQueryMap["get-stat"]
+): Promise<GameStat | undefined>{
+  return await fetch(getUrl("get-stat", game, param))
+    .then(res => res.json())
+    .catch(() => undefined);
+}
+
+export type LeagueOfLegendsChart = {
+  participantCnt: number;
+  tierCnt: Record<LeagueOfLegendsTier | "UNRANK", number>;
+  totalLevel: number;
+  mostLovedChampion: Record<number, number>;
+  updateDate: Date;
+}
+
+export async function getChart(
+  game: SupportGame,
+  param: AvailableQueryMap["get-chart"]
+): Promise<LeagueOfLegendsChart | undefined>{
+  return await fetch(getUrl("get-chart", game, param))
+    .then(res => res.json())
+    .then(data => ({ ...data, updateDate: new Date(data.updateDate)}))
+    .catch(() => undefined);
+}

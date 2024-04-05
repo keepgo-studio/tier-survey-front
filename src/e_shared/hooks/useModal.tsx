@@ -1,10 +1,12 @@
 "use client";
 
+import Button from "@shared-inner/components/Button";
 import { useCallback, useRef, useState } from "react";
 import ReactModal from "react-modal";
 
-export default function useModal(modalContents: React.ReactNode) {
+export default function useModal() {
   const [isOpen, setIsOpen] = useState(false);
+  const [contents, setContents] = useState<React.ReactNode>();
   const isConfirmedRef = useRef(false);
   const lifeCycleRef = useRef(false);
 
@@ -25,7 +27,9 @@ export default function useModal(modalContents: React.ReactNode) {
     });
   };
 
-  const asyncOpenClose = async () => {
+  const asyncOpenClose = async (contents?: React.ReactNode) => {
+    if (contents) setContents(contents);
+
     setIsOpen(true);
     lifeCycleRef.current = true;
 
@@ -45,19 +49,46 @@ export default function useModal(modalContents: React.ReactNode) {
     isConfirmedRef.current = false;
     lifeCycleRef.current = false;
   }, []);
+  
+  const modalStyle = {
+    content: {
+      height: 'fit-content',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+    }
+  } as ReactModal.Styles;
 
-  const Modal = () => {
+  const ConfirmModal = () => {
     return (
-      <ReactModal isOpen={isOpen} ariaHideApp={false}>
-        {modalContents}
-        <button onClick={confirmBtnListener}>confirm</button>
-        <button onClick={cancelBtnListener}>cancel</button>
+      <ReactModal 
+        isOpen={isOpen} 
+        ariaHideApp={false}
+        style={modalStyle}
+      >
+        {contents}
+        <Button theme="blue" onClick={confirmBtnListener}>confirm</Button>
+        <Button onClick={cancelBtnListener}>cancel</Button>
       </ReactModal>
     );
   };
 
+  const AlertModal = () => {
+    return (
+      <ReactModal 
+        isOpen={isOpen} 
+        ariaHideApp={false}
+        style={modalStyle}
+      >
+        {contents}
+        <Button onClick={confirmBtnListener}>ok</Button>
+      </ReactModal>
+    );
+  }
+
   return {
     asyncOpenClose,
-    Modal,
+    ConfirmModal,
+    AlertModal
   };
 }
