@@ -52,7 +52,7 @@ export default function QRCodeGenerator() {
           break;
         case "closed":
           router.replace(SharedUtils.generateStatUrl(hashedId, currentGame));
-          break;
+          return;
         case "undefined":
           break;
       }
