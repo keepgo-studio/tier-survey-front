@@ -3,10 +3,6 @@ front: next + vercel로
 
   host, viewer, feedback 사이트
 
-  모두 동적페이지로 생성
-
-  - [ ] riot status 확인하는 로직 (https://developer.riotgames.com/api-status/)
-
 
 back: firebase
 

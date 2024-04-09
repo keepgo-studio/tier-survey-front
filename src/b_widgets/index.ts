@@ -4,6 +4,7 @@ import Progress from "./Progress/Progress";
 import QRCodeGenerator from "./QRCodeGenerator/QRCodeGenerator";
 import RoleSelect from "./RoleSelect/RoleSelect";
 import Stat from "./Stat/Stat";
+import SurveyList from "./SurveyList/SurveyList";
 
 const Widget =  {
   GameSelect,
@@ -11,7 +12,8 @@ const Widget =  {
   PermissionPanel,
   RoleSelect,
   Stat,
-  Progress
+  Progress,
+  SurveyList
 };
 
 export default Widget;
