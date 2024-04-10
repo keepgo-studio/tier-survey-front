@@ -17,7 +17,7 @@ export default function ClientWaitScreen({
 }) {
   const totalTime = limitMinute * 60 * 1000;
   const startTime = endTime - totalTime;
-// [ ] navigate to new survey button
+
   const [isCopied, setIsCopied] = useState(false);
 
   function copyHandler() {

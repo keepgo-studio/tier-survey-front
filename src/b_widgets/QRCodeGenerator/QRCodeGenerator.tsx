@@ -6,14 +6,15 @@ import InputForm from "./InputForm";
 import Entities from "@entities";
 import { useRouter, useSearchParams } from "next/navigation";
 import ClientWaitScreen from "./ClientWaitScreen";
+import Link from "next/link";
+
+export const dynamic = "force-dynamic";
 
 export default function QRCodeGenerator() {
   const gameName = useSearchParams().get("gameName"),
         mode = useSearchParams().get("mode");
-// [ ] if mode is new, need to check already open survey and navigate button
-  const hashedId = Entities.hooks.useAppSelector(
-    Entities.user.selectHashedId
-  );
+
+  const hashedId = Entities.hooks.useAppSelector(Entities.user.selectHashedId);
 
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
@@ -30,10 +31,6 @@ export default function QRCodeGenerator() {
 
     const currentGame = SharedUtils.toNormalSpace(gameName) as SupportGame;
 
-    if (mode === 'new') {
-      return;
-    }
-
     setLoading(true);
 
     SharedApi.query("check-survey", currentGame, {
@@ -46,37 +43,37 @@ export default function QRCodeGenerator() {
 
       switch (res.status) {
         case "open":
-          setUrl(SharedUtils.generateQrUrl(hashedId, currentGame));
+          setUrl(mode === "new" ? "" : SharedUtils.generateQrUrl(hashedId, currentGame));
           setLimitMinute(res.data!.limitMinute);
           setEndTime(res.data!.endTime);
           break;
         case "closed":
-          router.replace(SharedUtils.generateStatUrl(hashedId, currentGame));
-          return;
+          if (mode !== "new") {
+            router.replace(SharedUtils.generateStatUrl(hashedId, currentGame));
+          }
+          break;
         case "undefined":
           break;
       }
 
       setLoading(false);
     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mode]);
 
   const [isEnd, setIsEnd] = useState(false);
 
   useEffect(() => {
-    
     if (isEnd && hashedId && gameName) {
       const currentGame = SharedUtils.toNormalSpace(gameName) as SupportGame;
       router.replace(SharedUtils.generateStatUrl(hashedId, currentGame));
     }
   }, [isEnd, router, hashedId, gameName]);
 
-  if (loading) return  <Shared.Loading />;
+  if (loading) return <Shared.Loading />;
 
   return (
-    <div className="p-6 fcenter">
+    <div className="p-6 fcenter flex-col">
       {url ? (
         <ClientWaitScreen
           url={url}
@@ -95,6 +92,30 @@ export default function QRCodeGenerator() {
           />
         </Suspense>
       )}
+
+      <section>
+      {url && gameName && (
+        <Link
+          href={SharedUtils.generateSurveyUrl(
+            SharedUtils.toNormalSpace(gameName) as SupportGame,
+            "new"
+          )}
+        >
+          <Shared.Button>Cancel survey</Shared.Button>
+        </Link>
+      )}
+
+      {mode === "normal" && endTime && gameName && (
+        <Link
+        href={SharedUtils.generateSurveyUrl(
+          SharedUtils.toNormalSpace(gameName) as SupportGame,
+          "normal"
+          )}
+        >
+          <Shared.Button>Go to Opened survey</Shared.Button>
+        </Link>
+      )}
+      </section>
     </div>
   );
 }
