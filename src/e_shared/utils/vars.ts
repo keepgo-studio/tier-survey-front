@@ -1,5 +1,5 @@
 export const NEXT_API_URL = process.env.NODE_ENV === 'development'
-  ? "http://localhost:3000"
+  ? "http://localhost.com:3000"
   : "https://tier-survey.xyz";
 
 export const FB_API_URL = process.env.NODE_ENV === 'development'

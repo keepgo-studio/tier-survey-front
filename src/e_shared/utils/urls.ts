@@ -2,7 +2,7 @@ import { getQuery, toCamelCase } from "./utils";
 import { NEXT_API_URL } from "./vars";
 
 export function generateStatUrl(hashedId: string, game: SupportGame) {
-  return getQuery(`/stat/${toCamelCase(game)}`, {
+  return getQuery(`${NEXT_API_URL}/stat/${toCamelCase(game)}`, {
     hashedId
   });
 }
@@ -19,4 +19,15 @@ export function generateQrUrl(hashedId: string, gameName: SupportGame) {
     gameName,
     hashedId
   });
+}
+
+export function generateAuthPath(gameName: SupportGame) {
+  switch(gameName) {
+    case "league of legends":
+    case "teamfight tactics":
+    case "valorant":
+      return getQuery(`${NEXT_API_URL}/auth`, {
+        provider: "riot"
+      });
+  }
 }
