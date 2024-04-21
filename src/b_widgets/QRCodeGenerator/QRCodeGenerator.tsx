@@ -32,7 +32,7 @@ export default function QRCodeGenerator() {
     const currentGame = SharedUtils.toNormalSpace(gameName) as SupportGame;
 
     if (hashedId === null) {
-      // router.replace(SharedUtils.generateAuthPath(currentGame));
+      router.replace(SharedUtils.generateAuthPath(currentGame));
       return;
     }
 

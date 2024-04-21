@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import * as crypto from "crypto";
 import { redirect } from "next/navigation";
-import { SharedUtils } from "@shared";
+import { SharedNodeUtils, SharedUtils } from "@shared";
 import { cookies } from "next/headers";
 
 export const dynamic = 'force-dynamic' // defaults to auto
@@ -46,8 +46,6 @@ async function writeUser(hashedId: string) {
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
   const accessCode = searchParams.get('code');
-  console.log(accessCode);
-  console.log(process.env.CLIENT_ID + ":" + process.env.CLIENT_SECRET);
 
   if (!accessCode) {
     return new Response("cannot get code", {
@@ -78,8 +76,8 @@ export async function GET(req: NextRequest) {
 
     const cookieStore = cookies();
 
-    cookieStore.set('hashed-id', hashedId, {
-      secure: true,
+    cookieStore.set('hashed-id', SharedNodeUtils.encrypt(hashedId), {
+      secure: true, 
       httpOnly: true
     });
   } catch {

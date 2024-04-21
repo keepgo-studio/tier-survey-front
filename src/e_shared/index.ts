@@ -50,6 +50,12 @@ export const SharedUtils = {
   ...vars
 }
 
+import * as nodeUtils from "./utils/node-utils";
+
+export const SharedNodeUtils = {
+  ...nodeUtils
+}
+
 
 // --------------------------------------------------------
 export type { SupportGameJsonItem } from "./api/nextHandler";

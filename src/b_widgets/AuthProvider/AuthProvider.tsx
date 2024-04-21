@@ -1,20 +1,43 @@
 "use client";
 
-import React from "react";
-import Shared, { SharedUtils } from "@shared";
+import React, { useEffect } from "react";
+import Shared, { SharedApi, SharedUtils } from "@shared";
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import Entities from "@entities";
 
-export default function AuthProvider() {
+export default function AuthProvider({
+  cookieHahsedId
+}: {
+  cookieHahsedId: string | null;
+}) {
   const AUTH_PROVIDER = "https://auth.riotgames.com/authorize";
 
+  const router = useRouter();
+  const dispatch = Entities.hooks.useAppDispatch();
   const provider = useSearchParams().get("provider") ?? "";
-
   const pathname = usePathname();
+
   const callbackPath = "/api/oauth/rso/callback";
   const currentUrl = SharedUtils.getQuery(SharedUtils.NEXT_API_URL + pathname, {
     provider,
   });
+
+  useEffect(() => {
+    if (cookieHahsedId === null) {
+      return;
+    }
+
+    SharedApi.query("get-user", "league of legends", {
+      hashedId: cookieHahsedId
+    }).then(res => {
+      if (res) {
+        dispatch(Entities.user.setHashedId(cookieHahsedId));
+        router.back();
+      }
+    });
+
+  }, [router, dispatch, cookieHahsedId]);
 
   if (provider === "riot") {
     return (
