@@ -56,29 +56,32 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    // const payload = await requestRSOToken(accessCode).then((r) => r.json());
+    const payload = await requestRSOToken(accessCode).then((r) => r.json());
 
-    // const me = await requestMe(
-    //   "ASIA",
-    //   payload.access_token
-    // );
+    const me = await requestMe(
+      "ASIA",
+      payload.access_token
+    );
 
-    // if (!("puuid" in me)) {
-    //   return new Response("cannot find user", {
-    //     status: 404
-    //   });
-    // };
+    if (!("puuid" in me)) {
+      return new Response("cannot find user", {
+        status: 404
+      });
+    };
 
     const hashedId = crypto
       .createHash("sha256")
-      .update("me.puuid")
+      .update(me.puuid)
       .digest("hex");
 
     await writeUser(hashedId);
 
     const cookieStore = cookies();
 
-    cookieStore.set('hashed-id', hashedId);
+    cookieStore.set('hashed-id', hashedId, {
+      secure: true,
+      httpOnly: true
+    });
   } catch {
     console.error("error while getting token")
   }
