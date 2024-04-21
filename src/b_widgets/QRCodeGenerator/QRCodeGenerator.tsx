@@ -24,12 +24,17 @@ export default function QRCodeGenerator() {
   const router = useRouter();
 
   useEffect(() => {
-    if (gameName === null || hashedId === null) {
-      router.replace("/");
+    if (gameName === null || gameName === null) {
+      router.back();
       return;
     }
 
     const currentGame = SharedUtils.toNormalSpace(gameName) as SupportGame;
+
+    if (hashedId === null) {
+      // router.replace(SharedUtils.generateAuthPath(currentGame));
+      return;
+    }
 
     setLoading(true);
 
@@ -37,7 +42,7 @@ export default function QRCodeGenerator() {
       hashedId,
     }).then((res) => {
       if (!res) {
-        router.replace("/");
+        router.push("/");
         return;
       }
 
@@ -49,7 +54,7 @@ export default function QRCodeGenerator() {
           break;
         case "closed":
           if (mode !== "new") {
-            router.replace(SharedUtils.generateStatUrl(hashedId, currentGame));
+            router.push(SharedUtils.generateStatUrl(hashedId, currentGame));
           }
           break;
         case "undefined":

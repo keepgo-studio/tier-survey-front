@@ -1,3 +1,4 @@
+import AuthProvider from "./AuthProvider/AuthProvider";
 import GameSelect from "./GameSelect/GameSelect";
 import PermissionPanel from "./PermissionPanel/PermissionPanel";
 import Progress from "./Progress/Progress";
@@ -13,7 +14,8 @@ const Widget =  {
   RoleSelect,
   Stat,
   Progress,
-  SurveyList
+  SurveyList,
+  AuthProvider
 };
 
 export default Widget;

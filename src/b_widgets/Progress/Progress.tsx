@@ -25,6 +25,10 @@ export default function Progress() {
 
   const process = async () => {
     if (!hostHashedId || !hashedId || !currentGame) {
+      // TODO should route to each scenario
+      // [ ] hashedId -> show login button
+      // [ ] hostHashedId -> route to /error (cannot find survey)
+      // [ ] currentGame -> route to /error (bad connection)
       return;
     }
 
