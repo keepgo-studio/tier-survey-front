@@ -20,10 +20,23 @@ async function requestRSOToken(accessCode: string) {
       code: accessCode, // Assuming the access code is already url decoded
       redirect_uri: SharedUtils.NEXT_PROD_API_URL + "/api/oauth/rso/callback",
     }),
-  });
+  }).then(res => res.json());
 }
 
-async function requestMe(region: 'ASIA', accessToken: string) {
+type AccountDto = {
+  puuid: string;	
+  gameName: string;
+  tagLine: string;
+}
+
+type AccountFailed = {
+    status: {
+        message: string;
+        status_code: number;
+    }
+}
+
+async function requestMe(region: 'ASIA', accessToken: string): Promise<AccountDto | AccountFailed> {
   return await fetch(`https://${region.toLowerCase()}.api.riotgames.com/riot/account/v1/accounts/me`, {
     headers: {
       Authorization: `Bearer ${accessToken}`
@@ -31,13 +44,14 @@ async function requestMe(region: 'ASIA', accessToken: string) {
   }).then(res => res.json());
 }
 
-async function writeUser(hashedId: string) {
+async function writeUser(hashedId: string, name: string) {
   await fetch(`${SharedUtils.FB_API_URL}/leagueOfLegends-writeUser`, {
     method: 'post',
     body: JSON.stringify({
       hashedId,
       user: {
-        hashedId
+        hashedId,
+        name
       }
     })
   })
@@ -59,13 +73,13 @@ export async function GET(req: NextRequest) {
     if (SharedUtils.IS_DEV) {
       hashedId = process.env.HASHED_ID_INIT;
     } else {
-      const payload = await requestRSOToken(accessCode).then((r) => r.json());
+      const payload = await requestRSOToken(accessCode);
 
       const me = await requestMe(
         "ASIA",
         payload.access_token
       );
-  
+
       if (!("puuid" in me)) {
         return new Response("cannot find user", {
           status: 404
@@ -76,9 +90,9 @@ export async function GET(req: NextRequest) {
         .createHash("sha256")
         .update(me.puuid)
         .digest("hex");
-    }
 
-    await writeUser(hashedId);
+      await writeUser(hashedId, me.gameName);
+    }
 
     const cookieStore = cookies();
 
