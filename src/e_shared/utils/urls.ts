@@ -21,13 +21,14 @@ export function generateQrUrl(hashedId: string, gameName: SupportGame) {
   });
 }
 
-export function generateAuthPath(gameName: SupportGame) {
+export function generateAuthPath(gameName: SupportGame, path: string) {
   switch(gameName) {
     case "league of legends":
     case "teamfight tactics":
     case "valorant":
       return getQuery(`${NEXT_API_URL}/auth`, {
-        provider: "riot"
+        provider: "riot",
+        path
       });
   }
 }

@@ -16,6 +16,7 @@ export default function AuthProvider({
   const router = useRouter();
   const dispatch = Entities.hooks.useAppDispatch();
   const provider = useSearchParams().get("provider") ?? "";
+  const previousPathname = useSearchParams().get("path") ?? "/";
   const pathname = usePathname();
 
   const callbackPath = "/api/oauth/rso/callback";
@@ -33,11 +34,11 @@ export default function AuthProvider({
     }).then(res => {
       if (res) {
         dispatch(Entities.user.setHashedId(cookieHahsedId));
-        router.back();
+        router.replace(previousPathname);
       }
     });
 
-  }, [router, dispatch, cookieHahsedId]);
+  }, [router, dispatch, previousPathname, cookieHahsedId]);
 
   if (provider === "riot") {
     return (

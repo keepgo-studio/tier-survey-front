@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import Entities from '@entities';
-import { SharedApi, SharedUtils } from '@shared';
+import { SharedApi, SharedHooks, SharedUtils } from '@shared';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import { addLeaveBarrier, removeLeaveBarrier } from './utils';
@@ -23,12 +23,16 @@ export default function Progress() {
 
   const router = useRouter();
 
+  const { AlertModal, asyncOpenClose } = SharedHooks.useModal();
+
   const process = async () => {
-    if (!hostHashedId || !hashedId || !currentGame) {
-      // TODO should route to each scenario
-      // [ ] hashedId -> show login button
-      // [ ] hostHashedId -> route to /error (cannot find survey)
-      // [ ] currentGame -> route to /error (bad connection)
+    if (!currentGame || !hostHashedId) {
+      await asyncOpenClose("Cannot find parameter for progress");
+      return;
+    }
+
+    if (!hashedId) {
+      router.push(SharedUtils.generateAuthPath(currentGame, window.location.href))
       return;
     }
 
@@ -40,64 +44,61 @@ export default function Progress() {
       throw new Error("Server didn't work right now");
     }
 
-    if (checkSurveyResult.status === "undefined") {
-      alert("Cannot find survey");
-      router.push("/");
-      return;
-    }
+    switch(checkSurveyResult.status) {
+      case "undefined":
+        await asyncOpenClose("Cannot find survey");
+        router.push("/");
+        return;
+      case "closed":
+        await asyncOpenClose("Already closed survey");
+        router.push(SharedUtils.generateStatUrl(hostHashedId, currentGame))
+        return;
+      case "open":
+        setEndTime(checkSurveyResult.data!.endTime);
+        setLimitMinute(checkSurveyResult.data!.limitMinute);
 
-    if (checkSurveyResult.status === "closed") {
-      alert("Already closed survey");
-      router.push(SharedUtils.generateStatUrl(hostHashedId, currentGame))
-      return;
-    }
-
-    setEndTime(checkSurveyResult.data!.endTime);
-    setLimitMinute(checkSurveyResult.data!.limitMinute);
-
-    const checkJoinResult = await SharedApi.query("check-join-survey", currentGame, {
-      hashedId,
-      hostHashedId
-    });
-
+        const checkJoinResult = await SharedApi.query("check-join-survey", currentGame, {
+          hashedId,
+          hostHashedId
+        });
     
-    if (checkJoinResult) {
-      setDoneMessage("you've already joined to survey, wait until it ends");
-      return;
-    }
+        if (checkJoinResult) {
+          setDoneMessage("you've already joined to survey, wait until it ends");
+          return;
+        } else {
+          const completeList = apiList.map(() => false);
 
-    const completeList = apiList.map(() => false);
-
-    const resultList = await Promise.all(apiList.map(async (apiType, idx) => {
-      const result = await SharedApi.query("save-stat", currentGame, {
-        apiType,
-        hashedId,
-        hostHashedId
-      });
+          const resultList = await Promise.all(apiList.map(async (apiType, idx) => {
+            const result = await SharedApi.query("save-stat", currentGame, {
+              apiType,
+              hashedId,
+              hostHashedId
+            });
+            
+            completeList[idx] = true;
+            setStatusList([...completeList]);
       
-      completeList[idx] = true;
-      setStatusList([...completeList]);
-
-      return result.error;
-    }));
-
-    if (resultList.some(isErr => isErr)) {
-      alert("Cannot save data to chart, reload page please");
-      return;
+            return result.error;
+          }));
+      
+          if (resultList.some(isErr => isErr)) {
+            alert("Cannot save data to chart, reload page please");
+            return;
+          }
+      
+          const joinResult = await SharedApi.query("join-survey", currentGame, {
+            hashedId,
+            hostHashedId
+          });
+      
+          if (!joinResult) {
+            alert("Cannot join to Survey");
+            return;
+          }
+      
+          setDoneMessage("Complete join to survey");
+        }
     }
-
-    const joinResult = await SharedApi.query("join-survey", currentGame, {
-      hashedId,
-      hostHashedId
-    });
-
-    if (!joinResult) {
-      alert("Cannot join to Survey");
-      return;
-    }
-
-    setDoneMessage("Complete join to survey");
-    return;
   }
 
   useEffect(() => {
@@ -132,6 +133,8 @@ export default function Progress() {
         ))}
         </ul>
       )}
+
+      <AlertModal />
     </section>
   )
 }

@@ -32,7 +32,7 @@ export default function QRCodeGenerator() {
     const currentGame = SharedUtils.toNormalSpace(gameName) as SupportGame;
 
     if (hashedId === null) {
-      router.replace(SharedUtils.generateAuthPath(currentGame));
+      router.push(SharedUtils.generateAuthPath(currentGame, window.location.href));
       return;
     }
 
@@ -54,7 +54,7 @@ export default function QRCodeGenerator() {
           break;
         case "closed":
           if (mode !== "new") {
-            router.push(SharedUtils.generateStatUrl(hashedId, currentGame));
+            router.replace(SharedUtils.generateStatUrl(hashedId, currentGame));
           }
           break;
         case "undefined":
