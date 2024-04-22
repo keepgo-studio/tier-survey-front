@@ -54,23 +54,29 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const payload = await requestRSOToken(accessCode).then((r) => r.json());
+    let hashedId = '';
 
-    const me = await requestMe(
-      "ASIA",
-      payload.access_token
-    );
+    if (SharedUtils.IS_DEV) {
+      hashedId = process.env.HASHED_ID_INIT;
+    } else {
+      const payload = await requestRSOToken(accessCode).then((r) => r.json());
 
-    if (!("puuid" in me)) {
-      return new Response("cannot find user", {
-        status: 404
-      });
-    };
-
-    const hashedId = crypto
-      .createHash("sha256")
-      .update(me.puuid)
-      .digest("hex");
+      const me = await requestMe(
+        "ASIA",
+        payload.access_token
+      );
+  
+      if (!("puuid" in me)) {
+        return new Response("cannot find user", {
+          status: 404
+        });
+      };
+  
+      hashedId = crypto
+        .createHash("sha256")
+        .update(me.puuid)
+        .digest("hex");
+    }
 
     await writeUser(hashedId);
 

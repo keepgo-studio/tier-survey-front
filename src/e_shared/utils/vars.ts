@@ -13,3 +13,5 @@ export class Ease {
     return x === 1 ? 1 : 1 - Math.pow(2, -10 * x);
   }
 }
+
+export const IS_DEV = process.env.NODE_ENV === "development";
