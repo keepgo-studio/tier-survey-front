@@ -59,7 +59,7 @@ export function query<T extends AvailableQuery>(
         param as QueryParam<"get-chart">
       ) as QueryReturnType<T>;
     default:
-      throw new Error("[query] Wrong query, check" + query);
+      throw new Error("[query]: Wrong query, check" + query);
   }
 }
 
@@ -79,5 +79,5 @@ export function serverQuery<T extends AvailableServerQuery>(
     return nextHandler.getAllSupportGames() as ServerQueryReturnType<T>;
   }
 
-  throw new Error("[serverQuery] Wrong query, check" + query);
+  throw new Error("[serverQuery]: Wrong query, check" + query);
 }

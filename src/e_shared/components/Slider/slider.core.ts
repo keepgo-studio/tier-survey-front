@@ -52,7 +52,7 @@ export function attachDragAnimation(rootElem: HTMLElement, cardWrapperElem: HTML
         DURATION = 1500;
 
   if (N === 0) {
-    throw new Error ("At least one child needed");
+    throw new Error ("[Slider]: At least one child needed");
   }
 
   // ------------------------- setup -------------------------

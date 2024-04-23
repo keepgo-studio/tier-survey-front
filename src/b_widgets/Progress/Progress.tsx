@@ -41,7 +41,7 @@ export default function Progress() {
     });
 
     if (!checkSurveyResult) {
-      throw new Error("Server didn't work right now");
+      throw new Error("[Progress]: Server didn't work right now");
     }
 
     switch(checkSurveyResult.status) {

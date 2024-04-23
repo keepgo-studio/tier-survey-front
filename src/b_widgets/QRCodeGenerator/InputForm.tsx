@@ -45,7 +45,7 @@ export default function InputForm({
     e.preventDefault();
 
     if (hashedId === null) {
-      throw new Error("[InputForm] - Cannot get hashedId");
+      throw new Error("[InputForm]: Cannot get hashedId");
     }
 
     const limitMinute = Number(limitMinuteStr);

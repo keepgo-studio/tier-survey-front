@@ -145,7 +145,7 @@ export default function Timer({ theme = 'round', ...props }: TimerProps) {
   const { startTime, endTime, totalTime } = props;
 
   if (startTime > endTime || (endTime - startTime) > totalTime) {
-    throw new Error("Wrong parameters entered");
+    throw new Error("[Timer]: Wrong parameters entered");
   }
 
   if (theme === 'round') return <RoundTimer {...props} />;
