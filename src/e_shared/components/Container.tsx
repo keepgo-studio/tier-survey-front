@@ -1,8 +1,15 @@
 import React from "react";
 
-export default function Container({ children }: { children: React.ReactNode }) {
+export default function Container({
+  children,
+  className,
+  ...props
+}: React.ButtonHTMLAttributes<HTMLDivElement>) {
   return (
-    <section className="p-8 border rounded-lg w-fit">
+    <section
+      className={"bg-prime-deep-dark shadow-prime p-6 " + className}
+      {...props}
+    >
       {children}
     </section>
   );

@@ -1,9 +1,10 @@
 import "./globals.css";
 
+import { Suspense } from "react";
 import Shared, { SharedNodeUtils } from "@shared";
 import Entities from "@entities";
 import { cookies } from "next/headers";
-import { inter } from "./fonts";
+import { Inter } from "./fonts";
 
 import type { Metadata } from "next";
 
@@ -24,7 +25,9 @@ export default function RootLayout({
 
   return (
     <html lang="ko">
-      <body className={inter.className}>
+      <body className={Inter.className}>
+        <Shared.Loading />
+        
         <main className="bg-prime-dark text-prime-white h-screen grid grid-rows-[auto_1fr_auto]">
           <Shared.Navbar />
           <Entities.Provider data={{ user: { hashedId }}}>

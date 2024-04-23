@@ -2,12 +2,12 @@ import { Lexend_Mega } from "next/font/google"
 import localFont from "next/font/local";
 
  
-export const inter = Lexend_Mega({
+export const Inter = Lexend_Mega({
   subsets: ['latin'],
   display: 'swap',
 })
  
-export const roboto_mono = localFont({
+export const Danjo = localFont({
   src: "Danjo-bold-Regular.otf",
   display: 'swap',
 })

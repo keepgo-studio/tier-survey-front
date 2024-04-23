@@ -3,9 +3,9 @@ import Footer from "./components/Footer";
 import Input from "./components/Input";
 import QRCode from "./components/QRCode";
 import Navbar from "./components/Navbar";
-import Loading from "./components/Loading";
 import Timer from "./components/Timer";
 import Button from "./components/Button";
+import Loading from "./components/Loading";
 
 const Shared = {
   Container,
@@ -15,7 +15,7 @@ const Shared = {
   Navbar,
   Loading,
   Timer,
-  Button
+  Button,
 }
 export default Shared;
 
