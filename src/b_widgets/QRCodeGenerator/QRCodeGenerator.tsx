@@ -93,6 +93,7 @@ export default function QRCodeGenerator({
       ) : (
         <Suspense>
           <InputForm
+            currentGame={currentGame}
             onComplete={(url, limitMinute, endTime) => {
               setUrl(url);
               setLimitMinute(limitMinute);

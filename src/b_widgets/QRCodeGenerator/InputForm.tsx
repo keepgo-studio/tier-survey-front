@@ -3,7 +3,6 @@
 import { FormEvent, useCallback, useState } from "react";
 import Shared, { SharedApi, SharedHooks, SharedUtils } from "@shared";
 import Entities from "@entities";
-import { useSearchParams } from "next/navigation";
 
 const MIN_MINUTE = 1,
       MAX_MINUTE = 30;
@@ -25,12 +24,12 @@ function AlertContent() {
 }
 
 export default function InputForm({
+  currentGame,
   onComplete,
 }: {
+  currentGame: SupportGame;
   onComplete: (url: string, limitMinute: number, endTime: number) => void;
 }) {
-  const gameName = useSearchParams().get("gameName");
-
   const hashedId = Entities.hooks.useAppSelector(
     Entities.user.selectHashedId
   );
@@ -49,10 +48,6 @@ export default function InputForm({
       throw new Error("[InputForm] - Cannot get hashedId");
     }
 
-    if (gameName === null) {
-      throw new Error("[InputForm] - Cannot get ");
-    }
-
     const limitMinute = Number(limitMinuteStr);
 
     if (limitMinute < MIN_MINUTE || MAX_MINUTE < limitMinute) {
@@ -65,8 +60,6 @@ export default function InputForm({
     }
 
     setLoading(true);
-
-    const currentGame = SharedUtils.toNormalSpace(gameName) as SupportGame;
 
     const data = await SharedApi.query("create-survey", currentGame!, {
       password,
