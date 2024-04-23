@@ -15,7 +15,7 @@ const userSlice = createSlice({
     initState: (state, action: PayloadAction<UserState>) => {
       return { ...state, ...action.payload };
     },
-    setHashedId: (state, action: PayloadAction<string>) => {
+    setHashedId: (state, action: PayloadAction<string | null>) => {
       state.hashedId = action.payload;
     },
   },

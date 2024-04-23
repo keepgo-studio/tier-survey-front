@@ -21,5 +21,10 @@ export function generateStaticParams(): Params[] {
 export default function page({ params }: { params: Params }) {
   const currentGame = SharedUtils.toNormalSpace(params.gameName) as SupportGame;
 
-  return <Widget.Stat currentGame={currentGame}/>;
+  return (
+    <>
+      <Widget.Logout />
+      <Widget.Stat currentGame={currentGame}/>
+    </>
+  );
 }

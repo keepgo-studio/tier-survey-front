@@ -124,6 +124,7 @@ export async function getStat(
 export type LeagueOfLegendsChart = {
   participantCnt: number;
   tierCnt: Record<LeagueOfLegendsTier | "UNRANK", number>;
+  flexTierCnt: Record<LeagueOfLegendsTier | "UNRANK", number>;
   totalLevel: number;
   mostLovedChampion: Record<number, number>;
   updateDate: Date;

@@ -21,5 +21,10 @@ export function generateStaticParams(): Params[] {
 export default function page({ params }: { params: Params }) {
   const currentGame = SharedUtils.toNormalSpace(params.gameName) as SupportGame;
 
-  return <Widget.QRCodeGenerator currentGame={currentGame}/>;
+  return (
+    <>
+      <Widget.Logout />
+      <Widget.QRCodeGenerator currentGame={currentGame}/>
+    </>
+  );
 }

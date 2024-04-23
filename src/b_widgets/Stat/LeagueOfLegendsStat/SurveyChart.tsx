@@ -27,9 +27,17 @@ export default function SurveyChart({
 
       <p>Participants cnt: {chartData.participantCnt}</p>
 
+      <h2>Solo Rank Tier</h2>
       <pre>
         <code>
           {JSON.stringify(chartData.tierCnt, null, 2)}
+        </code>
+      </pre>
+
+      <h2>Flex Tier</h2>
+      <pre>
+        <code>
+          {JSON.stringify(chartData.flexTierCnt, null, 2)}
         </code>
       </pre>
 

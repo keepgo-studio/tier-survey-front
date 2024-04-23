@@ -67,12 +67,17 @@ export default function Progress() {
           return;
         } else {
           try {
-            for (const apiType of apiList) {
+            for (const idx in apiList) {
+              const apiType = apiList[idx];
+
               await SharedApi.query("save-stat", currentGame, {
                 apiType,
                 hashedId,
                 hostHashedId
               });
+
+              statusList[idx] = true;
+              setStatusList([...statusList]);
             }
           } catch {
             await asyncOpenClose("Cannot save data to chart, reload page please");
@@ -98,7 +103,7 @@ export default function Progress() {
     addLeaveBarrier();
     process().then(() => removeLeaveBarrier());
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [hashedId]);
 
   if (!hashedId) {
     // router.push("/login");

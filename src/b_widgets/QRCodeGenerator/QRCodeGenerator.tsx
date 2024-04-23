@@ -23,6 +23,7 @@ export default function QRCodeGenerator({
   const [loading, setLoading] = useState(true);
   const [endTime, setEndTime] = useState(0);
   const [limitMinute, setLimitMinute] = useState(0);
+  const [statExist, setStatExist] = useState(false);
 
   const router = useRouter();
 
@@ -31,6 +32,10 @@ export default function QRCodeGenerator({
       router.push(SharedUtils.generateAuthPath(currentGame, window.location.href));
       return;
     }
+  }, [router, currentGame, hashedId])
+
+  useEffect(() => {
+    if (hashedId === null) return;
 
     SharedApi.query("check-survey", currentGame, {
       hashedId,
@@ -50,8 +55,9 @@ export default function QRCodeGenerator({
           setEndTime(res.data!.endTime);
           break;
         case "closed":
+          setStatExist(true);
           if (mode !== "new") {
-            router.replace(SharedUtils.generateStatUrl(hashedId, currentGame));
+            router.push(SharedUtils.generateStatUrl(hashedId, currentGame));
           }
           break;
         case "undefined":
@@ -67,7 +73,7 @@ export default function QRCodeGenerator({
 
   useEffect(() => {
     if (isEnd && hashedId) {
-      router.replace(SharedUtils.generateStatUrl(hashedId, currentGame));
+      router.push(SharedUtils.generateStatUrl(hashedId, currentGame));
     }
   }, [isEnd, router, hashedId, currentGame]);
 
@@ -83,6 +89,13 @@ export default function QRCodeGenerator({
 
   return (
     <div className="p-6 fcenter flex-col">
+      <section>
+        {hashedId && statExist ? (
+          <Link href={SharedUtils.generateStatUrl(hashedId, currentGame)}>
+            <Shared.Button>Go to Stat page</Shared.Button>
+          </Link>
+        ) : ""}
+      </section>
       {url ? (
         <ClientWaitScreen
           url={url}
