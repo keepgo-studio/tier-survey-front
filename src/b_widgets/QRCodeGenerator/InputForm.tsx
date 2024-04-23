@@ -78,7 +78,7 @@ export default function InputForm({
 
     if (data) {
       onComplete(
-        SharedUtils.generateQrUrl(hashedId, currentGame),
+        SharedUtils.generateParticipantQRUrl(hashedId, currentGame),
         limitMinute,
         Date.now() + limitMinute * 60 * 1000
       );

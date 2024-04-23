@@ -3,6 +3,6 @@ import Widget from '@widgets'
 
 export default function page() {
   return (
-    <Widget.AuthProvider />
+    <Widget.Auth />
   )
 }

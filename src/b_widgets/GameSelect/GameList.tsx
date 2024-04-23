@@ -9,7 +9,7 @@ const GameItem = ({ item }: { item: SupportGameJsonItem }) => {
   if (item.available) {
     return (
       <div className="rounded-md overflow-hidden">
-        <Link href={SharedUtils.generateSurveyUrl(item["game-name"], "normal")} draggable={false}>
+        <Link href={SharedUtils.generateHostQRUrl(item["game-name"], "normal")} draggable={false}>
           <Image
             className="duration-default hover:brightness-75"
             alt="hero"

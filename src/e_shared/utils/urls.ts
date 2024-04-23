@@ -7,14 +7,13 @@ export function generateStatUrl(hashedId: string, game: SupportGame) {
   });
 }
 
-export function generateSurveyUrl(gameName: SupportGame, mode: 'new' | 'normal') {
-  return getQuery(`${NEXT_API_URL}/host/qr`, {
-    gameName,
+export function generateHostQRUrl(game: SupportGame, mode: 'new' | 'normal') {
+  return getQuery(`${NEXT_API_URL}/host/qr/${toCamelCase(game)}`, {
     mode
   });
 }
 
-export function generateQrUrl(hashedId: string, gameName: SupportGame) {
+export function generateParticipantQRUrl(hashedId: string, gameName: SupportGame) {
   return getQuery(`${NEXT_API_URL}/participant/qr`, {
     gameName,
     hashedId

@@ -1,5 +1,6 @@
-import AuthProvider from "./AuthProvider/AuthProvider";
+import Auth from "./Auth/Auth";
 import GameSelect from "./GameSelect/GameSelect";
+import Logout from "./Logout/Logout";
 import PermissionPanel from "./PermissionPanel/PermissionPanel";
 import Progress from "./Progress/Progress";
 import QRCodeGenerator from "./QRCodeGenerator/QRCodeGenerator";
@@ -8,6 +9,7 @@ import Stat from "./Stat/Stat";
 import SurveyList from "./SurveyList/SurveyList";
 
 const Widget =  {
+  Logout,
   GameSelect,
   QRCodeGenerator,
   PermissionPanel,
@@ -15,7 +17,7 @@ const Widget =  {
   Stat,
   Progress,
   SurveyList,
-  AuthProvider
+  Auth
 };
 
 export default Widget;

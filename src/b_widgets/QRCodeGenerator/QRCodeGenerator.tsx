@@ -10,45 +10,42 @@ import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
-export default function QRCodeGenerator() {
-  const gameName = useSearchParams().get("gameName"),
-        mode = useSearchParams().get("mode");
+export default function QRCodeGenerator({
+  currentGame,
+}: {
+  currentGame: SupportGame;
+}) {
+  const mode = useSearchParams().get("mode");
 
   const hashedId = Entities.hooks.useAppSelector(Entities.user.selectHashedId);
 
-  const [url, setUrl] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [url, setUrl] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
   const [endTime, setEndTime] = useState(0);
   const [limitMinute, setLimitMinute] = useState(0);
 
   const router = useRouter();
 
   useEffect(() => {
-    if (gameName === null || gameName === null) {
-      router.back();
-      return;
-    }
-
-    const currentGame = SharedUtils.toNormalSpace(gameName) as SupportGame;
-
     if (hashedId === null) {
       router.push(SharedUtils.generateAuthPath(currentGame, window.location.href));
       return;
     }
 
-    setLoading(true);
-
     SharedApi.query("check-survey", currentGame, {
       hashedId,
     }).then((res) => {
       if (!res) {
-        router.push("/");
         return;
       }
 
       switch (res.status) {
         case "open":
-          setUrl(mode === "new" ? "" : SharedUtils.generateQrUrl(hashedId, currentGame));
+          setUrl(
+            mode === "new"
+              ? null
+              : SharedUtils.generateParticipantQRUrl(hashedId, currentGame)
+          );
           setLimitMinute(res.data!.limitMinute);
           setEndTime(res.data!.endTime);
           break;
@@ -69,20 +66,19 @@ export default function QRCodeGenerator() {
   const [isEnd, setIsEnd] = useState(false);
 
   useEffect(() => {
-    if (isEnd && hashedId && gameName) {
-      const currentGame = SharedUtils.toNormalSpace(gameName) as SupportGame;
+    if (isEnd && hashedId) {
       router.replace(SharedUtils.generateStatUrl(hashedId, currentGame));
     }
-  }, [isEnd, router, hashedId, gameName]);
+  }, [isEnd, router, hashedId, currentGame]);
 
   if (loading) return <Shared.Loading />;
 
   function canOpenNewSurvey() {
-    return url && gameName;
+    return url;
   }
 
   function canGoOpenedSurvey() {
-    return mode === "new" && endTime && gameName
+    return mode === "new" && endTime;
   }
 
   return (
@@ -107,27 +103,21 @@ export default function QRCodeGenerator() {
       )}
 
       <section>
-      {canOpenNewSurvey() ? (
-        <Link
-          href={SharedUtils.generateSurveyUrl(
-            SharedUtils.toNormalSpace(gameName!) as SupportGame,
-            "new"
-          )}
-        >
-          <Shared.Button>New survey</Shared.Button>
-        </Link>
-      ) : ''}
+        {canOpenNewSurvey() ? (
+          <Link href={SharedUtils.generateHostQRUrl(currentGame, "new")}>
+            <Shared.Button>New survey</Shared.Button>
+          </Link>
+        ) : (
+          ""
+        )}
 
-      {canGoOpenedSurvey() ? (
-        <Link
-        href={SharedUtils.generateSurveyUrl(
-          SharedUtils.toNormalSpace(gameName!) as SupportGame,
-          "normal"
-          )}
-        >
-          <Shared.Button>Go to Opened survey</Shared.Button>
-        </Link>
-      ) : ''}
+        {canGoOpenedSurvey() ? (
+          <Link href={SharedUtils.generateHostQRUrl(currentGame, "normal")}>
+            <Shared.Button>Go to Opened survey</Shared.Button>
+          </Link>
+        ) : (
+          ""
+        )}
       </section>
     </div>
   );

@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import Shared, { SharedNodeUtils } from "@shared";
 import Entities from "@entities";
 import { cookies } from "next/headers";
+import Widget from "@widgets";
 
 import type { Metadata } from "next";
 
@@ -30,6 +31,8 @@ export default function RootLayout({
         <main className="h-screen grid grid-rows-[auto_1fr_auto]">
           <Shared.Navbar />
           <Entities.Provider data={{ user: { hashedId }}}>
+            <Widget.Logout />
+
             <section>{children}</section>
           </Entities.Provider>
           <Shared.Footer />

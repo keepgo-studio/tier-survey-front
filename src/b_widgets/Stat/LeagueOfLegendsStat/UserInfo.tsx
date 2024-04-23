@@ -46,7 +46,7 @@ export default function UserInfo({
     <section>
       {isHost && (
         <div className="flex justify-end">
-          <Link href={SharedUtils.generateSurveyUrl("league of legends", "new")}>
+          <Link href={SharedUtils.generateHostQRUrl("league of legends", "new")}>
             <Shared.Button>make survey again</Shared.Button>
           </Link>
         </div>
