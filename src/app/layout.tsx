@@ -1,9 +1,9 @@
 import "./globals.css";
 
-import { Inter } from "next/font/google";
 import Shared, { SharedNodeUtils } from "@shared";
 import Entities from "@entities";
 import { cookies } from "next/headers";
+import { inter } from "./fonts";
 
 import type { Metadata } from "next";
 
@@ -13,8 +13,6 @@ export const metadata: Metadata = {
   title: "Tier Survey",
   description: "Tier Survey Website",
 };
-
-const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({
   children,
@@ -27,7 +25,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body className={inter.className}>
-        <main className="h-screen grid grid-rows-[auto_1fr_auto]">
+        <main className="bg-prime-dark text-prime-white h-screen grid grid-rows-[auto_1fr_auto]">
           <Shared.Navbar />
           <Entities.Provider data={{ user: { hashedId }}}>
             <div>{children}</div>

@@ -19,6 +19,12 @@ const Shared = {
 }
 export default Shared;
 
+import Text from "./components/Anim/Text";
+
+export const Anim = {
+  Text
+}
+
 
 // --------------------------------------------------------
 import { query, serverQuery } from "./api/query";

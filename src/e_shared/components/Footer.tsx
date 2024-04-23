@@ -1,3 +1,4 @@
+import { Anim } from "@shared";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
@@ -16,13 +17,18 @@ const ListSection = ({
 }) => {
   return (
     <section>
-      <h4 className="text-lg">{title}</h4>
-      <ul>
+      <h4 className="text-base">{title}</h4>
+
+      <div className="h-2"/>
+
+      <ul className="flex flex-col gap-1 text-prime-gray">
         {data.map(({ title, link }) => (
-          <li key={title}>
-            <Link href={link} className="font-bold text-gray-400 text-sm">
-            {title}
-            </Link>
+          <li key={title} className="font-light text-gray-400 text-xs">
+            <Anim.Text>
+              <Link href={link}>
+              {title}
+              </Link>
+            </Anim.Text>
           </li>
         ))}
       </ul>
@@ -45,21 +51,22 @@ export default function Footer() {
   ];
 
   return (
-    <div className="px-2 py-6 border-t">
-      <section className="flex items-center justify-between p-6">
-        <Image src="/favicon.png" alt="logo" width={80} height={80} />
-
-        <ListSection title="Resources" data={resources} />
+    <footer>
+    <div className="flex justify-between p-6 border-t border-prime-deep-dark">
+      <section>
+        <Image src="/favicon.png" alt="logo" width={60} height={60} />
       </section>
 
-      <hr />
-
-      <p className="p-6">
-        {appName} is not endorsed by Riot Games and does not reflect the views
-        or opinions of Riot Games or anyone officially involved in producing or
-        managing Riot Games properties. Riot Games and all associated properties
-        are trademarks or registered trademarks of Riot Games, Inc
-      </p>
+      <section className="w-full flex justify-end">
+        <ListSection title="Resources" data={resources} />
+      </section>
     </div>
+    <p className="p-4 text-[10px] text-prime-gray">
+      <Link className="font-bold" href="/">{appName}</Link> is not endorsed by Riot Games and does not reflect the views
+      or opinions of Riot Games or anyone officially involved in producing or
+      managing Riot Games properties. Riot Games and all associated properties
+      are trademarks or registered trademarks of Riot Games, Inc
+    </p>
+    </footer>
   );
 }

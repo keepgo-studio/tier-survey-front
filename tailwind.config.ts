@@ -11,13 +11,23 @@ const config: Config = {
     extend: {
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      colors: {
+        'prime-purple': '#6F46B4',
+        'prime-white': '#EEEEEE',
+        'prime-deep-dark': '#222831',
+        'prime-dark': '#31363F',
+        'prime-gray': '#8C8C8C',
+        'prime-mint': '#76ABAE',
+      },
+      boxShadow: {
+        'prime': '0 0 12px 4px rgba(0, 0, 0, 0.15);'
+      },
+      transitionDuration: {
+        'default': '500ms'
+      }
     },
-    transitionDuration: {
-      'default': '500ms'
-    }
   },
   plugins: [],
 };
