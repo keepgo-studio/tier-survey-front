@@ -44,14 +44,15 @@ async function requestMe(region: 'ASIA', accessToken: string): Promise<AccountDt
   }).then(res => res.json());
 }
 
-async function writeUser(hashedId: string, name: string) {
+async function writeUser(hashedId: string, name: string, puuid: string) {
   await fetch(`${SharedUtils.FB_API_URL}/leagueOfLegends-writeUser`, {
     method: 'post',
     body: JSON.stringify({
       hashedId,
       user: {
         hashedId,
-        name
+        name,
+        puuid
       }
     })
   })
@@ -70,15 +71,17 @@ export async function GET(req: NextRequest) {
   try {
     const payload = await requestRSOToken(accessCode);
 
+    if (!("access_token" in payload)) {
+      throw new Error("error while getting token");
+    }
+
     const me = await requestMe(
       "ASIA",
       payload.access_token
     );
 
     if (!("puuid" in me)) {
-      return new Response("cannot find user", {
-        status: 404
-      });
+      throw new Error("cannot find user");
     };
 
     const hashedId = crypto
@@ -86,7 +89,7 @@ export async function GET(req: NextRequest) {
       .update(me.puuid)
       .digest("hex");
 
-    await writeUser(hashedId, me.gameName);
+    await writeUser(hashedId, me.gameName, me.puuid);
 
     const cookieStore = cookies();
 
@@ -94,8 +97,8 @@ export async function GET(req: NextRequest) {
       secure: true, 
       httpOnly: true
     });
-  } catch {
-    console.error("error while getting token")
+  } catch (err) {
+    console.error(err);
   }
 
   const returnUrl = searchParams.get("state") ?? "/";

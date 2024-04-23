@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Shared, { SharedUtils } from "@shared";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import PanelHeader from "./PanelHeader";
 
 type Item = {
   apiType: SupportApiType;
@@ -125,7 +126,7 @@ function Panel() {
 export default function LeagueOfLegendsPanel() {
   return (
     <>
-      <Shared.Container>League Of Legends</Shared.Container>
+      <PanelHeader />
       <Panel />
     </>
   );

@@ -1,10 +1,11 @@
 import "./globals.css";
 
 import { Inter } from "next/font/google";
-import Shared from "@shared";
+import Shared, { SharedNodeUtils } from "@shared";
+import Entities from "@entities";
+import { cookies } from "next/headers";
 
 import type { Metadata } from "next";
-import Entities from "@entities";
 
 export const dynamic = "force-dynamic";
 
@@ -20,12 +21,15 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookieStore = cookies();
+  const hashedId = SharedNodeUtils.decrypt(cookieStore.get("hashed-id")?.value ?? "");
+
   return (
     <html lang="ko">
       <body className={inter.className}>
         <main className="h-screen grid grid-rows-[auto_1fr_auto]">
           <Shared.Navbar />
-          <Entities.Provider>
+          <Entities.Provider data={{ user: { hashedId }}}>
             <section>{children}</section>
           </Entities.Provider>
           <Shared.Footer />

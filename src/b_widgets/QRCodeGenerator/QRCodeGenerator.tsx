@@ -77,6 +77,14 @@ export default function QRCodeGenerator() {
 
   if (loading) return <Shared.Loading />;
 
+  function canOpenNewSurvey() {
+    return url && gameName;
+  }
+
+  function canGoOpenedSurvey() {
+    return mode === "new" && endTime && gameName
+  }
+
   return (
     <div className="p-6 fcenter flex-col">
       {url ? (
@@ -99,27 +107,27 @@ export default function QRCodeGenerator() {
       )}
 
       <section>
-      {url && gameName && (
+      {canOpenNewSurvey() ? (
         <Link
           href={SharedUtils.generateSurveyUrl(
-            SharedUtils.toNormalSpace(gameName) as SupportGame,
+            SharedUtils.toNormalSpace(gameName!) as SupportGame,
             "new"
           )}
         >
-          <Shared.Button>Cancel survey</Shared.Button>
+          <Shared.Button>New survey</Shared.Button>
         </Link>
-      )}
+      ) : ''}
 
-      {mode === "normal" && endTime && gameName && (
+      {canGoOpenedSurvey() ? (
         <Link
         href={SharedUtils.generateSurveyUrl(
-          SharedUtils.toNormalSpace(gameName) as SupportGame,
+          SharedUtils.toNormalSpace(gameName!) as SupportGame,
           "normal"
           )}
         >
           <Shared.Button>Go to Opened survey</Shared.Button>
         </Link>
-      )}
+      ) : ''}
       </section>
     </div>
   );

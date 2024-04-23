@@ -66,31 +66,24 @@ export default function Progress() {
           setDoneMessage("you've already joined to survey, wait until it ends");
           return;
         } else {
-          const completeList = apiList.map(() => false);
-
-          const resultList = await Promise.all(apiList.map(async (apiType, idx) => {
-            const result = await SharedApi.query("save-stat", currentGame, {
-              apiType,
-              hashedId,
-              hostHashedId
-            });
-            
-            completeList[idx] = true;
-            setStatusList([...completeList]);
-      
-            return result.error;
-          }));
-      
-          if (resultList.some(isErr => isErr)) {
-            alert("Cannot save data to chart, reload page please");
+          try {
+            for (const apiType of apiList) {
+              await SharedApi.query("save-stat", currentGame, {
+                apiType,
+                hashedId,
+                hostHashedId
+              });
+            }
+          } catch {
+            await asyncOpenClose("Cannot save data to chart, reload page please");
             return;
           }
-      
+          
           const joinResult = await SharedApi.query("join-survey", currentGame, {
             hashedId,
             hostHashedId
           });
-      
+
           if (!joinResult) {
             alert("Cannot join to Survey");
             return;

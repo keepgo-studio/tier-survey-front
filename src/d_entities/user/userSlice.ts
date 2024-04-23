@@ -12,9 +12,12 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
+    initState: (state, action: PayloadAction<UserState>) => {
+      return { ...state, ...action.payload };
+    },
     setHashedId: (state, action: PayloadAction<string>) => {
       state.hashedId = action.payload;
-    }
+    },
   },
   selectors: {
     selectHashedId: state => state.hashedId

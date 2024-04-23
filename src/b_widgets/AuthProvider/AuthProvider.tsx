@@ -6,12 +6,10 @@ import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Entities from "@entities";
 
-export default function AuthProvider({
-  cookieHahsedId
-}: {
-  cookieHahsedId: string | null;
-}) {
+export default function AuthProvider() {
   const AUTH_PROVIDER = "https://auth.riotgames.com/authorize";
+
+  const hashedId = Entities.hooks.useAppSelector(Entities.user.selectHashedId);
 
   const router = useRouter();
   const dispatch = Entities.hooks.useAppDispatch();
@@ -25,20 +23,20 @@ export default function AuthProvider({
   });
 
   useEffect(() => {
-    if (cookieHahsedId === null) {
+    if (hashedId === null) {
       return;
     }
 
     SharedApi.query("get-user", "league of legends", {
-      hashedId: cookieHahsedId
+      hashedId
     }).then(res => {
       if (res) {
-        dispatch(Entities.user.setHashedId(cookieHahsedId));
+        dispatch(Entities.user.setHashedId(hashedId));
         router.replace(previousPathname);
       }
     });
 
-  }, [router, dispatch, previousPathname, cookieHahsedId]);
+  }, [router, dispatch, previousPathname, hashedId]);
 
   if (provider === "riot") {
     return (
