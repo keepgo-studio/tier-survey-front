@@ -20,12 +20,14 @@ const config: Config = {
         'prime-dark': '#31363F',
         'prime-gray': '#8C8C8C',
         'prime-mint': '#76ABAE',
+        'prime-color': '#f0f4f9',
+        'riot': '#d53235'
       },
       boxShadow: {
         'prime': '0 0 12px 4px rgba(0, 0, 0, 0.15);'
       },
       transitionDuration: {
-        'default': '500ms'
+        'default': '300ms'
       }
     },
   },

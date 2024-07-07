@@ -3,6 +3,9 @@ interface AvailableQueryMap {
   "check-survey": {
     hashedId: string;
   };
+  "check-stat-exist": {
+    hashedId: string;
+  }
   "create-survey": {
     password: string;
     limitMinute: number;

@@ -8,9 +8,9 @@ export default async function SurveyList() {
     <ul>
       {data.map(item => (
         <li key={item['game-name']}>
-          <Shared.Button>
+          <button>
             Check Survey for {item['game-name']}
-          </Shared.Button>
+          </button>
         </li>
       ))}
     </ul>

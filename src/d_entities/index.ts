@@ -1,13 +1,18 @@
 import { makeStore } from "./store";
-import userSlice from "./user/userSlice";
 import * as hooks from "./hooks";
 import StoreProvider from "./StoreProvider";
+import userSlice from "./slices/userSlice";
+import surveySlice from "./slices/surveySlice";
 
 const Entities = { 
   makeStore,
   user: {
     ...userSlice.actions,
     ...userSlice.selectors,
+  },
+  survey: {
+    ...surveySlice.actions,
+    ...surveySlice.selectors
   },
   hooks: {
     ...hooks

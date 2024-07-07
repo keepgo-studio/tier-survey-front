@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import Shared, { SharedApi, SharedUtils } from "@shared";
+import { SharedApi, SharedUtils } from "@shared";
 import Entities from "@entities";
 import { ProfileIcon, Tier } from "./utils";
 
@@ -46,8 +46,8 @@ export default function UserInfo({
     <section>
       {isHost && (
         <div className="flex justify-end">
-          <Link href={SharedUtils.generateHostQRUrl("league of legends", "new")}>
-            <Shared.Button>make survey again</Shared.Button>
+          <Link href={SharedUtils.generateHostQRUrl("league of legends")}>
+            <button>make survey again</button>
           </Link>
         </div>
       )}

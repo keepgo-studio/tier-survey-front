@@ -7,7 +7,7 @@ export default function Container({
 }: React.ButtonHTMLAttributes<HTMLDivElement>) {
   return (
     <section
-      className={"bg-prime-deep-dark shadow-prime p-6 " + className}
+      className={"bg-prime-deep-dark rounded-lg p-8 border border-prime-gray shadow-prime" + " " + className}
       {...props}
     >
       {children}

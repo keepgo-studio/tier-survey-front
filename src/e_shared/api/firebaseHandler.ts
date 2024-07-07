@@ -1,4 +1,6 @@
-import { getQuery, toCamelCase } from "@shared-inner/utils/utils";
+"use client";
+
+import { delay, getQuery, toCamelCase } from "@shared-inner/utils/utils";
 import { FB_API_URL } from "@shared-inner/utils/vars";
 
 function getUrl<T extends AvailableQuery>(
@@ -12,13 +14,14 @@ function getUrl<T extends AvailableQuery>(
   );
 }
 
-
 type CheckSurveyResponse = {
   status: "open" | "closed" | "undefined";
-  data: {
-    limitMinute: number;
-    endTime: number;
-  } | undefined;
+  data:
+    | {
+        limitMinute: number;
+        endTime: number;
+      }
+    | undefined;
 };
 
 export async function checkSurvey(
@@ -41,6 +44,17 @@ export async function getSurveyUrl(
   return await fetch(getUrl("create-survey", game, param))
     .then(() => true)
     .catch(() => false);
+}
+
+export async function checkStatExist(
+  game: SupportGame,
+  param: AvailableQueryMap["check-stat-exist"]
+): Promise<{ exist: boolean; } | undefined> {
+  await delay(1000);
+  
+  return await fetch(getUrl("check-stat-exist", game, param))
+    .then(res => res.json())
+    .catch(() => undefined);
 }
 
 type StatResponse = {
@@ -82,11 +96,11 @@ export async function checkJoinSurvey(
   param: AvailableQueryMap["check-join-survey"]
 ) {
   return await fetch(getUrl("check-join-survey", game, param))
-    .then(res => res.json())
+    .then((res) => res.json())
     .catch(() => false);
 }
 
-type GameUser ={
+type GameUser = {
   name: string;
   profileIconId: number;
   level: number;
@@ -97,7 +111,7 @@ export async function getUser(
   param: AvailableQueryMap["get-user"]
 ): Promise<GameUser | undefined> {
   return await fetch(getUrl("get-user", game, param))
-    .then(res => res.json())
+    .then((res) => res.json())
     .catch(() => undefined);
 }
 
@@ -107,17 +121,17 @@ export type LeagueOfLegendsChampionInfo = {
   championPoints: number;
 };
 
-type GameStat ={
-  tierNumeric: number,
-  champions: LeagueOfLegendsChampionInfo[]
+type GameStat = {
+  tierNumeric: number;
+  champions: LeagueOfLegendsChampionInfo[];
 };
 
 export async function getStat(
   game: SupportGame,
   param: AvailableQueryMap["get-stat"]
-): Promise<GameStat | undefined>{
+): Promise<GameStat | undefined> {
   return await fetch(getUrl("get-stat", game, param))
-    .then(res => res.json())
+    .then((res) => res.json())
     .catch(() => undefined);
 }
 
@@ -128,14 +142,14 @@ export type LeagueOfLegendsChart = {
   totalLevel: number;
   mostLovedChampion: Record<number, number>;
   updateDate: Date;
-}
+};
 
 export async function getChart(
   game: SupportGame,
   param: AvailableQueryMap["get-chart"]
-): Promise<LeagueOfLegendsChart | undefined>{
+): Promise<LeagueOfLegendsChart | undefined> {
   return await fetch(getUrl("get-chart", game, param))
-    .then(res => res.json())
-    .then(data => ({ ...data, updateDate: new Date(data.updateDate)}))
+    .then((res) => res.json())
+    .then((data) => ({ ...data, updateDate: new Date(data.updateDate) }))
     .catch(() => undefined);
 }

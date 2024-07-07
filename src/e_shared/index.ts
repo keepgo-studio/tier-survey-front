@@ -1,21 +1,21 @@
 import Container from "./components/Container";
 import Footer from "./components/Footer";
-import Input from "./components/Input";
 import QRCode from "./components/QRCode";
 import Navbar from "./components/Navbar";
+import Input from "./components/Input";
 import Timer from "./components/Timer";
-import Button from "./components/Button";
-import Loading from "./components/Loading";
+import LoadingBar from "./components/LoadingBar";
+import Spinner from "./components/Spinner";
 
 const Shared = {
   Container,
   Footer,
   QRCode,
-  Input,
   Navbar,
-  Loading,
+  LoadingBar,
+  Spinner,
+  Input,
   Timer,
-  Button,
 }
 export default Shared;
 
@@ -38,10 +38,12 @@ export const SharedApi = {
 // --------------------------------------------------------
 import useSlider from "./hooks/useSlider";
 import useModal from "./hooks/useModal";
+import useFetch from "./hooks/useFetch";
 
 export const SharedHooks = {
   useSlider,
-  useModal
+  useModal,
+  useFetch
 }
 
 
@@ -64,8 +66,13 @@ export const SharedNodeUtils = {
 
 
 // --------------------------------------------------------
+export * as SharedFonts from "./fonts/fonts";
+
+
+// --------------------------------------------------------
 export type { SupportGameJsonItem } from "./api/nextHandler";
 export type { 
   LeagueOfLegendsChampionInfo,
   LeagueOfLegendsChart
 } from "./api/firebaseHandler";
+

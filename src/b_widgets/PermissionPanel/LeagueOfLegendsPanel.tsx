@@ -117,7 +117,7 @@ function Panel() {
       </Shared.Container>
 
       <Link href={generateUrl()}>
-        <Shared.Button>Confirm</Shared.Button>
+        <button>Confirm</button>
       </Link>
     </section>
   );

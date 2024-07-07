@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-interface UserState {
+export interface UserState {
   hashedId: string | null;
 }
 

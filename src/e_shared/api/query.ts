@@ -1,8 +1,9 @@
 import * as firebaseHandler from "./firebaseHandler";
 
 // Define the return types for each query
-type QueryReturnType<T extends AvailableQuery> = 
+export type QueryReturnType<T extends AvailableQuery> = 
   T extends "create-survey" ? ReturnType<typeof firebaseHandler.getSurveyUrl> : 
+  T extends "check-stat-exist" ? ReturnType<typeof firebaseHandler.checkStatExist> : 
   T extends "check-survey" ? ReturnType<typeof firebaseHandler.checkSurvey> :
   T extends "save-stat" ? ReturnType<typeof firebaseHandler.saveStat> :
   T extends "join-survey" ? ReturnType<typeof firebaseHandler.joinSurvey> :
@@ -22,6 +23,11 @@ export function query<T extends AvailableQuery>(
       return firebaseHandler.checkSurvey(
         game,
         param as QueryParam<"check-survey">
+      ) as QueryReturnType<T>;
+    case "check-stat-exist":
+      return firebaseHandler.checkStatExist(
+        game,
+        param as QueryParam<"check-stat-exist">
       ) as QueryReturnType<T>;
     case "create-survey":
       return firebaseHandler.getSurveyUrl(

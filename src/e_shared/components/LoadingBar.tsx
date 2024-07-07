@@ -6,7 +6,7 @@ import NProgress from "nprogress";
 import "nprogress/nprogress.css";
 
 // TODO need more detail progress
-export default function Loading() {
+export default function LoadingBar() {
   const pathname = usePathname()
   const searchParams = useSearchParams()
 

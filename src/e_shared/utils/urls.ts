@@ -7,10 +7,8 @@ export function generateStatUrl(hashedId: string, game: SupportGame) {
   });
 }
 
-export function generateHostQRUrl(game: SupportGame, mode: 'new' | 'normal') {
-  return getQuery(`${NEXT_API_URL}/host/qr/${toCamelCase(game)}`, {
-    mode
-  });
+export function generateHostQRUrl(game: SupportGame) {
+  return getQuery(`${NEXT_API_URL}/host/qr/${toCamelCase(game)}`, {});
 }
 
 export function generateParticipantQRUrl(hashedId: string, gameName: SupportGame) {

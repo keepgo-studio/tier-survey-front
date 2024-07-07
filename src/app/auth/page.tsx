@@ -1,8 +1,6 @@
-import React from 'react'
-import Widget from '@widgets'
+import React from "react";
+import Widget from "@widgets";
 
 export default function page() {
-  return (
-    <Widget.Auth />
-  )
+  return <Widget.Auth />;
 }

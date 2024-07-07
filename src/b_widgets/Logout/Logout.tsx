@@ -1,8 +1,8 @@
 "use client"
 
 import React from 'react'
-import Shared from '@shared';
 import Entities from '@entities';
+import { PiSignOutFill } from "react-icons/pi";
 
 export default function Logout() {
   const hashedId = Entities.hooks.useAppSelector(Entities.user.selectHashedId);
@@ -17,7 +17,10 @@ export default function Logout() {
   if (hashedId) {
     return (
       <section>
-        <Shared.Button onClick={signout}>Logout</Shared.Button>
+        <button className='button-prime' onClick={signout}>
+          Logout
+          <PiSignOutFill className='ml-[5px] text-lg' />
+        </button>
       </section>
     )
   }
