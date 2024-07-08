@@ -3,38 +3,29 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Anim, SharedHooks } from "@shared";
+import Shared from "@shared";
 
 export default function Navbar() {
-  const { AlertModal, asyncOpenClose } = SharedHooks.useModal();
-
   return (
-    <>
-      <nav className="p-4 shadow-prime bg-prime-deep-dark text-prime-white flex justify-between items-center">
-        <div className="fcenter">
-          <Image src="/favicon.png" alt="favicon" width={24} height={24} />
-          
-          <div className="w-2" />
-
-          <Link href="/" className="flex items-center">
-            <Anim.Text>
-              <span className="font-light text-sm">Tier Survey</span>
-            </Anim.Text>
-          </Link>
+    <nav className="w-full py-4 px-6 flex items-center justify-between border-b-[0.5px] border-border">
+      <Link href="/">
+        <div className="flex items-center gap-2">
+          <Shared.Frame className="w-12 h-12 fcenter" type="small">
+            <Image src="/favicon.png" alt="favicon" width={26} height={26} />
+          </Shared.Frame>
+          <span className="text-sm uppercase">tier survey</span>
         </div>
+      </Link>
 
-        <div className="fcenter gap-2">
-          <span className="uppercase text-sm">region</span>
-          <span>-</span>
-          <Image
-            src="/data/img/region/kr.png"
-            width={24}
-            height={20}
-            alt="logo"
-          />
-        </div>
-      </nav>
-      <AlertModal />
-    </>
+      <Shared.Frame type="small" className="fcenter gap-2 py-3 px-4">
+        <span className="uppercase text-xs font-light">region</span>
+        <Image
+          src="/data/img/region/kr.png"
+          width={24}
+          height={20}
+          alt="logo"
+        />
+      </Shared.Frame>
+    </nav>
   );
 }

@@ -23,15 +23,18 @@ export default function RootLayout({
 
   return (
     <html lang="ko">
-      <body className={SharedFonts.LexendMega.className}>
+      <body className={SharedFonts.LexendMega.className + " " + "overflow-x-hidden"}>
         <Shared.LoadingBar />
 
         <Entities.Provider user={{ hashedId }}>
-          <main className="bg-prime-dark text-prime-white h-screen grid grid-rows-[auto_1fr_auto]">
-            <Shared.Navbar />
-            <div className={SharedFonts.Jua.className}>{children}</div>
-            <Shared.Footer />
+          <main className="w-screen h-screen bg-black text-white relative p-2 overflow-x-hidden overflow-y-auto">
+            <Shared.Frame className="h-full !p-0 rounded-[28px] bg-linear-black flex-1 relative flex flex-col">
+              <Shared.Navbar />
+              <div className="flex-1">{children}</div>
+              <Shared.Footer />
+            </Shared.Frame>
           </main>
+
         </Entities.Provider>
       </body>
     </html>

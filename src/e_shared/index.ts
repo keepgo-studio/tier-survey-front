@@ -1,4 +1,4 @@
-import Container from "./components/Container";
+import Frame from "./components/Frame";
 import Footer from "./components/Footer";
 import QRCode from "./components/QRCode";
 import Navbar from "./components/Navbar";
@@ -6,9 +6,11 @@ import Input from "./components/Input";
 import Timer from "./components/Timer";
 import LoadingBar from "./components/LoadingBar";
 import Spinner from "./components/Spinner";
+import Button from "./components/Button";
 
 const Shared = {
-  Container,
+  Frame,
+  Button,
   Footer,
   QRCode,
   Navbar,

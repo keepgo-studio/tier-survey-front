@@ -26,6 +26,9 @@ body {
   }
 }
 
+#nprogress .bar {
+  @apply !bg-purple;
+}
 .fcenter {
   @apply flex items-center justify-center;
 }
@@ -34,24 +37,25 @@ body {
   @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
 }
 
-button, .button-prime {
-  cursor: pointer;
-  width: fit-content;
-  
-  @apply fcenter 
-        hover:brightness-75 
-        duration-default
-        bg-black 
-        px-[2.25em] 
-        py-[0.8em] 
-        text-prime-white 
-        rounded-full;
-}
-button[disabled="true"], .button-disabled {
-  @apply bg-gray-500 text-white font-bold py-2 px-4 rounded cursor-not-allowed;
+.clickable {
+  @apply duration-default active:scale-95 hover:brightness-75;
 }
 
-input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
+::-webkit-scrollbar {
+  width:  10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-white;
+
+  border-radius: 999px;
+  background-clip: padding-box;
+  border: 3px solid transparent;
+  cursor: pointer;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+  border-radius: 999px;
 }
