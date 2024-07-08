@@ -2,16 +2,19 @@
   {
     "game-name": "league of legends",
     "logo-img": "/data/img/league-of-legends.jpeg",
+    "theme-color": "#C28F2C",
     "available": true
   },
   {
     "game-name": "teamfight tactics",
     "logo-img": "/data/img/teamfight-tactics.png",
+    "theme-color": "#FFB60D",
     "available": false
   },
   {
     "game-name": "valorant",
     "logo-img": "/data/img/valorant.png",
+    "theme-color": "#FF4655",
     "available": false
   }
 ]

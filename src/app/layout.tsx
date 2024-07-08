@@ -28,7 +28,7 @@ export default function RootLayout({
 
         <Entities.Provider user={{ hashedId }}>
           <main className="w-screen h-screen bg-black text-white relative p-2 overflow-x-hidden overflow-y-auto">
-            <Shared.Frame className="h-full !p-0 rounded-[28px] bg-linear-black flex-1 relative flex flex-col">
+            <Shared.Frame className="min-h-full !p-0 rounded-[28px] bg-linear-black flex-1 relative flex flex-col">
               <Shared.Navbar />
               <div className="flex-1">{children}</div>
               <Shared.Footer />

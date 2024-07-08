@@ -50,7 +50,12 @@ export default function Slider({
 
   useEffect(() => {
     if (Children.count(children) > 0 && rootRef.current && cardWrapperRef.current) {
-      const cleanup = attachDragAnimation(rootRef.current, cardWrapperRef.current);
+      const cleanup = attachDragAnimation(
+        rootRef.current, 
+        cardWrapperRef.current,
+        (idx) => setCurrentIdx(idx)
+      );
+
       return () => cleanup();
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps

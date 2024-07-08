@@ -44,7 +44,11 @@ const State = {
   lifeCycle: false
 }
 
-export function attachDragAnimation(rootElem: HTMLElement, cardWrapperElem: HTMLElement) {
+export function attachDragAnimation(
+  rootElem: HTMLElement, 
+  cardWrapperElem: HTMLElement,
+  onChange?: (idx: number) => void
+) {
   State.lifeCycle = true;
 
   const CHILDREN = [...cardWrapperElem.children] as HTMLElement[],
@@ -83,7 +87,11 @@ export function attachDragAnimation(rootElem: HTMLElement, cardWrapperElem: HTML
 
     ioForPosition = new IntersectionObserver(entries => entries.forEach((info) => {
       if (info.isIntersecting) {
+        const target = info.target;
+        const idx = Number(target.className.split("slider-item--")[1]);
+
         curretElem = info.target as HTMLElement;
+        if (onChange) onChange(idx);
       };
     }), {
       root: rootElem,
@@ -94,6 +102,7 @@ export function attachDragAnimation(rootElem: HTMLElement, cardWrapperElem: HTML
     CHILDREN.forEach((elem, idx) => {
       const position = State.width.item * (idx + 0.5);
       positionMap.set(elem, position);
+      elem.classList.add(`slider-item--${idx}`);
 
       ioForPosition.observe(elem);
     });

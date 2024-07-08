@@ -6,6 +6,7 @@ import path from "path";
 export type SupportGameJsonItem = {
   "game-name": SupportGame;
   "logo-img": string;
+  "theme-color": string;
   available: boolean;
 };
 
