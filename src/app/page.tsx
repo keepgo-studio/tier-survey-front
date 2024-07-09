@@ -66,7 +66,7 @@ function ButtonSection() {
 
 export default function Home() {
   return (
-    <section className={"w-full h-full fcenter" + " " + SharedFonts.Jua.className}>
+    <section className={"flex-1 fcenter" + " " + SharedFonts.Jua.className}>
       <div className="p-8 max-w-5xl flex flex-col gap-12 items-center justify-between w-full md:flex-row md:gap-0">
         <TextSection />    
         <ButtonSection />

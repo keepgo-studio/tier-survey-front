@@ -26,6 +26,11 @@ body {
   }
 }
 
+input:focus {
+  border: none;
+  outline: none;
+}
+
 #nprogress .bar {
   @apply !bg-purple;
 }

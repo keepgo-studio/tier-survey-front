@@ -40,12 +40,10 @@ export const SharedApi = {
 // --------------------------------------------------------
 import useSlider from "./hooks/useSlider";
 import useModal from "./hooks/useModal";
-import useFetch from "./hooks/useFetch";
 
 export const SharedHooks = {
   useSlider,
   useModal,
-  useFetch
 }
 
 
