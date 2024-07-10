@@ -1,5 +1,8 @@
 "use client";
 
+import Button from "@shared-inner/components/Button";
+import Frame from "@shared-inner/components/Frame";
+import { Inter } from "@shared-inner/fonts/fonts";
 import { useCallback, useRef, useState } from "react";
 import ReactModal from "react-modal";
 
@@ -53,13 +56,14 @@ export default function useModal() {
     content: {
       position: 'relative',
       height: 'fit-content',
-      backgroundColor: '#222831',
       color: 'white',
-      padding: 36,
+      padding: 0,
+      border: 'none',
+      background: 'transparent'
     },
     overlay: {
       backgroundColor: 'rgba(0, 0, 0, 0.55)',
-      backdropFilter: 'blur(2px)',
+      backdropFilter: 'blur(4px)',
       zIndex: 999,
       display: 'flex',
       alignItems: 'center',
@@ -74,17 +78,18 @@ export default function useModal() {
         isOpen={isOpen} 
         ariaHideApp={false}
         style={modalStyle}
+        className={Inter.className}
       >
-        <div>
+        <Frame className="font-bold bg-dark-black min-w-[400px] min-h-[180px] !p-9 text-xl uppercase flex flex-col justify-between">
           {contents}
 
-          <div className="h-10"/>
+          <div className="h-2"/>
 
-          <div className="flex items-end gap-4">
-            <button className="button-prime" onClick={confirmBtnListener}>confirm</button>
-            <button onClick={cancelBtnListener}>cancel</button>
+          <div className="w-full flex items-center justify-end gap-4">
+            <Button className="bg-blue" onClick={confirmBtnListener}>confirm</Button>
+            <Button className="bg-gray" onClick={cancelBtnListener}>cancel</Button>
           </div>
-        </div>
+        </Frame>
       </ReactModal>
     );
   };
@@ -95,12 +100,17 @@ export default function useModal() {
         isOpen={isOpen} 
         ariaHideApp={false}
         style={modalStyle}
+        className={Inter.className}
       >
-        {contents}
+        <Frame className="font-bold bg-dark-black min-w-[400px] min-h-[180px] !p-9 text-xl uppercase flex flex-col justify-between">
+          {contents}
 
-        <div className="h-10"/>
+          <div className="h-6"/>
 
-        <button onClick={confirmBtnListener}>ok</button>
+          <div className="w-full flex items-center justify-end">
+            <Button className="bg-gray justify-self-end" onClick={confirmBtnListener}>ok</Button>
+          </div>
+        </Frame>
       </ReactModal>
     );
   }

@@ -2,7 +2,7 @@ import { getQuery, toCamelCase } from "./utils";
 import { NEXT_API_URL } from "./vars";
 
 export function generateStatUrl(hashedId: string, game: SupportGame) {
-  return getQuery(`${NEXT_API_URL}/stat/${toCamelCase(game)}`, {
+  return getQuery(`${NEXT_API_URL}/host/stat/${toCamelCase(game)}`, {
     hashedId
   });
 }

@@ -14,7 +14,7 @@ function getUrl<T extends AvailableQuery>(
   );
 }
 
-type CheckSurveyResponse = {
+export type CheckSurveyResponse = {
   status: "open" | "closed" | "undefined";
   data:
     | {

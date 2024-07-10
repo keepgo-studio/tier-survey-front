@@ -1,25 +1,36 @@
 "use client";
 
 import Entities from "@entities";
-import Shared, { SharedApi } from "@shared";
+import Shared, {
+  CheckSurveyResponse,
+  SharedApi,
+  SupportGameJsonItem,
+} from "@shared";
 import { useEffect, useState } from "react";
+import QRScreen from "./QRScreen";
+import SurveyForm from "./SurveyForm";
 
-export default function Survey({ currentGame }: { currentGame: SupportGame }) {
+export default function Survey({
+  gameInfo,
+}: {
+  gameInfo: SupportGameJsonItem;
+}) {
   const hashedId = Entities.hooks.useAppSelector(Entities.user.selectHashedId);
-  const [loading, setLoading] = useState(false);
+  const [surveyInfo, setSurveyInfo] = useState<CheckSurveyResponse | null>(
+    null
+  );
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (!hashedId) return;
 
     setLoading(true);
-    SharedApi.query("check-survey", currentGame, { hashedId })
+    SharedApi.query("check-survey", gameInfo["game-name"], { hashedId })
       .then((data) => {
-        if (!data) return;
-
-        data.status ===
+        if (data) setSurveyInfo(data);
       })
       .finally(() => setLoading(false));
-  }, [currentGame, hashedId]);
+  }, [gameInfo, hashedId]);
 
   if (!hashedId)
     return (
@@ -33,49 +44,12 @@ export default function Survey({ currentGame }: { currentGame: SupportGame }) {
       <Shared.Frame type="large" className="bg-dark-black px-10 py-12 grid">
         {loading ? (
           <Shared.Spinner />
+        ) : surveyInfo?.status === "open" ? (
+          <QRScreen />
         ) : (
-          <form>
-            <ul className="uppercase flex flex-col gap-10">
-              <li>
-                <label htmlFor="password">set survey password</label>
-
-                <div className="h-2" />
-                
-                <p className="text-sm text-bright-gray">※ not required</p>
-
-                <div className="h-3" />
-
-                <Shared.Frame type="small" className="bg-dimm-dark">
-                  <input className="py-3 px-4 bg-transparent block w-full h-full" id="password"/>
-                </Shared.Frame>
-              </li>
-
-              <li>
-                <label htmlFor="time">set time</label>
-
-                <div className="h-2" />
-
-                <p className="text-sm text-purple">※ 분 단위로 작성해 주세요</p>
-
-                <div className="h-3" />
-
-                <Shared.Frame type="small" className="bg-dimm-dark justify-self-end">
-                  <input className="py-3 px-4 bg-transparent block w-full h-full" id="time"/>
-                </Shared.Frame>
-              </li>
-            </ul>
-
-            <div className="h-8" />
-
-            <div>
-              <Shared.Button type="submit" className="bg-purple justify-self-end">
-                설문 시작
-              </Shared.Button>
-            </div>
-          </form>
+          <SurveyForm gameInfo={gameInfo} hashedId={hashedId}  />
         )}
       </Shared.Frame>
     </section>
   );
 }
-

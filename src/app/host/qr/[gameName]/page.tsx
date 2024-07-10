@@ -23,8 +23,7 @@ export async function generateStaticParams() {
 export default async function page({ params }: { params: Params }) {
   const data = await SharedApi.serverQuery("get-all-support-games", null);
   const currentGame = SharedUtils.toNormalSpace(params.gameName) as SupportGame;
-  const current = data.find(_item => _item["game-name"] === currentGame);
-
+  const current = data.find(_item => _item["game-name"] === currentGame)!;
 
   return (
     <section className='max-w-5xl m-auto flex-1 p-6'>
@@ -46,7 +45,7 @@ export default async function page({ params }: { params: Params }) {
 
       <div className="h-6" />
 
-      <Widget.Survey currentGame={currentGame} />
+      <Widget.Survey gameInfo={current} />
     </section>
   );
 }

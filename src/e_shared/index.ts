@@ -73,6 +73,7 @@ export * as SharedFonts from "./fonts/fonts";
 export type { SupportGameJsonItem } from "./api/nextHandler";
 export type { 
   LeagueOfLegendsChampionInfo,
-  LeagueOfLegendsChart
+  LeagueOfLegendsChart,
+  CheckSurveyResponse
 } from "./api/firebaseHandler";
 
