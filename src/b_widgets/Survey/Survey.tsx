@@ -16,9 +16,7 @@ export default function Survey({
   gameInfo: SupportGameJsonItem;
 }) {
   const hashedId = Entities.hooks.useAppSelector(Entities.user.selectHashedId);
-  const [surveyInfo, setSurveyInfo] = useState<CheckSurveyResponse | null>(
-    null
-  );
+  const [surveyInfo, setSurveyInfo] = useState<CheckSurveyResponse | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -40,16 +38,24 @@ export default function Survey({
     );
 
   return (
-    <section className="m-auto max-w-md h-full">
-      <Shared.Frame type="large" className="bg-dark-black px-10 py-12 grid">
+    <div className="h-full">
+      <Shared.Frame
+        type="large"
+        className="bg-dark-black px-10 py-12 grid !w-fit m-auto"
+      >
         {loading ? (
           <Shared.Spinner />
         ) : surveyInfo?.status === "open" ? (
-          <QRScreen />
+          <QRScreen
+            gameInfo={gameInfo}
+            limitMinute={surveyInfo.data!.limitMinute}
+            startTime={surveyInfo.data!.startTime}
+            hashedId={hashedId}
+          />
         ) : (
-          <SurveyForm gameInfo={gameInfo} hashedId={hashedId}  />
+          <SurveyForm gameInfo={gameInfo} hashedId={hashedId} />
         )}
       </Shared.Frame>
-    </section>
+    </div>
   );
 }

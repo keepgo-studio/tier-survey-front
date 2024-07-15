@@ -19,7 +19,7 @@ export type CheckSurveyResponse = {
   data:
     | {
         limitMinute: number;
-        endTime: number;
+        startTime: number;
       }
     | undefined;
 };
@@ -37,11 +37,20 @@ export async function checkSurvey(
   return d;
 }
 
-export async function getSurveyUrl(
+export async function createSurvey(
   game: SupportGame,
   param: AvailableQueryMap["create-survey"]
 ) {
   return await fetch(getUrl("create-survey", game, param))
+    .then(() => true)
+    .catch(() => false);
+}
+
+export async function cancelSurvey(
+  game: SupportGame,
+  param: AvailableQueryMap["cancel-survey"]
+) {
+  return await fetch(getUrl("cancel-survey", game, param))
     .then(() => true)
     .catch(() => false);
 }

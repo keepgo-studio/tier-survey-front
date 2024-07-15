@@ -5,7 +5,6 @@ import PermissionPanel from "./PermissionPanel/PermissionPanel";
 import Progress from "./Progress/Progress";
 import Survey from "./Survey/Survey";
 import Stat from "./Stat/Stat";
-import SurveyList from "./SurveyList/SurveyList";
 
 const Widget =  {
   Logout,
@@ -14,7 +13,6 @@ const Widget =  {
   PermissionPanel,
   Stat,
   Progress,
-  SurveyList,
   Auth
 };
 

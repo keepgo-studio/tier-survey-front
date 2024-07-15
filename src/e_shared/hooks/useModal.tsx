@@ -29,8 +29,15 @@ export default function useModal() {
     });
   };
 
-  const asyncOpenClose = async (contents?: React.ReactNode) => {
-    if (contents) setContents(contents);
+  const asyncOpenClose = async (title: string, content?: React.ReactNode) => {
+    setContents((
+      <>
+        <h4 className="text-2xl uppercase font-bold">{title}</h4>
+        <div className="h-8"/>
+        {content && <div className="">{content}</div>}
+        <div className="h-12"/>
+      </>
+    ));
 
     setIsOpen(true);
     lifeCycleRef.current = true;
@@ -80,7 +87,7 @@ export default function useModal() {
         style={modalStyle}
         className={Inter.className}
       >
-        <Frame className="font-bold bg-dark-black min-w-[400px] min-h-[180px] !p-9 text-xl uppercase flex flex-col justify-between">
+        <Frame className="bg-dark-black min-w-[400px] min-h-[180px] !p-9 flex flex-col justify-between max-w-md">
           {contents}
 
           <div className="h-2"/>
@@ -102,7 +109,7 @@ export default function useModal() {
         style={modalStyle}
         className={Inter.className}
       >
-        <Frame className="font-bold bg-dark-black min-w-[400px] min-h-[180px] !p-9 text-xl uppercase flex flex-col justify-between">
+        <Frame className="bg-dark-black min-w-[400px] min-h-[180px] !p-9 flex flex-col justify-between max-w-md">
           {contents}
 
           <div className="h-6"/>

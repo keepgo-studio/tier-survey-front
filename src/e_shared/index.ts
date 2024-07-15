@@ -7,6 +7,7 @@ import Timer from "./components/Timer";
 import LoadingBar from "./components/LoadingBar";
 import Spinner from "./components/Spinner";
 import Button from "./components/Button";
+import HostInfo from "./components/HostInfo";
 
 const Shared = {
   Frame,
@@ -18,6 +19,7 @@ const Shared = {
   Spinner,
   Input,
   Timer,
+  HostInfo
 }
 export default Shared;
 

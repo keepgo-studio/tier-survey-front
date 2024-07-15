@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { SharedUtils } from "@shared";
+import Shared, { SharedUtils } from "@shared";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { IoLogIn } from "react-icons/io5";
@@ -17,30 +17,27 @@ export default function Auth() {
 
   if (provider === "riot") {
     return (
-      <div className="relative w-full h-full fcenter">
-        <section className="bg-black text-white p-6 min-w-72 min-h-72 fcenter flex-col rounded-lg">
-          <h2 className="text-xl fcenter gap-2">
-            Sign In <Image src="/data/img/riot-logo.png" width={32} height={32} alt="logo"/>
-          </h2>
+      <Shared.Frame type="large" className="flex flex-col items-center gap-10 bg-black p-8">
+        <Image src="/data/img/riot-logo.png" width={80} height={80} alt="logo" />
 
-          <div className="h-8"/>
-
-          <Link
-            className="block w-fit"
-            href={SharedUtils.getQuery(AUTH_PROVIDER, {
-              redirect_uri: SharedUtils.NEXT_PROD_API_URL + callbackPath,
-              client_id: process.env.NEXT_PUBLIC_CLIENT_ID ?? "",
-              response_type: "code",
-              scope: "openid",
-              state: previousPathname,
-            })}
-          >
-            <div className="bg-riot rounded-lg w-fit p-4 text-2xl fcenter duration-default hover:brightness-75">
+        <Link
+          className="block w-fit"
+          href={SharedUtils.getQuery(AUTH_PROVIDER, {
+            redirect_uri: SharedUtils.NEXT_PROD_API_URL + callbackPath,
+            client_id: process.env.NEXT_PUBLIC_CLIENT_ID ?? "",
+            response_type: "code",
+            scope: "openid",
+            state: previousPathname,
+          })}
+        >
+          <Shared.Frame className="flex items-center gap-4 px-4 py-2 text-xs bg-dark-black clickable">
+            <p className="uppercase">request sign in</p>
+            <div className="text-white bg-riot p-2 text-lg rounded-lg">
               <IoLogIn />
             </div>
-          </Link>
-        </section>
-      </div>
+          </Shared.Frame>
+        </Link>
+      </Shared.Frame>
     );
   }
 }

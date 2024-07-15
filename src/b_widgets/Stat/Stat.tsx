@@ -6,6 +6,4 @@ export default function Stat({
 }: {
   currentGame: SupportGame
 }) {
-  if (currentGame === "league of legends")
-    return <LeagueOfLegends />
 }

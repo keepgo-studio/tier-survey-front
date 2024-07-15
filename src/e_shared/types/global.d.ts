@@ -3,6 +3,9 @@ interface AvailableQueryMap {
   "check-survey": {
     hashedId: string;
   };
+  "cancel-survey": {
+    hashedId: string;
+  }
   "check-stat-exist": {
     hashedId: string;
   }

@@ -21,10 +21,11 @@ const config: Config = {
         "red": "#EF4444",
         "dimm-dark": "#292929",
         "gray": "#8C8C8C",
+        "riot": "#eb002a"
       },
-
       boxShadow: {
-        'basic': '0 4px 8px 2px rgba(0, 0, 0, 0.15);'
+        'basic': '0 4px 8px 2px rgba(0, 0, 0, 0.15);',
+        'border': '0 0 0 1.5px #9F9F9F',
       },
       transitionDuration: {
         'default': '300ms'

@@ -16,15 +16,19 @@ export default function SurveyForm({
   gameInfo: SupportGameJsonItem;
 }) {
   const router = useRouter();
+  const [loading, setLoading] = useState(true);
   const [statExist, setStatExist] = useState(false);
   const passwordRef = useRef<HTMLInputElement>(null);
   const timeRef = useRef<HTMLInputElement>(null);
   const { asyncOpenClose: confirm, ConfirmModal } = SharedHooks.useModal();
 
   useEffect(() => {
+    setLoading(true);
     SharedApi.query("check-stat-exist", gameInfo["game-name"], {
       hashedId,
-    }).then((exist) => setStatExist(Boolean(exist)));
+    })
+      .then((exist) => setStatExist(Boolean(exist)))
+      .finally(() => setLoading(false));
   }, [gameInfo, hashedId]);
 
   const submitHandler: React.FormEventHandler<HTMLFormElement> = async (e) => {
@@ -33,22 +37,36 @@ export default function SurveyForm({
     const password = passwordRef.current?.value ?? "",
           time = Number(timeRef.current?.value);
 
-    const reply = await confirm(<p>want to create survey?</p>);
+    const reply = await confirm(
+      "create new survey",
+      <p>
+        새로운 설문을 만듭니다.
+        <br/>
+        만약 기존 설문이 있다면, 기존 설문은 <span className="text-red">없어집니다.</span>
+        <br/>
+        <br/>
+        그래도 괜찮으십니까? <span className="text-bright-gray">(첫 설문이면 괜찮습니다.)</span>
+      </p>
+    );
 
     if (time && reply) {
+      setLoading(true);
       await SharedApi.query("create-survey", gameInfo["game-name"], {
         password,
         hashedId,
         limitMinute: time
       })
+      .finally(() => setLoading(false));
       
       router.refresh();
     }
   };
 
+  if (loading) return <Shared.Spinner />
+
   return (
     <>
-      <form onSubmit={submitHandler}>
+      <form onSubmit={submitHandler} className="max-w-md">
         <ul className="uppercase flex flex-col gap-10">
           <li>
             <label htmlFor="input-password">set survey password</label>
