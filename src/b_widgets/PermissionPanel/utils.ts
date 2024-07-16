@@ -1,6 +1,5 @@
 function barrier(e: BeforeUnloadEvent) {
   e.preventDefault();
-  e.returnValue = 'want to leave?';
 }
 
 export function addLeaveBarrier() {

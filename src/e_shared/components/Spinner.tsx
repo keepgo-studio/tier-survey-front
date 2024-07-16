@@ -1,7 +1,11 @@
 import React from "react";
 import Frame from "./Frame";
 
-export default function Spinner() {
+export default function Spinner({
+  withText = true
+}: {
+  withText?: boolean
+}) {
   return (
     <div role="status">
       <Frame className="m-auto flex items-center !w-fit uppercase text-sm gap-4 px-4 py-3">
@@ -21,7 +25,7 @@ export default function Spinner() {
             className="fill-purple"
           />
         </svg>
-        <span >Loading...</span>
+        {withText && <span >Loading...</span>}
       </Frame>
     </div>
   );

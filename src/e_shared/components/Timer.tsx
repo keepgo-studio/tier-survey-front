@@ -183,10 +183,11 @@ function TextTimer({ onEnd, startTime, duration, width, height }: TimerProps) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const hours = Math.floor(elapsedTime / 3600000).toString().padStart(2, '0');
+  const hoursNum = Math.floor(elapsedTime / 3600000);
+  const hours = hoursNum.toString().padStart(2, '0');
   const minutes = Math.floor((elapsedTime % 3600000) / 60000).toString().padStart(2, '0');
   const seconds = Math.floor((elapsedTime % 3600000) % 60000 / 1000).toString().padStart(2, '0');
-  const fontSize = width / (4 + (Math.floor(elapsedTime / 3600000).toString().length - 1));
+  const fontSize = width / (4 + (hoursNum > 0 ? hours.length - 1 : 0));
 
   return (
     <div

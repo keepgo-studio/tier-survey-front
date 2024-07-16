@@ -6,6 +6,7 @@ import Shared, {
   SharedUtils,
   SupportGameJsonItem,
 } from "@shared";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
@@ -28,7 +29,9 @@ export default function QRScreen({
   
   const router = useRouter();
   const [isCopied, setIsCopied] = useState(false);
+  const [isEnd, setIsEnd] = useState(false);
   const { asyncOpenClose: confirm, ConfirmModal } = SharedHooks.useModal();
+
 
   function copyHandler() {
     navigator.clipboard.writeText(url);
@@ -49,7 +52,7 @@ export default function QRScreen({
 
   return (
     <>
-      <Shared.Frame type="large" className="p-8 flex flex-col xl:flex-row items-center gap-12">
+      <Shared.Frame type="large" className="p-8 flex flex-col lg:flex-row lg:items-center gap-12">
         <div>
           <Header>host info.</Header>
 
@@ -67,7 +70,7 @@ export default function QRScreen({
         <div>
           <Header>current time</Header>
 
-          <div className="flex items-center gap-4">
+          <div className="fcenter gap-4">
             <Shared.Timer
               theme="round"
               startTime={startTime}
@@ -79,18 +82,20 @@ export default function QRScreen({
               theme="text"
               startTime={startTime}
               duration={duration}
-              width={280}
+              width={260}
               height={100}
             />
           </div>
 
           <div className="h-12" />
 
-          <Shared.Frame className="w-[480px]">
-            <p className="p-4 text-sm w-full truncate" title={url}>
-              {url}
-            </p>
-          </Shared.Frame>
+          <Link href={url} target="_blank" className="block clickable m-auto w-full max-w-[480px]">
+            <Shared.Frame>
+              <p className="p-4 text-sm w-full break-all" title={url}>
+                {url}
+              </p>
+            </Shared.Frame>
+          </Link>
 
           <div className="h-6" />
 

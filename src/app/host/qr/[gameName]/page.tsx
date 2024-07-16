@@ -23,29 +23,13 @@ export async function generateStaticParams() {
 export default async function page({ params }: { params: Params }) {
   const data = await SharedApi.serverQuery("get-all-support-games", null);
   const currentGame = SharedUtils.toNormalSpace(params.gameName) as SupportGame;
-  const current = data.find(_item => _item["game-name"] === currentGame)!;
+  const currentGameInfo = data.find(_item => _item["game-name"] === currentGame)!;
 
   return (
-    <section className='max-w-5xl m-auto flex-1 p-6'>
-      <h1 className='uppercase text-bright-gray text-4xl font-light w-full'>
-        create survey
-      </h1>
+    <section className='max-w-5xl m-auto w-full h-full p-6 flex flex-col justify-center'>
+      <Widget.Title gameInfo={currentGameInfo}>create survey</Widget.Title>
 
-      <div className='h-6' />
-
-      <h4 className="uppercase text-xl py-1 flex items-center gap-2">
-        <i
-          className="block w-3 h-[1em]"
-          style={{
-            backgroundColor: `${current?.["theme-color"]}`,
-          }}
-        />
-        <span>{currentGame}</span>
-      </h4>
-
-      <div className="h-6" />
-
-      <Widget.Survey gameInfo={current} />
+      <Widget.Survey gameInfo={currentGameInfo} />
     </section>
   );
 }

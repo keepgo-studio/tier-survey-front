@@ -38,10 +38,10 @@ export default function Survey({
     );
 
   return (
-    <div className="h-full">
+    <div>
       <Shared.Frame
         type="large"
-        className="bg-dark-black px-10 py-12 grid !w-fit m-auto"
+        className="bg-dark-black px-10 py-12"
       >
         {loading ? (
           <Shared.Spinner />

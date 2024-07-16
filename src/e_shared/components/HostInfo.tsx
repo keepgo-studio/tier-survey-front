@@ -34,7 +34,7 @@ export default function HostInfo({
   }, [gameInfo, hashedId]);
 
   return (
-    <Frame className="!w-[320px]">
+    <Frame className="!min-w-[320px] bg-dark-black">
       {loading ? (
         <Spinner />
       ) : (

@@ -66,29 +66,13 @@ export async function checkStatExist(
     .catch(() => undefined);
 }
 
-type StatResponse = {
-  done: boolean;
-  error: boolean;
-};
+
 
 export async function saveStat(
   game: SupportGame,
   param: AvailableQueryMap["save-stat"]
 ) {
-  const res: StatResponse = { done: false, error: false };
-
-  await fetch(getUrl("save-stat", game, param))
-    .then(() => {
-      res.done = true;
-      res.error = false;
-    })
-    .catch((err) => {
-      console.error(err);
-      res.done = true;
-      res.error = true;
-    });
-
-  return res;
+  return await fetch(getUrl("save-stat", game, param));
 }
 
 export async function joinSurvey(

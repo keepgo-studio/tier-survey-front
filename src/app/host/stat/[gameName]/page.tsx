@@ -22,9 +22,6 @@ export default function page({ params }: { params: Params }) {
   const currentGame = SharedUtils.toNormalSpace(params.gameName) as SupportGame;
 
   return (
-    <>
-      <Widget.Logout />
-      <Widget.Stat currentGame={currentGame}/>
-    </>
+    <></>
   );
 }

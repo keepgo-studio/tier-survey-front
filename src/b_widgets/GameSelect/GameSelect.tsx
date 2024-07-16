@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect } from 'react'
+import React from 'react'
 import Shared, { SharedHooks, SharedUtils, SupportGameJsonItem } from '@shared';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -8,8 +8,6 @@ import { FaBan } from "react-icons/fa6";
 
 export default function GameSelect({ data }: { data: SupportGameJsonItem[] }) {
   const { renderSlider, currentIdx } = SharedHooks.useSlider();
-
-  useEffect(() => {}, [data]);
 
   return (
     <section className='w-full'>
