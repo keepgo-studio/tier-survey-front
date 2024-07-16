@@ -1,6 +1,6 @@
 'use client'
 
-import { AppStore, RootState } from '@entities'
+import { AppStore } from '@entities'
 import React, { useRef } from 'react'
 import { makeStore } from './store';
 import { Provider } from 'react-redux';

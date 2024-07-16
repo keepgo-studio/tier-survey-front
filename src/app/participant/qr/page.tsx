@@ -6,18 +6,18 @@ export default async function page({
   searchParams,
 }: {
   searchParams: {
-    gameName?: string;
+    game?: string;
     hashedId?: string;
   };
 }) {
-  const { gameName, hashedId } = searchParams;
+  const { game, hashedId } = searchParams;
   const data = await SharedApi.serverQuery("get-all-support-games", null);
-  const currentGame = SharedUtils.toNormalSpace(gameName ?? "") as SupportGame;
+  const currentGame = SharedUtils.toNormalSpace(game ?? "") as SupportGame;
   const currentGameInfo = data.find(
     (_item) => _item["game-name"] === currentGame
   );
 
-  if (!hashedId || !gameName || !currentGameInfo)
+  if (!hashedId || !game || !currentGameInfo)
     return (
       <Shared.Frame className="m-auto !w-fit uppercase p-4 text-red">
         wrong connection

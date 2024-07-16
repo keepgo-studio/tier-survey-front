@@ -57,6 +57,12 @@ export default function SurveyForm({
         limitMinute: time
       })
       .finally(() => setLoading(false));
+
+      // await SharedApi.query("save-stat", gameInfo["game-name"], {
+      //   apiType: "SUMMONER-V4",
+      //   hashedId,
+      //   hostHashedId: null
+      // })
       
       router.refresh();
     }

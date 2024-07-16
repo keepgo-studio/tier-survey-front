@@ -6,7 +6,7 @@ export default function Button({ children, className, ...props }: ButtonProps) {
   return (
     <button
       className={
-        "rounded-xl py-2 px-5 text-base font-bold" +
+        "rounded-xl py-2 px-5 text-base font-bold whitespace-nowrap" +
         " " +
         (props.disabled
           ? "!cursor-not-allowed !bg-dimm-dark !text-gray"

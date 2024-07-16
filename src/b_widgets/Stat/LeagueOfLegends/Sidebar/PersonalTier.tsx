@@ -1,30 +1,49 @@
 "use client";
 
-import Shared, { GameStat, SharedApi } from "@shared";
+import Shared, { GameStat, SharedApi, SupportGameJsonItem } from "@shared";
 import React, { useEffect, useState } from "react";
-import { StatProps } from "../../Stat";
 import Image from "next/image";
 import { generateTierRank } from "../utils";
+import Entities from "@entities";
+import Auth from "src/b_widgets/Auth/Auth";
 
-export default function PersonalTier({ gameInfo, hashedId }: StatProps) {
+export default function PersonalTier({ gameInfo }: { gameInfo: SupportGameJsonItem}) {
+  const currentHashedId = Entities.hooks.useAppSelector(Entities.user.selectHashedId);
   const [loading, setLoading] = useState(true);
   const [stat, setStat] = useState<GameStat | null>(null);
 
   useEffect(() => {
+    if (!currentHashedId) return;
+
     setLoading(true);
-    SharedApi.query("get-stat", gameInfo["game-name"], { hashedId })
+    SharedApi.query("get-stat", gameInfo["game-name"], { hashedId: currentHashedId })
       .then((data) => {
         if (!data) return;
         setStat(data);
       })
       .finally(() => setLoading(false));
-  }, [gameInfo, hashedId]);
+  }, [gameInfo, currentHashedId]);
+
+  if (!currentHashedId) {
+    return (
+      <Shared.Frame className="!p-4 bg-dark-black flex flex-col gap-2">
+         <div className="uppercase text-xs rounded-full border border-border bg-dark py-2 px-3 text-red flex gap-2 justify-center">
+          You Haven&apos;t login
+         </div>
+        
+        <div className="w-full fcenter py-2">
+          <Auth game={gameInfo["game-name"]} />
+        </div>
+      </Shared.Frame>
+    )
+  }
 
   return (
-    <Shared.Frame className="!p-4 bg-dark-black flex flex-col gap-2">
+    <Shared.Frame className="!p-4 bg-dark-black flex flex-col gap-3">
       {(loading || stat === null) ? <Shared.Spinner /> : (
         <>
           <Update time={stat.updateTime} />
+          <Shared.HostInfo gameInfo={gameInfo} hashedId={currentHashedId} />
           <Level color={gameInfo["theme-color"]} level={stat.level}  />
           <Tier type="solo" numericTier={stat.tierNumeric}/>
           <Tier type="flex" numericTier={stat.flexTierNumeric}/>
@@ -36,7 +55,7 @@ export default function PersonalTier({ gameInfo, hashedId }: StatProps) {
 
 function Update({ time }: { time: number }) {
   return (
-    <div className="uppercase text-xs rounded-full border border-border py-2 px-3 text-bright-gray flex gap-2 justify-center">
+    <div className="uppercase text-xs rounded-full border border-border py-2 px-3 bg-dark text-bright-gray flex gap-2 justify-center">
       <span>updated at</span>
       {time && <span>{new Date(time).toISOString().slice(0, 10)}</span>}
     </div>

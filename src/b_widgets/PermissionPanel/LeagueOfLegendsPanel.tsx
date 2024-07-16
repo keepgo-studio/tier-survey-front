@@ -6,6 +6,8 @@ import Shared, { SharedApi, SharedUtils } from "@shared";
 import { addLeaveBarrier, removeLeaveBarrier } from "./utils";
 import { FaCheckCircle } from "react-icons/fa";
 import { ImSpinner } from "react-icons/im";
+import Entities from "@entities";
+import Auth from "../Auth/Auth";
 
 type Item = {
   apiType: SupportApiType;
@@ -16,13 +18,11 @@ type Item = {
 
 export default function LeagueOfLegendsPanel({
   currentGame,
-  hashedId,
   hostHashedId,
   open,
   onFinish,
 }: {
   currentGame: SupportGame;
-  hashedId: string;
   hostHashedId: string;
   open: boolean;
   onFinish: () => void;
@@ -48,11 +48,15 @@ export default function LeagueOfLegendsPanel({
     },
   ]);
 
+  const hashedId = Entities.hooks.useAppSelector(Entities.user.selectHashedId);
+
   const [loading, setLoading] = useState(false);
   const [hasJoined, setHasJoined] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const handleJoin = async () => {
+    if (!hashedId) return;
+
     setLoading(true);
     addLeaveBarrier();
 
@@ -130,14 +134,6 @@ export default function LeagueOfLegendsPanel({
       );
     }
 
-    if (error) {
-      return (
-        <>
-          <p className="text-red text-sm p-2">{error}</p>
-        </>
-      );
-    }
-
     if (hasJoined) {
       return (
         <>
@@ -160,6 +156,20 @@ export default function LeagueOfLegendsPanel({
     );
   };
 
+  if (!hashedId) return (
+    <Shared.Frame className="!p-4 bg-dark-black flex flex-col gap-2">
+        <div className="uppercase text-xs rounded-full border border-border bg-dark py-2 px-3 text-red flex gap-2 justify-center">
+          Need to Sign in for game,
+          <br/>
+          {currentGame}
+        </div>
+      
+      <div className="w-full fcenter py-2">
+        <Auth game={currentGame} redirect={SharedUtils.generateParticipantQRUrl(hostHashedId, currentGame)} />
+      </div>
+    </Shared.Frame>
+  );
+
   return (
     <>
       <Shared.Frame className="p-7 bg-dark-black" type="large">
@@ -175,7 +185,7 @@ export default function LeagueOfLegendsPanel({
       <div className="h-8" />
 
       <div className="flex items-center justify-end gap-2">
-        {renderButtons()}
+      {error ?  <p className="text-red text-sm p-2">{error}</p> : renderButtons()}
       </div>
     </>
   );

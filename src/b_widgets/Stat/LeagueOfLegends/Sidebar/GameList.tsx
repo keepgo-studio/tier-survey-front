@@ -39,16 +39,10 @@ export default function GameList({ gameInfo, hashedId }: StatProps) {
                     item["game-name"]
                   )}
                 >
-                  <Item
-                    {...item}
-                    isCurrent={gameInfo["game-name"] === item["game-name"]}
-                  />
+                  <Item {...item} isCurrent={gameInfo["game-name"] === item["game-name"]} />
                 </Link>
               ) : (
-                <Item
-                  {...item}
-                  isCurrent={gameInfo["game-name"] === item["game-name"]}
-                />
+                <Item {...item} isCurrent={gameInfo["game-name"] === item["game-name"]} />
               )}
             </li>
           ))}
@@ -63,28 +57,26 @@ function Item({
   ...item
 }: SupportGameJsonItem & { isCurrent: boolean }) {
   return (
-    <Shared.Frame
-      className={
-        "flex items-center gap-2 text-xs uppercase" +
-        " " +
-        (isCurrent ? "clickable bg-purple bg-opacity-80" : "text-gray")
-      }
-    >
-      <Shared.Frame
-        type="small"
-        className="!p-[6px] fcenter aspect-square !w-fit bg-dark"
-      >
-        <Image
-          src={`/data/img/${SharedUtils.toKebabCase(
-            item["game-name"]
-          )}-icon.png`}
-          alt="icon"
-          width={14}
-          height={14}
-        />
-      </Shared.Frame>
-      <span className="flex-1">{item["game-name"]}</span>
-      {!item.available && <span className="px-1">❌</span>}
+    <Shared.Frame className={"relative overflow-hidden" + " " + (isCurrent ? "clickable" : "text-gray")}>
+      <div className="flex items-center gap-2 text-xs uppercase relative z-10">
+        <Shared.Frame
+          type="small"
+          className="!p-[6px] fcenter aspect-square !w-fit bg-dark"
+        >
+          <Image
+            src={`/data/img/${SharedUtils.toKebabCase(
+              item["game-name"]
+            )}-icon.png`}
+            alt="icon"
+            width={14}
+            height={14}
+          />
+        </Shared.Frame>
+        <span className="flex-1">{item["game-name"]}</span>
+        {!item.available && <span className="px-1 text-[10px]">❌</span>}
+      </div>
+
+      {isCurrent && <div className="absolute top-0 left-0 right-0 bottom-0 opacity-50" style={{ backgroundColor: item["theme-color"] }}/>}
     </Shared.Frame>
   );
 }

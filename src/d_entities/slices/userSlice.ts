@@ -1,4 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { removeHashedId } from "./actions";
 
 export interface UserState {
   hashedId: string | null;
@@ -18,6 +19,10 @@ const userSlice = createSlice({
     setHashedId: (state, action: PayloadAction<string | null>) => {
       state.hashedId = action.payload;
     },
+    logout: (state) => {
+      state.hashedId = null;
+      removeHashedId();
+    }
   },
   selectors: {
     selectHashedId: state => state.hashedId

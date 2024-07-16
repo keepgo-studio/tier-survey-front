@@ -8,20 +8,25 @@ import { StatProps } from "../../Stat";
 
 export default function Sidebar(props: StatProps) {
   return (
-    <div>
-      <h4 className="uppercase font-light text-xs text-bright-gray mb-3">
-        host info.
-      </h4>
+    <div className="grid sm:grid-rows-[auto_1fr] md:grid-cols-[auto_1fr] lg:flex lg:flex-col gap-4">
+      <div>
+        <h4 className="uppercase font-light text-xs text-bright-gray mb-2">
+          host info.
+        </h4>
 
-      <Shared.HostInfo {...props} />
+        <Shared.HostInfo {...props} />
+        <div className="h-4"/>
 
-      <div className="h-4"/>
+        <GameList {...props} />
+      </div>
 
-      <GameList {...props} />
+      <div>
+        <h4 className="uppercase font-light text-xs text-bright-gray mb-2">
+          my info.
+        </h4>
 
-      <div className="h-4"/>
-
-      <PersonalTier {...props} />
+        <PersonalTier {...props} />
+      </div>
     </div>
   );
 }

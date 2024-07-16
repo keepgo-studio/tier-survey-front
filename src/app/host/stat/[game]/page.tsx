@@ -4,7 +4,7 @@ import Widget from "@widgets";
 
 export const dynamicParams = false;
 
-type Params = Record<"gameName", string>;
+type Params = Record<"game", string>;
 
 export async function generateStaticParams() {
   const data = await SharedApi.serverQuery("get-all-support-games", null);
@@ -12,7 +12,7 @@ export async function generateStaticParams() {
   return data.reduce((arr, gameInfo) => {
     if (gameInfo.available) {
       arr.push({
-        gameName: SharedUtils.toCamelCase(gameInfo["game-name"]),
+        game: SharedUtils.toCamelCase(gameInfo["game-name"]),
       });
     }
 
@@ -25,7 +25,7 @@ export default async function page({ params, searchParams: { hashedId } }: {
   searchParams: { hashedId?: string; }; 
 }) {
   const data = await SharedApi.serverQuery("get-all-support-games", null);
-  const currentGame = SharedUtils.toNormalSpace(params.gameName) as SupportGame;
+  const currentGame = SharedUtils.toNormalSpace(params.game) as SupportGame;
   const currentGameInfo = data.find(_item => _item["game-name"] === currentGame)!;
 
   if (!hashedId || !currentGameInfo)

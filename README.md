@@ -56,8 +56,5 @@ import 제약이 있다보니 index.ts라는 Barrel file pattern을 써야하는
 
 a ~ e까지 순서를 두는 import eslint를 만들고 싶었는데 아직은 방법을 모르겠다
 
-[ ] tsconfig를 각 종류 폴더에 만들어서 독립된 환경 만들기 (import 할 때 헷갈림을 방지하기 위핢)
-  [ ] index.ts만 include해서 엄격하게 import rule을 지키게 하자
-
 [ ] App check을 위해 firebase init 필요
 https://firebase.google.com/docs/app-check/web/recaptcha-enterprise-provider

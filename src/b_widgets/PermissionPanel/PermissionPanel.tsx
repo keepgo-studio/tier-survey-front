@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from "react";
 import LeagueOfLegendsPanel from "./LeagueOfLegendsPanel";
 import Shared, { SharedApi, SharedUtils } from "@shared";
-import Entities from "@entities";
 import Link from "next/link";
 import { FaCheckCircle } from "react-icons/fa";
 
@@ -11,8 +10,6 @@ export default function PermissionPanel(props: {
   currentGame: SupportGame;
   hostHashedId: string;
 }) {
-  const hashedId = Entities.hooks.useAppSelector(Entities.user.selectHashedId);
-
   const { currentGame, hostHashedId } = props;
   const [loading, setLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
@@ -28,12 +25,6 @@ export default function PermissionPanel(props: {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  if (!hashedId) return (
-    <Shared.Frame className="m-auto !w-fit uppercase p-4 text-red">
-      wrong connection
-    </Shared.Frame>
-  );
 
   if (loading) return <Shared.Spinner withText={false} />
 
@@ -58,7 +49,6 @@ export default function PermissionPanel(props: {
       <LeagueOfLegendsPanel
         {...props}
         onFinish={() => setIsFinish(true)}
-        hashedId={hashedId}
         open={isOpen}
       />
     );

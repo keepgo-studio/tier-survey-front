@@ -6,8 +6,6 @@ import { cookies } from "next/headers";
 
 import type { Metadata } from "next";
 
-export const dynamic = "force-dynamic";
-
 export const metadata: Metadata = {
   title: "Tier Survey",
   description: "Tier Survey Website",
@@ -19,7 +17,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const cookieStore = cookies();
-  const hashedId = SharedNodeUtils.decrypt(cookieStore.get("hashed-id")?.value ?? "");
+  const hashedId = SharedNodeUtils.decrypt(cookieStore.get("rso-hashed-id")?.value ?? "");
 
   return (
     <html lang="ko">

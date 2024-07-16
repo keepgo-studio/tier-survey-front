@@ -94,9 +94,9 @@ export async function checkJoinSurvey(
 }
 
 type GameUser = {
-  name: string;
+  gameName: string;
   profileIconId: number;
-  level: number;
+  summonerLevel: number;
 };
 
 export async function getUser(

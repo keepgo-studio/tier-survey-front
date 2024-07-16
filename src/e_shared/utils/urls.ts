@@ -11,21 +11,18 @@ export function generateHostQRUrl(game: SupportGame) {
   return getQuery(`${NEXT_API_URL}/host/qr/${toCamelCase(game)}`, {});
 }
 
-export function generateParticipantQRUrl(hashedId: string, gameName: SupportGame) {
+export function generateParticipantQRUrl(hashedId: string, game: SupportGame) {
   return getQuery(`${NEXT_API_URL}/participant/qr`, {
-    gameName,
+    game,
     hashedId
   });
 }
 
-export function generateAuthPath(gameName: SupportGame, path: string) {
-  switch(gameName) {
-    case "league of legends":
-    case "teamfight tactics":
-    case "valorant":
-      return getQuery(`${NEXT_API_URL}/auth`, {
-        provider: "riot",
-        path
-      });
-  }
+export function generateSignInUrl(game: SupportGame, url?: string) {
+  const redirect = url ? url : NEXT_API_URL;
+
+  return getQuery(`${NEXT_API_URL}/auth`, {
+    game,
+    redirect
+  });
 }

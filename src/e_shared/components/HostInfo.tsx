@@ -19,7 +19,7 @@ export default function HostInfo({
 
   const [loading, setLoading] = useState(true);
   const [name, setName] = useState("Unkown");
-  const [iconId, setIconId] = useState<number | null>(null);
+  const [iconId, setIconId] = useState<number>(-1);
 
   useEffect(() => {
     setLoading(true);
@@ -27,20 +27,20 @@ export default function HostInfo({
     query("get-user", gameInfo["game-name"], { hashedId }).then((user) => {
       if (!user) return;
 
-      setName(user.name);
+      setName(user.gameName);
       setIconId(user.profileIconId);
     })
     .finally(() => setLoading(false));
   }, [gameInfo, hashedId]);
 
   return (
-    <Frame className="!min-w-[320px] bg-dark-black">
+    <Frame className="bg-dark-black">
       {loading ? (
         <Spinner />
       ) : (
         <section className="flex gap-4 p-2 items-center">
           <Frame type="small" className="relative !w-[60px] !h-[60px] p-[10px] !rounded-xl !bg-dark">
-            {iconId ? (
+            {iconId !== -1 ? (
               <Image
                 src={`${CDN_URL}/${iconId}.png`}
                 alt="profile-icon"
@@ -52,7 +52,7 @@ export default function HostInfo({
               <div className="abcenter">
                 <Image
                 src="/person.fill.svg"
-                alt="profile-icon"
+                alt="profile-default-icon"
                 width={24}
                 height={24}
                 />
