@@ -101,8 +101,13 @@ export default function LeagueOfLegendsPanel({
         return;
       }
 
-      if (results.some((res) => res.value.status === 404)) {
+      const fulfilledResults = results as PromiseFulfilledResult<Response>[];
+
+      if (fulfilledResults.some((res) => res.value.status === 404)) {
         done("에러가 생겼습니다, 정상적인 방법을 통해 참여 해주십시오");
+        return;
+      } else if (fulfilledResults.some((res) => res.value.status === 400)) {
+        done("에러가 생겼습니다, api 요청이 잘못되었습니다.");
         return;
       }
 
