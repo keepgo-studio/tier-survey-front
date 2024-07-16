@@ -41,7 +41,7 @@ export default function Survey({
     <div>
       <Shared.Frame
         type="large"
-        className="bg-dark-black px-10 py-12"
+        className="bg-dark-black !px-10 !py-12 !w-fit m-auto"
       >
         {loading ? (
           <Shared.Spinner />

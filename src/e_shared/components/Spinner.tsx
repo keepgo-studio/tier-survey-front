@@ -8,10 +8,10 @@ export default function Spinner({
 }) {
   return (
     <div role="status">
-      <Frame className="m-auto flex items-center !w-fit uppercase text-sm gap-4 px-4 py-3">
+      <Frame className="m-auto flex items-center uppercase text-sm gap-4 p-4 !w-fit">
         <svg
           aria-hidden="true"
-          className="w-6 h-6 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+          className="w-5 aspect-square text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
           viewBox="0 0 100 101"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"

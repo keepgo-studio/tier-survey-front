@@ -121,10 +121,8 @@ export default function SurveyForm({
                 gameInfo["game-name"]
               )}
             >
-              <Shared.Button
-                style={{ backgroundColor: gameInfo["theme-color"] }}
-              >
-                기존 통계 보기
+              <Shared.Button className="bg-blue">
+                기존 설문 보기
               </Shared.Button>
             </Link>
           )}

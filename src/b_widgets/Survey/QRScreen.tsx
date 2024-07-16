@@ -26,12 +26,11 @@ export default function QRScreen({
     gameInfo["game-name"]
   );
   const duration = limitMinute * 60 * 1000;
-  
+
   const router = useRouter();
   const [isCopied, setIsCopied] = useState(false);
   const [isEnd, setIsEnd] = useState(false);
   const { asyncOpenClose: confirm, ConfirmModal } = SharedHooks.useModal();
-
 
   function copyHandler() {
     navigator.clipboard.writeText(url);
@@ -45,14 +44,19 @@ export default function QRScreen({
     );
 
     if (reply) {
-      await SharedApi.query("cancel-survey", gameInfo["game-name"], { hashedId });
+      await SharedApi.query("cancel-survey", gameInfo["game-name"], {
+        hashedId,
+      });
       router.refresh();
     }
   }
 
   return (
     <>
-      <Shared.Frame type="large" className="p-8 flex flex-col lg:flex-row lg:items-center gap-12">
+      <Shared.Frame
+        type="large"
+        className="p-8 flex flex-col lg:flex-row lg:items-center gap-12"
+      >
         <div>
           <Header>host info.</Header>
 
@@ -77,6 +81,7 @@ export default function QRScreen({
               duration={duration}
               width={60}
               height={60}
+              onEnd={() => setIsEnd(true)}
             />
             <Shared.Timer
               theme="text"
@@ -89,7 +94,11 @@ export default function QRScreen({
 
           <div className="h-12" />
 
-          <Link href={url} target="_blank" className="block clickable m-auto w-full max-w-[480px]">
+          <Link
+            href={url}
+            target="_blank"
+            className="block clickable m-auto w-full max-w-[480px]"
+          >
             <Shared.Frame>
               <p className="p-4 text-sm w-full break-all" title={url}>
                 {url}
@@ -100,13 +109,17 @@ export default function QRScreen({
           <div className="h-6" />
 
           <div className="flex items-center gap-4 justify-end">
-            <Shared.Button
-              onClick={copyHandler}
-              className="text-white shadow-border"
-            >
-              COPY URL 
-              <span className="ml-2 text-sm">{isCopied && "✅"}</span>
-            </Shared.Button>
+            {isEnd ? (
+              <Shared.Button className="bg-blue">설문 결과 보기</Shared.Button>
+            ) : (
+              <Shared.Button
+                onClick={copyHandler}
+                className="text-white shadow-border"
+              >
+                COPY URL
+                <span className="ml-2 text-sm">{isCopied && "✅"}</span>
+              </Shared.Button>
+            )}
             <Shared.Button onClick={resetHandler} className="bg-purple">
               설문 다시하기
             </Shared.Button>

@@ -76,6 +76,7 @@ export type { SupportGameJsonItem } from "./api/nextHandler";
 export type { 
   LeagueOfLegendsChampionInfo,
   LeagueOfLegendsChart,
-  CheckSurveyResponse
+  CheckSurveyResponse,
+  GameStat
 } from "./api/firebaseHandler";
 

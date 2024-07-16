@@ -1,14 +1,17 @@
 "use client";
 
 import React, { useState } from "react";
-import Shared, { SharedApi, SharedUtils } from "@shared";
 import Link from "next/link";
+import Shared, { SharedApi, SharedUtils } from "@shared";
 import { addLeaveBarrier, removeLeaveBarrier } from "./utils";
+import { FaCheckCircle } from "react-icons/fa";
+import { ImSpinner } from "react-icons/im";
 
 type Item = {
   apiType: SupportApiType;
   apiLink: string;
   types: string[];
+  status: "not-load" | "loading" | "complete";
 };
 
 export default function LeagueOfLegendsPanel({
@@ -16,7 +19,7 @@ export default function LeagueOfLegendsPanel({
   hashedId,
   hostHashedId,
   open,
-  onFinish
+  onFinish,
 }: {
   currentGame: SupportGame;
   hashedId: string;
@@ -24,23 +27,26 @@ export default function LeagueOfLegendsPanel({
   open: boolean;
   onFinish: () => void;
 }) {
-  const itemList: Item[] = [
+  const [itemList, setItemList] = useState<Item[]>([
     {
       apiType: "SUMMONER-V4",
       apiLink: "https://developer.riotgames.com/apis#summoner-v4",
       types: ["소환사 닉네임", "소환사 레벨"],
+      status: "not-load",
     },
     {
       apiType: "LEAGUE-V4",
       apiLink: "https://developer.riotgames.com/apis#league-v4",
       types: ["솔로 랭크 티어"],
+      status: "not-load",
     },
     {
       apiType: "CHAMPION-MASTERY-V4",
       apiLink: "https://developer.riotgames.com/apis#champion-mastery-v4",
       types: ["가장 많이 다룬 챔피언들 정보"],
+      status: "not-load",
     },
-  ];
+  ]);
 
   const [loading, setLoading] = useState(false);
   const [hasJoined, setHasJoined] = useState(false);
@@ -57,8 +63,6 @@ export default function LeagueOfLegendsPanel({
 
     setHasJoined(joined);
 
-    await SharedUtils.delay(5000);
-
     const done = (err?: string) => {
       setError(err ? err : null);
       setLoading(false);
@@ -66,14 +70,24 @@ export default function LeagueOfLegendsPanel({
     };
 
     if (!joined) {
+      setItemList(itemList.map(item => ({
+        ...item,
+        status: "loading"
+      })));
+
       const results = await Promise.allSettled(
-        itemList.map(({ apiType }) =>
-          SharedApi.query("save-stat", currentGame, {
+        itemList.map(async ({ apiType }, idx) => {
+          const res = await SharedApi.query("save-stat", currentGame, {
             apiType,
             hashedId,
             hostHashedId,
-          })
-        )
+          });
+
+          itemList[idx].status = "complete";
+          setItemList([...itemList]);
+
+          return res;
+        })
       );
 
       const isFulfilled = results.every((res) => res.status === "fulfilled");
@@ -90,7 +104,7 @@ export default function LeagueOfLegendsPanel({
 
       const finalRes = await SharedApi.query("join-survey", currentGame, {
         hashedId,
-        hostHashedId
+        hostHashedId,
       });
 
       if (!finalRes) {
@@ -167,7 +181,12 @@ export default function LeagueOfLegendsPanel({
   );
 }
 
-function PanelItem({ apiType, apiLink, types }: Item) {
+function PanelItem({
+  apiType,
+  apiLink,
+  types,
+  status,
+}: Item) {
   return (
     <Shared.Frame className="px-3 py-6">
       <Link href={apiLink} target="_blank">
@@ -182,10 +201,15 @@ function PanelItem({ apiType, apiLink, types }: Item) {
             <Tooltip title={`host 에게 ${t} 정보 제공`}>
               <Shared.Frame
                 type="small"
-                className="bg-dimm-dark py-2 px-4 flex items-center w-full gap-2"
+                className="bg-dimm-dark py-2 px-4 flex items-center justify-between w-full"
               >
-                <i className="block w-1 h-1 bg-white rounded-full" />
-                <span>{t}</span>
+                <div className="flex items-center gap-2">
+                  <i className="block w-1 h-1 bg-white rounded-full" />
+                  <span>{t}</span>
+                </div>
+
+                {status === "complete" && <span className="text-blue text-lg"><FaCheckCircle /></span>}
+                {status === "loading" && <ImSpinner className="animate-spin"/>}
               </Shared.Frame>
             </Tooltip>
           </li>

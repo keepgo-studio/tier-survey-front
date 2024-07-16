@@ -14,6 +14,7 @@ const config: Config = {
       },
       colors: {
         "border": "#656565",
+        "dark": "#18181C",
         "dark-black": "#1E1E21",
         "blue": "#3D67FC",
         "purple": "#6F46B4",

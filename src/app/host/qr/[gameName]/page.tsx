@@ -19,7 +19,7 @@ export async function generateStaticParams() {
     return arr;
   }, [] as Array<Params>);
 }
-
+// [ ] 설문 만들때 정보를 저장해야하는데
 export default async function page({ params }: { params: Params }) {
   const data = await SharedApi.serverQuery("get-all-support-games", null);
   const currentGame = SharedUtils.toNormalSpace(params.gameName) as SupportGame;
