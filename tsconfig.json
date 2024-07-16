@@ -24,8 +24,7 @@
       "@widgets": ["./src/b_widgets/index.ts"],
       "@features": ["./src/c_features/index.ts"],
       "@entities": ["./src/d_entities/index.ts"],
-      "@shared": ["./src/e_shared/index.ts"],
-      "@shared-inner/*": ["./src/e_shared/*"]
+      "@shared": ["./src/e_shared/index.ts"]
     },
   },
   "include": ["next-env.d.ts", ".next/types/**/*.ts", "**/*.ts", "**/*.tsx"],

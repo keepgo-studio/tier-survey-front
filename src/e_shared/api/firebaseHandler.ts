@@ -1,7 +1,7 @@
 "use client";
 
-import { delay, getQuery, toCamelCase } from "@shared-inner/utils/utils";
-import { FB_API_URL } from "@shared-inner/utils/vars";
+import { delay, getQuery, toCamelCase } from "../utils/utils";
+import { FB_API_URL } from "../utils/vars";
 
 function getUrl<T extends AvailableQuery>(
   feature: AvailableQuery,
@@ -114,9 +114,12 @@ export type LeagueOfLegendsChampionInfo = {
   championPoints: number;
 };
 
-type GameStat = {
+export type GameStat = {
   tierNumeric: number;
+  flexTierNumeric: number;
   champions: LeagueOfLegendsChampionInfo[];
+  level: number;
+  updateTime: number
 };
 
 export async function getStat(

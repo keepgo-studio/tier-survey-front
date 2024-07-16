@@ -1,18 +1,25 @@
+/**
+  rules:
+
+  1. The project has 5 restricted zones 
+
+    - app, b_widtes, c_features, d_entities, e_shared
+
+  2. Cannot import descending order
+  
+    - Correct import flow:
+      app <- b_widgets <- c_features <- d_entites <- e_shared
+
+  3. Each zones can import each other only with index.ts (barrel pattern)
+
+    - `import Shared from "@shared";` (= /src/e_shared/index.ts)
+
+  4. Inside of each zones' files can import from parent freely
+*/
 {
   "extends": ["next/core-web-vitals"],
   "plugins": ["import"],
   "rules": {
-    "import/no-relative-parent-imports": [
-      "error",
-      {
-        "ignore": [
-          "@widgets",
-          "@features",
-          "@entities",
-          "@shared"
-        ]
-      }
-    ],
     "import/no-restricted-paths": [
       "error",
       {
@@ -43,6 +50,11 @@
             "from": [
               "./src/app"
             ]
+          },
+          {
+            "target": "./src/b_widgets/*",
+            "from": "./src/b_widgets/*",
+            "except": ["./src/b_widgets/${sameDir}/*"]
           },
 // -------------------- c_features --------------------
           {

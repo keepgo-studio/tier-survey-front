@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { delay } from "@shared-inner/utils/utils";
-import { LexendMega } from "@shared-inner/fonts/fonts";
+import { delay } from "../utils/utils";
+import { LexendMega } from "../fonts/fonts";
 
 type TimerProps = {
   theme?: "round" | "text";
@@ -48,8 +48,7 @@ function RoundTimer({ startTime, duration, onEnd, ...props }: TimerProps) {
   // ------------------------------------------------
 
   const lifeCycle = useRef(false),
-    elapsedTime = useRef(Date.now() - startTime),
-    prevTime = useRef(0);
+        elapsedTime = useRef(Date.now() - startTime);
 
   const fps = 10;
 
@@ -94,22 +93,19 @@ function RoundTimer({ startTime, duration, onEnd, ...props }: TimerProps) {
       return;
     }
 
-    const now = Date.now();
-
     draw();
-    elapsedTime.current += now - prevTime.current;
-    prevTime.current = now;
+    elapsedTime.current = Date.now() - startTime;
 
     await delay(fps);
 
     requestAnimationFrame(animation);
-  }, [onEnd, draw, duration]);
+  }, [onEnd, draw, duration, startTime]);
 
   const controlAnimation = (state: "on" | "off") => {
     switch (state) {
       case "on":
         lifeCycle.current = true;
-        prevTime.current = Date.now();
+        elapsedTime.current = Date.now() - startTime;
         requestAnimationFrame(animation);
         break;
       case "off":

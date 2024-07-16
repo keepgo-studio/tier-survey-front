@@ -2,10 +2,10 @@
 
 import React, { useEffect, useState } from "react";
 import Frame from "./Frame";
-import { query } from "@shared-inner/api/query";
+import { query } from "../api/query";
 import Spinner from "./Spinner";
 import Image from "next/image";
-import { SupportGameJsonItem } from "@shared-inner/api/nextHandler";
+import { SupportGameJsonItem } from "../api/nextHandler";
 
 export default function HostInfo({
   hashedId,
@@ -39,7 +39,7 @@ export default function HostInfo({
         <Spinner />
       ) : (
         <section className="flex gap-4 p-2 items-center">
-          <Frame type="small" className="relative !w-[60px] !h-[60px] p-[10px] !rounded-xl !bg-[#18181C]">
+          <Frame type="small" className="relative !w-[60px] !h-[60px] p-[10px] !rounded-xl !bg-dark">
             {iconId ? (
               <Image
                 src={`${CDN_URL}/${iconId}.png`}

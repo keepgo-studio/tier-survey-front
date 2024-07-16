@@ -1,5 +1,5 @@
-import { Ease } from "@shared-inner/utils/vars";
-import { debounce, floatFormat, parseMinMax } from "@shared-inner/utils/utils";
+import { Ease } from "../../utils/vars";
+import { debounce, floatFormat, parseMinMax } from "../../utils/utils";
 
 class MouseCoor {
   isMouseDown = false;

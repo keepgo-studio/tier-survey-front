@@ -2,7 +2,7 @@
 
 import React, { Children, useEffect, useRef, useState } from "react";
 import { attachDragAnimation } from "./slider.core";
-import { parseMinMax } from "@shared-inner/utils/utils";
+import { parseMinMax } from "../../utils/utils";
 
 /**
  * 

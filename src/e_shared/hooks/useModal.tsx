@@ -1,8 +1,8 @@
 "use client";
 
-import Button from "@shared-inner/components/Button";
-import Frame from "@shared-inner/components/Frame";
-import { Inter } from "@shared-inner/fonts/fonts";
+import Button from "../components/Button";
+import Frame from "../components/Frame";
+import { Inter } from "../fonts/fonts";
 import { useCallback, useRef, useState } from "react";
 import ReactModal from "react-modal";
 
