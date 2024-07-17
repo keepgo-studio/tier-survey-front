@@ -3,6 +3,7 @@ import "./globals.css";
 import Shared, { SharedFonts, SharedNodeUtils } from "@shared";
 import Entities from "@entities";
 import { cookies } from "next/headers";
+import { Analytics } from "@vercel/analytics/react"
 
 import type { Metadata } from "next";
 
@@ -34,6 +35,8 @@ export default function RootLayout({
           </main>
 
         </Entities.Provider>
+
+        <Analytics />
       </body>
     </html>
   );
