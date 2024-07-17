@@ -63,9 +63,9 @@ export default function Footer() {
 
   return (
     <footer className="border-t-[0.5px] border-border">
-      <div className="flex justify-between p-8">
+      <div className="flex flex-col sm:flex-row justify-between gap-8 p-8">
         <section>
-          <Shared.Frame className="p-4">
+          <Shared.Frame className="!w-fit">
             <Image src="/favicon.png" alt="logo" width={42} height={42} />
           </Shared.Frame>
         </section>

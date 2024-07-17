@@ -177,7 +177,7 @@ export default function LeagueOfLegendsPanel({
 
   return (
     <>
-      <Shared.Frame className="p-7 bg-dark-black" type="large">
+      <Shared.Frame className="p-4 sm:p-7 bg-dark-black text-sm sm:text-base" type="large">
         <ul className="flex flex-col gap-6">
           {itemList.map((item, idx) => (
             <li key={idx}>
@@ -190,7 +190,7 @@ export default function LeagueOfLegendsPanel({
       <div className="h-8" />
 
       <div className="flex items-center justify-end gap-2">
-      {error ?  <p className="text-red text-sm p-2">{error}</p> : renderButtons()}
+      {error ?  <p className="text-red text-sm px-4">{error}</p> : renderButtons()}
       </div>
     </>
   );

@@ -12,7 +12,7 @@ export default function Title({
 }) {
   return (
     <section>
-      <h1 className='uppercase text-bright-gray text-4xl font-light w-full'>
+      <h1 className='uppercase text-bright-gray text-lg sm:text-4xl font-light w-full'>
         {children}
       </h1>
 
@@ -20,7 +20,7 @@ export default function Title({
 
       {gameInfo && (
         <>
-          <h4 className='uppercase text-xl py-1 flex items-center gap-2'>
+          <h4 className='uppercase text-sm sm:text-xl py-1 flex items-center gap-2'>
             <i className='block w-3 h-[1em]' style={{
               backgroundColor: `${gameInfo['theme-color']}`
             }} />
