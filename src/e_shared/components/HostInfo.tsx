@@ -38,7 +38,7 @@ export default function HostInfo({
       {loading ? (
         <Spinner />
       ) : (
-        <section className="flex gap-4 p-2 items-center">
+        <section className="flex flex-col sm:flex-row gap-4 p-2 items-center">
           <Frame type="small" className="relative !w-[60px] !h-[60px] p-[10px] !rounded-xl !bg-dark">
             {iconId !== -1 ? (
               <Image
@@ -70,8 +70,8 @@ export default function HostInfo({
           </Frame>
 
           <div className="flex-1">
-            <h4 className="text-lg mb-1">{name}</h4>
-            <p className="text-xs text-bright-gray font-light capitalize">{gameInfo["game-name"]}</p>
+            <h4 className="text-sm sm:text-lg mb-1">{name}</h4>
+            <p className="text-[8px] sm:text-xs text-bright-gray font-light capitalize">{gameInfo["game-name"]}</p>
           </div>
         </section>
       )}

@@ -48,7 +48,7 @@ export default function Survey({
     <div>
       <Shared.Frame
         type="large"
-        className="bg-dark-black !px-10 !py-12 !w-fit m-auto"
+        className="bg-dark-black !p-6 sm:!px-10 sm:!py-12 !w-fit m-auto"
       >
         {surveyInfo?.status === "open" ? (
           <QRScreen

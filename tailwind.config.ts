@@ -9,6 +9,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      screens: {
+        'll': '1114px'
+      },
       backgroundImage: {
         "linear-black": "linear-gradient(-156.89deg, #2C2C30 0%, #232328 38%, #18181C 74%)"
       },

@@ -13,16 +13,21 @@ type TimerProps = {
   onEnd?: () => void;
 };
 
-function RoundTimer({ startTime, duration, onEnd, ...props }: TimerProps) {
+function RoundTimer({ 
+  startTime,
+  duration,
+  onEnd,
+  width,
+  height, ...props }: TimerProps) {
   const canvasRef = useRef(null);
 
-  const resize = useCallback(() => {
+  // set size
+  useEffect(() => {
     if (!canvasRef.current || !window) return;
 
     const retina = window.devicePixelRatio,
-      { width, height } = props,
-      canvas = canvasRef.current as HTMLCanvasElement,
-      ctx = canvas.getContext("2d");
+          canvas = canvasRef.current as HTMLCanvasElement,
+          ctx = canvas.getContext("2d");
 
     if (!ctx) return;
 
@@ -37,13 +42,7 @@ function RoundTimer({ startTime, duration, onEnd, ...props }: TimerProps) {
 
     canvas.style.width = String(width) + "px";
     canvas.style.height = String(height) + "px";
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.width, props.height]);
-
-  useEffect(() => {
-    resize();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.width, props.height]);
+  }, [width, height]);
 
   // ------------------------------------------------
 
@@ -55,16 +54,15 @@ function RoundTimer({ startTime, duration, onEnd, ...props }: TimerProps) {
   const draw = useCallback(() => {
     if (!canvasRef.current || !window) return;
 
-    const { width, height } = props,
-      canvas = canvasRef.current as HTMLCanvasElement,
-      ctx = canvas.getContext("2d");
+    const canvas = canvasRef.current as HTMLCanvasElement,
+          ctx = canvas.getContext("2d");
 
     if (!ctx) return;
 
-    const centerX = canvas.width / 2,
-      centerY = canvas.height / 2,
-      dis = Math.min(canvas.width, canvas.height),
-      radius = dis / 2 - dis * 0.04;
+    const centerX = width / 2,
+          centerY = height / 2,
+          dis = Math.min(width, height),
+          radius = dis / 2 - dis * 0.04;
 
     ctx.clearRect(0, 0, width, height);
 
@@ -82,8 +80,7 @@ function RoundTimer({ startTime, duration, onEnd, ...props }: TimerProps) {
     ctx.strokeStyle = "#6F46B4";
     ctx.stroke();
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.width, props.height]);
+  }, [width, height, duration]);
 
   const animation = useCallback(async () => {
     if (!lifeCycle.current) return;
@@ -147,7 +144,7 @@ function RoundTimer({ startTime, duration, onEnd, ...props }: TimerProps) {
       io.disconnect();
       document.removeEventListener("visibilitychange", handleVisibility);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return <canvas ref={canvasRef} {...props} />;
@@ -162,6 +159,7 @@ function TextTimer({ onEnd, startTime, duration, width, height }: TimerProps) {
     const current = duration - (Date.now() - startTime);
 
     if (current <= 0) {
+      setTick(true);
       clearInterval(timerRef.current);
       if (onEnd) onEnd();
       return;
@@ -172,12 +170,11 @@ function TextTimer({ onEnd, startTime, duration, width, height }: TimerProps) {
   }, [duration, onEnd, startTime]);
 
   useEffect(() => {
-    timerRef.current = setInterval(interval, 1000);
     interval();
+    timerRef.current = setInterval(interval, 1000);
 
     return () => clearInterval(timerRef.current);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [interval]);
 
   const hoursNum = Math.floor(elapsedTime / 3600000);
   const hours = hoursNum.toString().padStart(2, '0');
