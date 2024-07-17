@@ -2,19 +2,13 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import Shared, { SharedApi, SharedUtils } from "@shared";
-import { addLeaveBarrier, removeLeaveBarrier } from "./utils";
+import Shared, { SharedApi, SharedBrowserUtils, SharedUtils } from "@shared";
 import { FaCheckCircle } from "react-icons/fa";
 import { ImSpinner } from "react-icons/im";
 import Entities from "@entities";
 import Auth from "../Auth/Auth";
-
-type Item = {
-  apiType: SupportApiType;
-  apiLink: string;
-  types: string[];
-  status: "not-load" | "loading" | "complete";
-};
+import { LeagueOfLegendsPermissions, type LeagueOfLegendsItem } from "./utils";
+import Signout from "../Signout.tsx/Signout";
 
 export default function LeagueOfLegendsPanel({
   currentGame,
@@ -27,26 +21,7 @@ export default function LeagueOfLegendsPanel({
   open: boolean;
   onFinish: () => void;
 }) {
-  const [itemList, setItemList] = useState<Item[]>([
-    {
-      apiType: "SUMMONER-V4",
-      apiLink: "https://developer.riotgames.com/apis#summoner-v4",
-      types: ["소환사 닉네임", "소환사 레벨"],
-      status: "not-load",
-    },
-    {
-      apiType: "LEAGUE-V4",
-      apiLink: "https://developer.riotgames.com/apis#league-v4",
-      types: ["솔로 랭크 티어"],
-      status: "not-load",
-    },
-    {
-      apiType: "CHAMPION-MASTERY-V4",
-      apiLink: "https://developer.riotgames.com/apis#champion-mastery-v4",
-      types: ["가장 많이 다룬 챔피언들 정보"],
-      status: "not-load",
-    },
-  ]);
+  const [itemList, setItemList] = useState<LeagueOfLegendsItem[]>([...LeagueOfLegendsPermissions]);
 
   const hashedId = Entities.hooks.useAppSelector(Entities.user.selectHashedId);
 
@@ -58,7 +33,7 @@ export default function LeagueOfLegendsPanel({
     if (!hashedId) return;
 
     setLoading(true);
-    addLeaveBarrier();
+    SharedBrowserUtils.addLeaveBarrier();
 
     const joined = await SharedApi.query("check-join-survey", currentGame, {
       hashedId,
@@ -70,7 +45,7 @@ export default function LeagueOfLegendsPanel({
     const done = (err?: string) => {
       setError(err ? err : null);
       setLoading(false);
-      removeLeaveBarrier();
+      SharedBrowserUtils.removeLeaveBarrier();
     };
 
     if (!joined) {
@@ -163,10 +138,12 @@ export default function LeagueOfLegendsPanel({
 
   if (!hashedId) return (
     <Shared.Frame className="!p-4 bg-dark-black flex flex-col gap-2">
-        <div className="uppercase text-xs rounded-full border border-border bg-dark py-2 px-3 text-red flex gap-2 justify-center">
-          Need to Sign in for game,
-          <br/>
-          {currentGame}
+        <div className="uppercase text-center text-xs rounded-full border border-border bg-dark py-2 px-3 flex gap-2 justify-center">
+          <p>
+            Need to <span className="text-red">Sign in</span> for game,
+            <br/>
+            {currentGame}
+          </p>
         </div>
       
       <div className="w-full fcenter py-2">
@@ -187,11 +164,18 @@ export default function LeagueOfLegendsPanel({
         </ul>
       </Shared.Frame>
 
-      <div className="h-8" />
+      <div className="h-6" />
 
       <div className="flex items-center justify-end gap-2">
       {error ?  <p className="text-red text-sm px-4">{error}</p> : renderButtons()}
       </div>
+
+      {hashedId && (
+        <div className="flex items-center justify-end gap-4 mt-4">
+          <span className="text-sm text-bright-gray">다른 계정으로 참여하고 싶다면,</span>
+          <Signout />
+        </div>
+      )}
     </>
   );
 }
@@ -201,7 +185,7 @@ function PanelItem({
   apiLink,
   types,
   status,
-}: Item) {
+}: LeagueOfLegendsItem) {
   return (
     <Shared.Frame className="px-3 py-6">
       <Link href={apiLink} target="_blank">

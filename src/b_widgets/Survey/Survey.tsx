@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import QRScreen from "./QRScreen";
 import SurveyForm from "./SurveyForm";
 import { useRouter } from "next/navigation";
+import Signout from "../Signout.tsx/Signout";
 
 export default function Survey({
   gameInfo,
@@ -45,7 +46,9 @@ export default function Survey({
   if (!hashedId || loading) return <Shared.Spinner />;
 
   return (
-    <div>
+    <div className="flex flex-col gap-4">
+      {hashedId && <Signout />}
+
       <Shared.Frame
         type="large"
         className="bg-dark-black !p-6 sm:!px-10 sm:!py-12 !w-fit m-auto"

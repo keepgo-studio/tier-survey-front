@@ -66,6 +66,12 @@ export const SharedNodeUtils = {
   ...nodeUtils
 }
 
+import * as browserUtils from "./utils/browser-utils";
+
+export const SharedBrowserUtils = {
+  ...browserUtils
+}
+
 
 // --------------------------------------------------------
 export * as SharedFonts from "./fonts/fonts";
