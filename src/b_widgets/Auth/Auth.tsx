@@ -6,7 +6,7 @@ import Image from "next/image";
 
 export default function Auth({
   game,
-  redirect = "",
+  redirect,
 }: {
   game: SupportGame;
   redirect?: string;
@@ -40,7 +40,7 @@ export default function Auth({
               scope: "openid",
               state: JSON.stringify({
                 game,
-                redirect
+                redirect: redirect ? redirect : window.location.href
               }),
             })}
           >
