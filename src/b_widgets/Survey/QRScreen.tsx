@@ -82,10 +82,15 @@ export default function QRScreen({
 
           <Header>qr code.</Header>
 
-          <div className="bg-white fcenter rounded-2xl w-fit m-auto" style={{
+          <div className="bg-white fcenter rounded-2xl w-fit m-auto relative" style={{
             padding: qrSize / 5
           }}>
             <Shared.QRCode url={url} size={qrSize} />
+            {isEnd && (
+              <div className="absolute bg-dark bg-opacity-80 top-0 left-0 right-0 bottom-0 fcenter">
+                <p className="uppercase text-red text-xs py-1 px-3 bg-black rounded-full">closed</p>
+              </div>
+            )}
           </div>
         </div>
 
