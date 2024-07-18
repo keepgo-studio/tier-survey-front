@@ -55,14 +55,13 @@ export default function QRScreen({
       <p>설문을 취소하시겠습니까?</p>
     );
 
-    setPause(true);
+    if (!reply) return;
 
-    if (reply) {
-      await SharedApi.query("cancel-survey", gameInfo["game-name"], {
-        hashedId,
-      });
-      router.refresh();
-    }
+    setPause(true);
+    await SharedApi.query("cancel-survey", gameInfo["game-name"], {
+      hashedId,
+    });
+    router.refresh();
   }
 
   if (pause) return <Shared.Spinner />
