@@ -52,3 +52,7 @@ export function toNormalSpace(str: string, mode: "camel" = "camel") {
 export async function delay(mili: number) {
   return new Promise((res) => setTimeout(() => res(true), mili));
 }
+
+export function sum(arr: number[]) {
+  return arr.reduce((total, num) => total + num, 0);
+}

@@ -136,8 +136,8 @@ export type LeagueOfLegendsChart = {
   tierCnt: Record<LeagueOfLegendsTier | "UNRANK", number>;
   flexTierCnt: Record<LeagueOfLegendsTier | "UNRANK", number>;
   totalLevel: number;
-  mostLovedChampion: Record<number, number>;
-  updateDate: Date;
+  mostLovedChampionTop10: [string, number][];
+  updateTime: number;
 };
 
 export async function getChart(

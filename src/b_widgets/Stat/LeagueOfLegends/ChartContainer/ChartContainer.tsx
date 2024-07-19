@@ -6,7 +6,8 @@ import Shared, { SharedApi } from "@shared";
 import Chart from "./Chart";
 import { RiSurveyFill } from "react-icons/ri";
 
-export default function ChartContainer({ gameInfo, hashedId }: StatProps) {
+export default function ChartContainer(props: StatProps) {
+  const { hashedId } = props;
   const [loading, setLoading] = useState(true);
   const [valid, setValid] = useState(false);
 
@@ -22,9 +23,15 @@ export default function ChartContainer({ gameInfo, hashedId }: StatProps) {
   }, [hashedId]);
 
   return (
-    <Shared.Frame className="!p-4 bg-linear-black h-full relative">
+    <Shared.Frame className="!p-6 bg-linear-black h-full relative">
       {loading ? (
-        <Shared.Spinner />
+        <div className="abcenter">
+          <Shared.Spinner withText={false} />
+  
+          <div className="h-4" />
+  
+          <p className="text-lg text-bright-gray text-center">check survey...</p>
+        </div>
       ) : !valid ? (
         <Shared.Frame className="!w-fit !py-3 !px-5 abcenter">
           <p className="text-center text-bright-gray flex gap-2 items-center">
@@ -33,7 +40,7 @@ export default function ChartContainer({ gameInfo, hashedId }: StatProps) {
           </p>
         </Shared.Frame>
       ) : (
-        <Chart />
+        <Chart {...props} />
       )}
     </Shared.Frame>
   );

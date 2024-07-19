@@ -52,7 +52,7 @@ input:focus {
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-white;
+  @apply bg-purple;
 
   border-radius: 999px;
   background-clip: padding-box;
