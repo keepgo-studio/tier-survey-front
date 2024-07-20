@@ -4,6 +4,7 @@ import PermissionPanel from "./PermissionPanel/PermissionPanel";
 import Survey from "./Survey/Survey";
 import Stat from "./Stat/Stat";
 import Title from "./Title/Title";
+import SurveyList from "./SurveyList/SurveyList";
 
 const Widget =  {
   GameSelect,
@@ -11,7 +12,8 @@ const Widget =  {
   PermissionPanel,
   Stat,
   Auth,
-  Title
+  Title,
+  SurveyList
 };
 
 export default Widget;

@@ -1,8 +1,6 @@
-"use client"
-
 import React from "react";
 import Shared from "@shared";
-import GameList from "./GameList";
+import GameList from "../../../GameList/GameList";
 import PersonalTier from "./PersonalTier";
 import { StatProps } from "../../Stat";
 
@@ -17,7 +15,7 @@ export default function Sidebar(props: StatProps) {
         <Shared.HostInfo {...props} />
         <div className="h-4"/>
 
-        <GameList {...props} />
+        <GameList hashedId={props.hashedId} init={props.gameInfo} />
       </div>
 
       <div>
