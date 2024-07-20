@@ -43,7 +43,7 @@ input:focus {
 }
 
 .clickable {
-  @apply duration-default active:scale-95 hover:brightness-75;
+  @apply duration-default active:scale-95 hover:brightness-75 cursor-pointer;
 }
 
 ::-webkit-scrollbar {

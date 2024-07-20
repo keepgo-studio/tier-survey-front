@@ -51,7 +51,7 @@ export default function TierDistribution({
     const width = parentWidth,
           height = SharedUtils.parseMinMax(Math.floor(parentWidth * 0.05), MIN_HEIGHT, 48),
           margin = Math.floor(parentWidth * 0.006),
-          borderRadius = Math.floor(parentWidth * 0.008);
+          borderRadius = Math.floor(parentWidth * 0.004);
 
     svgElem.setAttribute("width", width.toString());
     svgElem.setAttribute("height", height.toString());

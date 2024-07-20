@@ -8,8 +8,8 @@ import Shared from "@shared";
 export default function Navbar() {
   return (
     <nav className="w-full py-4 px-6 flex items-center justify-between border-b-[0.5px] border-border">
-      <Link href="/">
-        <div className="flex items-center gap-2">
+      <Link href="/" className="clickable">
+        <div className="flex items-center gap-3">
           <Shared.Frame className="w-12 h-12 fcenter" type="small">
             <Image src="/favicon.png" alt="favicon" width={26} height={26} />
           </Shared.Frame>

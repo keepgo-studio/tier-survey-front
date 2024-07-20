@@ -33,7 +33,7 @@ function ButtonSection() {
     {
       icon: <MdInsertChart className="text-2xl" />,
       text: "열었던 설문 확인하기",
-      href: "/host/stat"
+      href: "/host/survey"
     },
     {
       icon: <BsPersonWorkspace className="text-2xl" />,
