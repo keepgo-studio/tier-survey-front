@@ -18,7 +18,8 @@ export default function Survey({
 }: {
   gameInfo: SupportGameJsonItem;
 }) {
-  const hashedId = Entities.hooks.useAppSelector(Entities.user.selectHashedId);
+  const hashedIdMap = Entities.hooks.useAppSelector(Entities.user.selectHashedId);
+  const hashedId = hashedIdMap[gameInfo["game-name"]];
   const [surveyInfo, setSurveyInfo] = useState<CheckSurveyResponse | null>(
     null
   );

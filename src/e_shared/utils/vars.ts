@@ -15,3 +15,18 @@ export class Ease {
 }
 
 export const IS_DEV = process.env.NODE_ENV === "development";
+
+export const OAUTH_COOKIE: { game: SupportGame; cookieKey: string; }[] = [
+  { 
+    game: "league of legends",
+    cookieKey: "lol-hashed-id"
+  },
+  { 
+    game: "teamfight tactics",
+    cookieKey: "tt-hashed-id"
+  },
+  { 
+    game: "valorant",
+    cookieKey: "val-hashed-id"
+  },
+]

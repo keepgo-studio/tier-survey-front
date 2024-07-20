@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import * as crypto from "crypto";
 import { redirect } from "next/navigation";
-import { SharedNodeUtils } from "@shared";
+import { SharedNodeUtils, SharedUtils } from "@shared";
 import { cookies } from "next/headers";
 import { requestRSOToken, RiotAPI, writeUser } from "./utils";
 
@@ -56,10 +56,14 @@ export async function GET(req: NextRequest) {
 
     const cookieStore = cookies();
 
-    cookieStore.set('rso-hashed-id', SharedNodeUtils.encrypt(hashedId), {
-      secure: true, 
-      httpOnly: true
-    });
+    const gameInfo = SharedUtils.OAUTH_COOKIE.find(_g => _g.game === game);
+
+    if (gameInfo) {
+      cookieStore.set(gameInfo.cookieKey, SharedNodeUtils.encrypt(hashedId), {
+        secure: true, 
+        httpOnly: true
+      });
+    }
   } catch (err) {
     console.error(err);
 

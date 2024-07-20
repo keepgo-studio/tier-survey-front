@@ -10,9 +10,10 @@ import { StatProps } from "../../Stat";
 import MiniPermission from "./MiniPermission";
 
 export default function PersonalTier({ gameInfo, hashedId }: StatProps) {
-  const currentHashedId = Entities.hooks.useAppSelector(
+  const currentHashedIdMap = Entities.hooks.useAppSelector(
     Entities.user.selectHashedId
   );
+  const currentHashedId = currentHashedIdMap[gameInfo["game-name"]];
   const [loading, setLoading] = useState(true);
   const [stat, setStat] = useState<GameStat | null>(null);
 

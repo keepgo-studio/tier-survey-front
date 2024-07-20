@@ -23,7 +23,8 @@ export default function LeagueOfLegendsPanel({
 }) {
   const [itemList, setItemList] = useState<LeagueOfLegendsItem[]>([...LeagueOfLegendsPermissions]);
 
-  const hashedId = Entities.hooks.useAppSelector(Entities.user.selectHashedId);
+  const hashedIdMap = Entities.hooks.useAppSelector(Entities.user.selectHashedId);
+  const hashedId = hashedIdMap["league of legends"];
 
   const [loading, setLoading] = useState(false);
   const [hasJoined, setHasJoined] = useState(false);

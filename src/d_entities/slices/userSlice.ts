@@ -2,11 +2,15 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { removeHashedId } from "./actions";
 
 export interface UserState {
-  hashedId: string | null;
+  hashedId: Record<SupportGame, string | null>;
 }
 
 const initialState: UserState = {
-  hashedId: null
+  hashedId: {
+    "league of legends": null,
+    "teamfight tactics": null,
+    "valorant": null
+  }
 };
 
 const userSlice = createSlice({
@@ -16,12 +20,12 @@ const userSlice = createSlice({
     initState: (state, action: PayloadAction<UserState>) => {
       return { ...state, ...action.payload };
     },
-    setHashedId: (state, action: PayloadAction<string | null>) => {
-      state.hashedId = action.payload;
+    setHashedId: (state, action: PayloadAction<{ game: SupportGame, id: string | null; }>) => {
+      state.hashedId[action.payload.game] = action.payload.id;
     },
-    logout: (state) => {
-      state.hashedId = null;
-      removeHashedId();
+    logout: (state, action: PayloadAction<SupportGame>) => {
+      state.hashedId[action.payload] = null;
+      removeHashedId(action.payload);
     }
   },
   selectors: {

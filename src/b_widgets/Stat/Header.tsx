@@ -8,9 +8,10 @@ import { StatProps } from "./Stat";
 import Signout from "../Signout.tsx/Signout";
 
 export default function Header({ gameInfo, hashedId }: StatProps) {
-  const currentHashedId = Entities.hooks.useAppSelector(
+  const currentHashedIdMap = Entities.hooks.useAppSelector(
     Entities.user.selectHashedId
   );
+  const currentHashedId = currentHashedIdMap[gameInfo["game-name"]];
   const isHost = hashedId === currentHashedId;
 
   return (
