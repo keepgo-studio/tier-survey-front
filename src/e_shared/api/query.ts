@@ -1,80 +1,16 @@
 import * as firebaseHandler from "./firebaseHandler";
 
-// Define the return types for each query
-export type QueryReturnType<T extends AvailableQuery> = 
-  T extends "create-survey" ? ReturnType<typeof firebaseHandler.createSurvey> : 
-  T extends "cancel-survey" ? ReturnType<typeof firebaseHandler.cancelSurvey> : 
-  T extends "check-stat-exist" ? ReturnType<typeof firebaseHandler.checkStatExist> : 
-  T extends "check-survey" ? ReturnType<typeof firebaseHandler.checkSurvey> :
-  T extends "save-stat" ? ReturnType<typeof firebaseHandler.saveStat> :
-  T extends "join-survey" ? ReturnType<typeof firebaseHandler.joinSurvey> :
-  T extends "check-join-survey" ? ReturnType<typeof firebaseHandler.checkJoinSurvey> :
-  T extends "get-user" ? ReturnType<typeof firebaseHandler.getUser> :
-  T extends "get-stat" ? ReturnType<typeof firebaseHandler.getStat> :
-  T extends "get-chart" ? ReturnType<typeof firebaseHandler.getChart> :
-  never;
+type FirebaseAPI<T extends keyof typeof firebaseHandler> = typeof firebaseHandler[T];
+
+type QueryReturnType<T extends AvailableQuery> = ReturnType<FirebaseAPI<T>>;
 
 export function query<T extends AvailableQuery>(
-  query: T,
+  type: T,
   game: SupportGame,
   param: QueryParam<T>
 ): QueryReturnType<T> {
-  switch(query) {
-    case "check-survey":
-      return firebaseHandler.checkSurvey(
-        game,
-        param as QueryParam<"check-survey">
-      ) as QueryReturnType<T>;
-    case "check-stat-exist":
-      return firebaseHandler.checkStatExist(
-        game,
-        param as QueryParam<"check-stat-exist">
-      ) as QueryReturnType<T>;
-    case "create-survey":
-      return firebaseHandler.createSurvey(
-        game,
-        param as QueryParam<"create-survey">
-      ) as QueryReturnType<T>;
-    case "cancel-survey":
-      return firebaseHandler.cancelSurvey(
-        game,
-        param as QueryParam<"cancel-survey">
-      ) as QueryReturnType<T>;
-    case "save-stat":
-      return firebaseHandler.saveStat(
-        game,
-        param as QueryParam<"save-stat">
-      ) as QueryReturnType<T>;
-    case "join-survey":
-      return firebaseHandler.joinSurvey(
-        game,
-        param as QueryParam<"join-survey">
-      ) as QueryReturnType<T>;
-    case "check-join-survey":
-      return firebaseHandler.checkJoinSurvey(
-        game,
-        param as QueryParam<"check-join-survey">
-      ) as QueryReturnType<T>;
-    case "get-user":
-      return firebaseHandler.getUser(
-        game,
-        param as QueryParam<"get-user">
-      ) as QueryReturnType<T>;
-    case "get-stat":
-      return firebaseHandler.getStat(
-        game,
-        param as QueryParam<"get-stat">
-      ) as QueryReturnType<T>;
-    case "get-chart":
-      return firebaseHandler.getChart(
-        game,
-        param as QueryParam<"get-chart">
-      ) as QueryReturnType<T>;
-    default:
-      throw new Error("[query]: Wrong query, check" + query);
-  }
+  return firebaseHandler[type](game, param as any) as QueryReturnType<T>;
 }
-
 
 import * as nextHandler from "./nextHandler";
 

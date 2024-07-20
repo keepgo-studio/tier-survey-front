@@ -36,7 +36,7 @@ export default function LeagueOfLegendsPanel({
     setLoading(true);
     SharedBrowserUtils.addLeaveBarrier();
 
-    const joined = await SharedApi.query("check-join-survey", currentGame, {
+    const joined = await SharedApi.query("checkJoinSurvey", currentGame, {
       hashedId,
       hostHashedId,
     });
@@ -57,7 +57,7 @@ export default function LeagueOfLegendsPanel({
 
       const results = await Promise.allSettled(
         itemList.map(async ({ apiType }, idx) => {
-          const res = await SharedApi.query("save-stat", currentGame, {
+          const res = await SharedApi.query("saveStat", currentGame, {
             apiType,
             hashedId,
             hostHashedId,
@@ -87,7 +87,7 @@ export default function LeagueOfLegendsPanel({
         return;
       }
 
-      const finalRes = await SharedApi.query("join-survey", currentGame, {
+      const finalRes = await SharedApi.query("joinSurvey", currentGame, {
         hashedId,
         hostHashedId,
       });

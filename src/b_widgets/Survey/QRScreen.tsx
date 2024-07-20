@@ -58,7 +58,7 @@ export default function QRScreen({
     if (!reply) return;
 
     setPause(true);
-    await SharedApi.query("cancel-survey", gameInfo["game-name"], {
+    await SharedApi.query("cancelSurvey", gameInfo["game-name"], {
       hashedId,
     });
     router.refresh();

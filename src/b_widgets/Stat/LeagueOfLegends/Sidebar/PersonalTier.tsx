@@ -21,7 +21,7 @@ export default function PersonalTier({ gameInfo, hashedId }: StatProps) {
     if (!currentHashedId) return;
 
     setLoading(true);
-    SharedApi.query("get-stat", gameInfo["game-name"], {
+    SharedApi.query("getStat", gameInfo["game-name"], {
       hashedId: currentHashedId,
     })
       .then((data) => {

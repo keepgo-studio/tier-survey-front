@@ -12,7 +12,7 @@ export default function Chart({ gameInfo, hashedId }: StatProps) {
   const [data, setData] = useState<LeagueOfLegendsChart | null>(null);
 
   useEffect(() => {
-    SharedApi.query("get-chart", gameInfo["game-name"], { hashedId })
+    SharedApi.query("getChart", gameInfo["game-name"], { hashedId })
       .then((_data) => {
         if (_data) setData(_data);
       })

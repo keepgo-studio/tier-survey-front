@@ -24,7 +24,7 @@ export default function SurveyForm({
 
   useEffect(() => {
     setLoading(true);
-    SharedApi.query("check-stat-exist", gameInfo["game-name"], {
+    SharedApi.query("checkStatExist", gameInfo["game-name"], {
       hashedId,
     })
       .then((exist) => setStatExist(Boolean(exist)))
@@ -51,7 +51,7 @@ export default function SurveyForm({
 
     if (time && reply) {
       setLoading(true);
-      await SharedApi.query("create-survey", gameInfo["game-name"], {
+      await SharedApi.query("createSurvey", gameInfo["game-name"], {
         password,
         hashedId,
         limitMinute: time

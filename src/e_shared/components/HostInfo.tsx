@@ -14,8 +14,7 @@ export default function HostInfo({
   hashedId: string;
   gameInfo: SupportGameJsonItem;
 }) {
-  const CDN_URL =
-    "https://ddragon.leagueoflegends.com/cdn/14.6.1/img/profileicon";
+  const CDN_URL = "https://ddragon.leagueoflegends.com/cdn/14.6.1/img/profileicon";
 
   const [loading, setLoading] = useState(true);
   const [name, setName] = useState("Unkown");
@@ -24,7 +23,7 @@ export default function HostInfo({
   useEffect(() => {
     setLoading(true);
 
-    query("get-user", gameInfo["game-name"], { hashedId }).then((user) => {
+    query("getUser", gameInfo["game-name"], { hashedId }).then((user) => {
       if (!user) return;
 
       setName(user.gameName);

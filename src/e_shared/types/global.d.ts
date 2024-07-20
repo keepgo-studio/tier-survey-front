@@ -1,43 +1,42 @@
 // defining all available apis
 interface AvailableQueryMap {
-  "check-survey": {
+  "checkSurvey": {
     hashedId: string;
   };
-  "cancel-survey": {
+  "cancelSurvey": {
     hashedId: string;
-  }
-  "check-stat-exist": {
+  };
+  "getSurvey": {
     hashedId: string;
-  }
-  "create-survey": {
+  };
+  "checkStatExist": {
+    hashedId: string;
+  };
+  "createSurvey": {
     password: string;
     limitMinute: number;
     hashedId: string;
   };
-  "save-stat": {
-    // TODO need to append apiTypes for other games
+  "saveStat": {
     apiType: LeaugeOfLegendsApiType;
     hashedId: string;
     hostHashedId: string;
   };
-  "join-survey": {
+  "joinSurvey": {
     hashedId: string;
     hostHashedId: string;
   }
-  "check-join-survey": {
+  "checkJoinSurvey": {
     hashedId: string;
     hostHashedId: string;
-  },
-  "get-user": {
+  };
+  "getUser": {
     hashedId: string;
   };
-  "get-stat": {
+  "getStat": {
     hashedId: string;
   };
-  "get-chart": {
-    hashedId: string;
-  };
-  "get-top-table": {
+  "getChart": {
     hashedId: string;
   };
 };

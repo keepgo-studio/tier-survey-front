@@ -13,7 +13,7 @@ export default function ChartContainer(props: StatProps) {
 
   useEffect(() => {
     setLoading(true);
-    SharedApi.query("check-survey", "league of legends", { hashedId })
+    SharedApi.query("checkSurvey", "league of legends", { hashedId })
       .then((data) => {
         if (!data) return;
 

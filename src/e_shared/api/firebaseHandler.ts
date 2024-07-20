@@ -4,12 +4,12 @@ import { delay, getQuery, toCamelCase } from "../utils/utils";
 import { FB_API_URL } from "../utils/vars";
 
 function getUrl<T extends AvailableQuery>(
-  feature: AvailableQuery,
+  feature: T,
   game: SupportGame,
   param: QueryParam<T>
 ) {
   return getQuery(
-    FB_API_URL + `/${toCamelCase(game)}-` + toCamelCase(feature),
+    FB_API_URL + `/${toCamelCase(game)}-` + feature,
     param
   );
 }
@@ -26,10 +26,10 @@ export type CheckSurveyResponse = {
 
 export async function checkSurvey(
   game: SupportGame,
-  param: AvailableQueryMap["check-survey"]
+  param: AvailableQueryMap["checkSurvey"]
 ): Promise<CheckSurveyResponse | undefined> {
   const d: CheckSurveyResponse | undefined = await fetch(
-    getUrl("check-survey", game, param)
+    getUrl("checkSurvey", game, param)
   )
     .then((res) => res.json())
     .catch((err) => console.error(err));
@@ -39,56 +39,67 @@ export async function checkSurvey(
 
 export async function createSurvey(
   game: SupportGame,
-  param: AvailableQueryMap["create-survey"]
+  param: AvailableQueryMap["createSurvey"]
 ) {
-  return await fetch(getUrl("create-survey", game, param))
+  return await fetch(getUrl("createSurvey", game, param))
     .then(() => true)
     .catch(() => false);
 }
 
 export async function cancelSurvey(
   game: SupportGame,
-  param: AvailableQueryMap["cancel-survey"]
+  param: AvailableQueryMap["cancelSurvey"]
 ) {
-  return await fetch(getUrl("cancel-survey", game, param))
+  return await fetch(getUrl("cancelSurvey", game, param))
     .then(() => true)
     .catch(() => false);
 }
 
+export async function getSurvey(  
+  game: SupportGame,
+  param: AvailableQueryMap["getSurvey"]
+): Promise<{ 
+  password: string;
+  startTime: number;
+  limitMinute: number;
+} | undefined> {
+  return await fetch(getUrl("getSurvey", game, param))
+    .then((res) => res.json())
+    .catch(() => undefined);
+}
+
 export async function checkStatExist(
   game: SupportGame,
-  param: AvailableQueryMap["check-stat-exist"]
+  param: AvailableQueryMap["checkStatExist"]
 ): Promise<{ exist: boolean; } | undefined> {
   await delay(1000);
   
-  return await fetch(getUrl("check-stat-exist", game, param))
+  return await fetch(getUrl("checkStatExist", game, param))
     .then(res => res.json())
     .catch(() => undefined);
 }
 
-
-
 export async function saveStat(
   game: SupportGame,
-  param: AvailableQueryMap["save-stat"]
+  param: AvailableQueryMap["saveStat"]
 ) {
-  return await fetch(getUrl("save-stat", game, param));
+  return await fetch(getUrl("saveStat", game, param));
 }
 
 export async function joinSurvey(
   game: SupportGame,
-  param: AvailableQueryMap["join-survey"]
+  param: AvailableQueryMap["joinSurvey"]
 ) {
-  return await fetch(getUrl("join-survey", game, param))
+  return await fetch(getUrl("joinSurvey", game, param))
     .then(() => true)
     .catch(() => false);
 }
 
 export async function checkJoinSurvey(
   game: SupportGame,
-  param: AvailableQueryMap["check-join-survey"]
-) {
-  return await fetch(getUrl("check-join-survey", game, param))
+  param: AvailableQueryMap["checkJoinSurvey"]
+): Promise<boolean> {
+  return await fetch(getUrl("checkJoinSurvey", game, param))
     .then((res) => res.json())
     .catch(() => false);
 }
@@ -101,9 +112,9 @@ type GameUser = {
 
 export async function getUser(
   game: SupportGame,
-  param: AvailableQueryMap["get-user"]
+  param: AvailableQueryMap["getUser"]
 ): Promise<GameUser | undefined> {
-  return await fetch(getUrl("get-user", game, param))
+  return await fetch(getUrl("getUser", game, param))
     .then((res) => res.json())
     .catch(() => undefined);
 }
@@ -124,9 +135,9 @@ export type GameStat = {
 
 export async function getStat(
   game: SupportGame,
-  param: AvailableQueryMap["get-stat"]
+  param: AvailableQueryMap["getStat"]
 ): Promise<GameStat | undefined> {
-  return await fetch(getUrl("get-stat", game, param))
+  return await fetch(getUrl("getStat", game, param))
     .then((res) => res.json())
     .catch(() => undefined);
 }
@@ -142,9 +153,9 @@ export type LeagueOfLegendsChart = {
 
 export async function getChart(
   game: SupportGame,
-  param: AvailableQueryMap["get-chart"]
+  param: AvailableQueryMap["getChart"]
 ): Promise<LeagueOfLegendsChart | undefined> {
-  return await fetch(getUrl("get-chart", game, param))
+  return await fetch(getUrl("getChart", game, param))
     .then((res) => res.json())
     .then((data) => ({ ...data, updateDate: new Date(data.updateDate) }))
     .catch(() => undefined);

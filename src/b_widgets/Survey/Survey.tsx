@@ -37,7 +37,7 @@ export default function Survey({
     }
 
     setLoading(true);
-    SharedApi.query("check-survey", gameInfo["game-name"], { hashedId })
+    SharedApi.query("checkSurvey", gameInfo["game-name"], { hashedId })
       .then((data) => {
         if (data) setSurveyInfo(data);
       })

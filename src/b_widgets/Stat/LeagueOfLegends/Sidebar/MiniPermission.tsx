@@ -21,7 +21,7 @@ export default function MiniPermission({
     setLoading(true);
 
     await Promise.allSettled(
-      LeagueOfLegendsPermissions.map(async ({ apiType }) => SharedApi.query("save-stat", currentGame, {
+      LeagueOfLegendsPermissions.map(async ({ apiType }) => SharedApi.query("saveStat", currentGame, {
         apiType,
         hashedId,
         hostHashedId

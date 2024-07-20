@@ -17,7 +17,7 @@ export default function PermissionPanel(props: {
 
   useEffect(() => {
     setLoading(true);
-    SharedApi.query("check-survey", currentGame, {
+    SharedApi.query("checkSurvey", currentGame, {
       hashedId: hostHashedId,
     })
       .then((res) => setIsOpen(res?.status === "open"))
