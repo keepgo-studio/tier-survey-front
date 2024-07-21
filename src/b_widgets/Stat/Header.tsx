@@ -5,7 +5,7 @@ import Shared, { SharedUtils } from "@shared";
 import Link from "next/link";
 import React from "react";
 import { StatProps } from "./Stat";
-import Signout from "../Signout.tsx/Signout";
+import Signout from "../Signout/Signout";
 
 export default function Header({ gameInfo, hashedId }: StatProps) {
   const currentHashedIdMap = Entities.hooks.useAppSelector(
@@ -27,7 +27,7 @@ export default function Header({ gameInfo, hashedId }: StatProps) {
       </h1>
 
       <div className="flex justify-end gap-2">
-        {currentHashedId && <Signout />}
+        {currentHashedId && <Signout game={gameInfo["game-name"]} />}
 
         {isHost && (
           <Link href={SharedUtils.generateHostQRUrl(gameInfo["game-name"])}>

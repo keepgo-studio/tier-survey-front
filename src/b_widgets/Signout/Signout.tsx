@@ -3,11 +3,15 @@ import Shared from "@shared";
 import React from "react";
 import { RiLogoutBoxLine } from "react-icons/ri";
 
-export default function Signout() {
+export default function Signout({
+  game
+}: {
+  game: SupportGame;
+}) {
   const dispath = Entities.hooks.useAppDispatch();
 
   const signOut = () => {
-    dispath(Entities.user.logout());
+    dispath(Entities.user.logout(game));
   };
 
   return (

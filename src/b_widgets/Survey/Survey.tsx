@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 import QRScreen from "./QRScreen";
 import SurveyForm from "./SurveyForm";
 import { useRouter } from "next/navigation";
-import Signout from "../Signout.tsx/Signout";
+import Signout from "../Signout/Signout";
 
 export default function Survey({
   gameInfo,
@@ -52,7 +52,7 @@ export default function Survey({
 
   return (
     <div className="flex flex-col gap-4">
-      {hashedId && <Signout />}
+      {hashedId && <Signout game={gameInfo["game-name"]} />}
 
       <Shared.Frame
         type="large"

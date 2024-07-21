@@ -8,7 +8,7 @@ import { ImSpinner } from "react-icons/im";
 import Entities from "@entities";
 import Auth from "../Auth/Auth";
 import { LeagueOfLegendsPermissions, type LeagueOfLegendsItem } from "./utils";
-import Signout from "../Signout.tsx/Signout";
+import Signout from "../Signout/Signout";
 
 export default function LeagueOfLegendsPanel({
   currentGame,
@@ -216,7 +216,7 @@ export default function LeagueOfLegendsPanel({
       {hashedId && (
         <div className="flex items-center justify-end gap-4 mt-4">
           <span className="text-sm text-bright-gray">다른 계정으로 참여하고 싶다면,</span>
-          <Signout />
+          <Signout game={currentGame} />
         </div>
       )}
     </>
