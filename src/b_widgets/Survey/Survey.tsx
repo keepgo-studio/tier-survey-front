@@ -2,10 +2,10 @@
 
 import Entities from "@entities";
 import Shared, {
-  CheckSurveyResponse,
   SharedApi,
   SharedUtils,
   SupportGameJsonItem,
+  Survey as FS_Survey,
 } from "@shared";
 import { useEffect, useState } from "react";
 import QRScreen from "./QRScreen";
@@ -18,28 +18,32 @@ export default function Survey({
 }: {
   gameInfo: SupportGameJsonItem;
 }) {
+  const router = useRouter();
+
   const hashedIdMap = Entities.hooks.useAppSelector(Entities.user.selectHashedId);
   const hashedId = hashedIdMap[gameInfo["game-name"]];
-  const [surveyInfo, setSurveyInfo] = useState<CheckSurveyResponse | null>(
-    null
-  );
+  
   const [loading, setLoading] = useState(true);
-
-  const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
+  const [surveyInfo, setSurveyInfo] = useState<FS_Survey | null>(null);
 
   useEffect(() => {
     if (!hashedId) {
       const redirect = SharedUtils.generateHostQRUrl(gameInfo["game-name"]);
-      router.push(
-        SharedUtils.generateSignInUrl(gameInfo["game-name"], redirect)
-      );
+      router.push(SharedUtils.generateSignInUrl(gameInfo["game-name"], redirect));
       return;
     }
 
     setLoading(true);
-    SharedApi.query("checkSurvey", gameInfo["game-name"], { hashedId })
+    SharedApi.query("getSurvey", gameInfo["game-name"], { hashedId })
       .then((data) => {
-        if (data) setSurveyInfo(data);
+        if (data) {
+          const { limitMinute, startTime } = data;
+          const endTime = startTime + limitMinute * 60 * 1000;
+
+          setIsOpen(endTime > Date.now());
+          setSurveyInfo({ ...data });
+        }
       })
       .finally(() => setLoading(false));
   }, [gameInfo, hashedId, router]);
@@ -54,11 +58,12 @@ export default function Survey({
         type="large"
         className="bg-dark-black !p-6 sm:!px-10 sm:!py-12 !w-fit m-auto"
       >
-        {surveyInfo?.status === "open" ? (
+        {isOpen ? (
           <QRScreen
             gameInfo={gameInfo}
-            limitMinute={surveyInfo.data!.limitMinute}
-            startTime={surveyInfo.data!.startTime}
+            password={surveyInfo!.password}
+            limitMinute={surveyInfo!.limitMinute}
+            startTime={surveyInfo!.startTime}
             hashedId={hashedId}
           />
         ) : (

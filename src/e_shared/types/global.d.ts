@@ -22,6 +22,10 @@ interface AvailableQueryMap {
     hashedId: string;
     hostHashedId: string;
   };
+  "checkSurveyPassword": {
+    password: string;
+    hostHashedId: string;
+  };
   "joinSurvey": {
     hashedId: string;
     hostHashedId: string;

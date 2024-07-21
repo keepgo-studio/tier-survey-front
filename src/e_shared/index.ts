@@ -83,6 +83,7 @@ export type {
   LeagueOfLegendsChampionInfo,
   LeagueOfLegendsChart,
   CheckSurveyResponse,
-  GameStat
+  GameStat,
+  Survey
 } from "./api/firebaseHandler";
 

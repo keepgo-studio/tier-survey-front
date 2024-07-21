@@ -26,6 +26,8 @@ export default function LeagueOfLegendsPanel({
   const hashedIdMap = Entities.hooks.useAppSelector(Entities.user.selectHashedId);
   const hashedId = hashedIdMap["league of legends"];
 
+  const [active, setActive] = useState(open);
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [hasJoined, setHasJoined] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -33,8 +35,28 @@ export default function LeagueOfLegendsPanel({
   const handleJoin = async () => {
     if (!hashedId) return;
 
+    const done = (err?: string) => {
+      setError(err ? err : null);
+      setLoading(false);
+      SharedBrowserUtils.removeLeaveBarrier();
+    };
+
     setLoading(true);
     SharedBrowserUtils.addLeaveBarrier();
+
+    const canAccess = await SharedApi.query("checkSurveyPassword", currentGame, { hostHashedId, password });
+
+    if (canAccess === undefined) {
+      done("설문을 확인하는데 오류가 생겼습니다.");
+      return;
+    } else if (canAccess.state === "closed") {
+      setActive(false);
+      done();
+      return;
+    } else if (canAccess.state === "wrong") {
+      done("비밀번호가 틀렸습니다, host에게 물어보십시오");
+      return;
+    } 
 
     const joined = await SharedApi.query("checkJoinSurvey", currentGame, {
       hashedId,
@@ -42,12 +64,6 @@ export default function LeagueOfLegendsPanel({
     });
 
     setHasJoined(joined);
-
-    const done = (err?: string) => {
-      setError(err ? err : null);
-      setLoading(false);
-      SharedBrowserUtils.removeLeaveBarrier();
-    };
 
     if (!joined) {
       setItemList(itemList.map(item => ({
@@ -104,7 +120,7 @@ export default function LeagueOfLegendsPanel({
   };
 
   const renderButtons = () => {
-    if (!open) {
+    if (!active) {
       return (
         <>
           <Link href={SharedUtils.generateStatUrl(hostHashedId, currentGame)}>
@@ -155,7 +171,7 @@ export default function LeagueOfLegendsPanel({
 
   return (
     <>
-      <Shared.Frame className="p-4 sm:p-7 bg-dark-black text-sm sm:text-base" type="large">
+      <Shared.Frame className="!p-4 sm:p-7 bg-dark-black text-sm sm:text-base" type="large">
         <ul className="flex flex-col gap-6">
           {itemList.map((item, idx) => (
             <li key={idx}>
@@ -166,6 +182,32 @@ export default function LeagueOfLegendsPanel({
       </Shared.Frame>
 
       <div className="h-6" />
+
+      <Shared.Frame className="!p-6" type="large">
+        <label htmlFor="input-password" className="uppercase">password</label>
+        
+        <div className="h-2" />
+
+        <p className="text-sm text-bright-gray">※ 없으면 입력 안 해도 됩니다</p>
+
+        <div className="h-6" />
+
+        <Shared.Frame
+            type="small"
+            className="bg-dimm-dark justify-self-end"
+          >
+            <input
+              value={password}
+              onChange={(e) => setPassword(e.currentTarget.value)}
+              className="py-3 px-4 bg-transparent block w-full h-full"
+              id="input-password"
+              name="time"
+              required
+            />
+          </Shared.Frame>
+      </Shared.Frame>
+
+      <div className="h-10" />
 
       <div className="flex items-center justify-end gap-2">
       {error ?  <p className="text-red text-sm px-4">{error}</p> : renderButtons()}

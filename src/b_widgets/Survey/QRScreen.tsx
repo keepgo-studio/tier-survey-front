@@ -13,11 +13,13 @@ import React, { useEffect, useState } from "react";
 export default function QRScreen({
   limitMinute,
   startTime,
+  password,
   gameInfo,
   hashedId,
 }: {
   limitMinute: number;
   startTime: number;
+  password: string;
   gameInfo: SupportGameJsonItem;
   hashedId: string;
 }) {
@@ -128,6 +130,8 @@ export default function QRScreen({
 
           <div className="h-8" />
 
+          <Header>link {password && "& password"}.</Header>
+
           <Link
             href={url}
             target="_blank"
@@ -136,15 +140,25 @@ export default function QRScreen({
             <Shared.Frame>
               <p className="p-4 text-sm w-full break-all" title={url}>
                 {isEnd ? (
-                  <p className="text-bright-gray text-center">이미 끝난 설문입니다.</p>
+                  <span className="text-bright-gray text-center">이미 끝난 설문입니다.</span>
                 ) : (
-                  <p className="w-full md:truncate">{url}</p>
+                  <span className="block w-full md:truncate">{url}</span>
                 )}
               </p>
             </Shared.Frame>
           </Link>
 
-          <div className="h-6" />
+          {password && (
+            <>
+              <div className="h-2"/>
+              
+              <Shared.Frame>
+                <p className="p-4">{password}</p>
+              </Shared.Frame>
+            </>
+          )}
+
+          <div className="h-8" />
 
           <div className="flex flex-col sm:flex-row sm:items-center gap-4 justify-end">
             {isEnd ? (

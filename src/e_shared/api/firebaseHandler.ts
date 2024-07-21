@@ -55,14 +55,16 @@ export async function cancelSurvey(
     .catch(() => false);
 }
 
-export async function getSurvey(  
-  game: SupportGame,
-  param: AvailableQueryMap["getSurvey"]
-): Promise<{ 
+export type Survey = {
   password: string;
   startTime: number;
   limitMinute: number;
-} | undefined> {
+}
+
+export async function getSurvey(  
+  game: SupportGame,
+  param: AvailableQueryMap["getSurvey"]
+): Promise<Survey | undefined> {
   return await fetch(getUrl("getSurvey", game, param))
     .then((res) => res.json())
     .catch(() => undefined);
@@ -86,12 +88,23 @@ export async function saveStat(
   return await fetch(getUrl("saveStat", game, param));
 }
 
+export async function checkSurveyPassword(
+  game: SupportGame,
+  param: AvailableQueryMap["checkSurveyPassword"]
+): Promise<{ 
+  state: "wrong" | "correct" | "closed"
+} | undefined> {
+  return await fetch(getUrl("checkSurveyPassword", game, param))
+    .then(res => res.json())
+    .catch(() => undefined);
+}
+
 export async function joinSurvey(
   game: SupportGame,
   param: AvailableQueryMap["joinSurvey"]
 ) {
   return await fetch(getUrl("joinSurvey", game, param))
-    .then(() => true)
+    .then((res) => res.status === 200)
     .catch(() => false);
 }
 

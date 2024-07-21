@@ -34,7 +34,7 @@ export default function SurveyForm({
   const submitHandler: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
 
-    const password = passwordRef.current?.value ?? "",
+    const password = passwordRef.current?.value.trim() ?? "",
           time = Number(timeRef.current?.value);
 
     const reply = await confirm(
@@ -101,6 +101,7 @@ export default function SurveyForm({
               className="bg-dimm-dark justify-self-end"
             >
               <input
+                type="number"
                 ref={timeRef}
                 className="py-3 px-4 bg-transparent block w-full h-full"
                 id="input-time"
