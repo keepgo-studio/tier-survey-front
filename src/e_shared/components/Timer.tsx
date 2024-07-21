@@ -79,19 +79,18 @@ function RoundTimer({
     ctx.lineWidth = dis * 0.09;
     ctx.strokeStyle = "#6F46B4";
     ctx.stroke();
-
   }, [width, height, duration]);
 
   const animation = useCallback(async () => {
     if (!lifeCycle.current) return;
 
+    elapsedTime.current = Date.now() - startTime;
+    draw();
+
     if (elapsedTime.current >= duration) {
       if (onEnd) onEnd();
       return;
     }
-
-    draw();
-    elapsedTime.current = Date.now() - startTime;
 
     await delay(fps);
 
