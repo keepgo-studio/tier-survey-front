@@ -148,7 +148,7 @@ export default function LeagueOfLegendsPanel({
         className="bg-purple"
         disabled={loading}
       >
-        설문 참여하기
+        {loading ? <ImSpinner className="h-[1.5em] text-lg animate-spin"/> : "설문 참여하기"}
       </Shared.Button>
     );
   };

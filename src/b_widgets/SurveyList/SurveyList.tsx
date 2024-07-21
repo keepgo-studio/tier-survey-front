@@ -106,7 +106,7 @@ function NavigateToStat({
 
           <div className='h-4'/>
 
-          <div className='flex justify-end gap-2 flex-col sm:flex-row'>
+          <div className='flex justify-end gap-2 flex-col sm:flex-row items-end'>
             <Link href={SharedUtils.generateHostQRUrl(gameInfo['game-name'])}>
               <Shared.Button className='bg-purple'>설문 다시하기</Shared.Button>
             </Link>

@@ -13,15 +13,13 @@ export default function Chart({ gameInfo, hashedId }: StatProps) {
 
   useEffect(() => {
     SharedApi.query("getChart", gameInfo["game-name"], { hashedId })
-      .then((_data) => {
-        if (_data) setData(_data);
-      })
+      .then((_data) => { if (_data) setData(_data); })
       .finally();
   }, [gameInfo, hashedId]);
 
   if (!data)
     return (
-      <div>
+      <div className="abcenter">
         <Shared.Spinner withText={false} />
 
         <div className="h-4" />
@@ -198,7 +196,7 @@ function Leaderboards() {
       
       <div className="h-6" />
 
-      <p>현재 설문의 상위 100명 플레이어 정보입니다.</p>
+      <p>현재 설문의 상위 10명 플레이어 정보입니다.</p>
     </Shared.Frame>
   );
 }
