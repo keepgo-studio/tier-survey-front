@@ -1,6 +1,5 @@
 import { SharedApi } from '@shared';
 import Widget from '@widgets';
-import Link from 'next/link';
 import React from 'react'
 
 export default async function page() {

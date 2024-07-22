@@ -5,6 +5,7 @@ import Survey from "./Survey/Survey";
 import Stat from "./Stat/Stat";
 import Title from "./Title/Title";
 import SurveyList from "./SurveyList/SurveyList";
+import SurveyHistory from "./SurveyHistory/SurveyHistory";
 
 const Widget =  {
   GameSelect,
@@ -13,7 +14,8 @@ const Widget =  {
   Stat,
   Auth,
   Title,
-  SurveyList
+  SurveyList,
+  SurveyHistory
 };
 
 export default Widget;

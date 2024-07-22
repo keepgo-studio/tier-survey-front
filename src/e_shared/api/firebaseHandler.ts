@@ -209,3 +209,20 @@ export async function getMyRanking(
     .then((res) => res.json())
     .catch(() => undefined);
 }
+
+export type JoinedSurveyItem = {
+  id: string;
+  time: number;
+}
+
+export async function getJoinedSurvey(
+  game: SupportGame,
+  param: AvailableQueryMap["getJoinedSurvey"]
+): Promise<JoinedSurveyItem[]> {
+  return await fetch(getUrl("getJoinedSurvey", game, param))
+    .then((res) => {
+      if (res.status === 200) return res.json();
+      return [];
+    })
+    .catch(() => []);
+}

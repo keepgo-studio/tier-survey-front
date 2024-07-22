@@ -87,5 +87,6 @@ export type {
   Survey,
   Top100PlayerTable,
   Top100PlayerTableItem,
+  JoinedSurveyItem
 } from "./api/firebaseHandler";
 

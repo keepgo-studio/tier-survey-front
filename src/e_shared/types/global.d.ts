@@ -45,10 +45,13 @@ interface AvailableQueryMap {
   };
   "getTop100PlayerTable": {
     hashedId: string;
-  },
+  };
   "getMyRanking": {
     hashedId: string;
     hostHashedId: string;
+  };
+  "getJoinedSurvey": {
+    hashedId: string;
   }
 };
 
