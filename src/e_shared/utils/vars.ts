@@ -30,3 +30,9 @@ export const OAUTH_COOKIE: { game: SupportGame; cookieKey: string; }[] = [
     cookieKey: "val-hashed-id"
   },
 ]
+
+export const CDN_URL: Record<SupportGame, string> = {
+  "league of legends": "https://ddragon.leagueoflegends.com/cdn/14.6.1/img/profileicon",
+  "teamfight tactics": "",
+  "valorant": ""
+}

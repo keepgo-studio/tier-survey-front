@@ -27,8 +27,8 @@ export default function Stat(props: StatProps) {
   };
 
   return (
-    <section className="relative p-6 gap-6 flex lg:flex-row flex-col justify-center">
-      <div className="min-w-[320px]">
+    <section className="relative p-6 gap-6 flex ll:flex-row flex-col justify-center">
+      <div className="min-w-[320px] ll:sticky top-0 left-0 h-fit">
       {sidebarRender()}
       </div>
 

@@ -84,6 +84,8 @@ export type {
   LeagueOfLegendsChart,
   CheckSurveyResponse,
   GameStat,
-  Survey
+  Survey,
+  Top100PlayerTable,
+  Top100PlayerTableItem,
 } from "./api/firebaseHandler";
 

@@ -7,15 +7,17 @@ import { colorArr, getChampionNameMap, getMaxTiers, numberWithCommas, orderTier,
 import Image from "next/image";
 import { FaHeart } from "react-icons/fa6";
 import TierD3 from "./TierD3";
+import Leaderboards from "./Leaderboards";
+import MyRanking from "./MyRanking";
 
-export default function Chart({ gameInfo, hashedId }: StatProps) {
+export default function Chart({ gameInfo, hashedId: hostHashedId }: StatProps) {
   const [data, setData] = useState<LeagueOfLegendsChart | null>(null);
 
   useEffect(() => {
-    SharedApi.query("getChart", gameInfo["game-name"], { hashedId })
+    SharedApi.query("getChart", gameInfo["game-name"], { hashedId: hostHashedId })
       .then((_data) => { if (_data) setData(_data); })
       .finally();
-  }, [gameInfo, hashedId]);
+  }, [gameInfo, hostHashedId]);
 
   if (!data)
     return (
@@ -45,9 +47,9 @@ export default function Chart({ gameInfo, hashedId }: StatProps) {
 
       <RankPie type="flex" data={data.flexTierCnt} />
 
-      <Leaderboards />
+      <Leaderboards gameInfo={gameInfo} hashedId={hostHashedId} />
 
-      <MyRanking />
+      <MyRanking hostHashedId={hostHashedId} />
     </div>
   );
 }
@@ -189,33 +191,5 @@ function RankPie({
   );
 }
 
-function Leaderboards() {
-  return (
-    <Shared.Frame className="!p-8 bg-dark">
-      <h4 className="text-bright-gray uppercase">top 100</h4>
-      
-      <div className="h-6" />
 
-      <p>현재 설문의 상위 10명 플레이어 정보입니다.</p>
-    </Shared.Frame>
-  );
-}
 
-function MyRanking() {
-  return (
-    <Shared.Frame className="!p-8 bg-dark">
-      <h4 className="text-bright-gray uppercase">my ranking</h4>
-      
-      <div className="h-6" />
-
-      <p>
-        설문에서의 내 순위
-
-        <br />
-
-        <span className="text-sm text-bright-gray">이 순위는 나만 볼 수 있습니다.</span>
-      </p>
-      
-    </Shared.Frame>
-  );
-}

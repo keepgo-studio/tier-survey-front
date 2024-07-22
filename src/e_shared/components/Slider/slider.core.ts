@@ -82,8 +82,8 @@ export function attachDragAnimation(
   function setPositionRenderer() {
     if(ioForPosition) ioForPosition.disconnect();
 
-    const gap = CHILDREN[1].offsetLeft - CHILDREN[0].offsetLeft,
-        rootMargin = State.width.container / 2 - gap / 2;
+    const gap = CHILDREN.length > 1 ? (CHILDREN[1].offsetLeft - CHILDREN[0].offsetLeft) : 0,
+          rootMargin = State.width.container / 2 - gap / 2;
 
     ioForPosition = new IntersectionObserver(entries => entries.forEach((info) => {
       if (info.isIntersecting) {

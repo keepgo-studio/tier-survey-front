@@ -43,6 +43,13 @@ interface AvailableQueryMap {
   "getChart": {
     hashedId: string;
   };
+  "getTop100PlayerTable": {
+    hashedId: string;
+  },
+  "getMyRanking": {
+    hashedId: string;
+    hostHashedId: string;
+  }
 };
 
 type AvailableQuery = keyof AvailableQueryMap;

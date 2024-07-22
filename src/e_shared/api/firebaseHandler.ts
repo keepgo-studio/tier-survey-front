@@ -173,3 +173,39 @@ export async function getChart(
     .then((data) => ({ ...data, updateDate: new Date(data.updateDate) }))
     .catch(() => undefined);
 }
+
+export type Top100PlayerTableItem = {
+  tierNumeric: number;
+  flexTierNumeric: number;
+  level: number;
+  gameName: string;
+  tagLine: string;
+  profileIconId: number;
+};
+
+export type Top100PlayerTable = {
+  solo: Top100PlayerTableItem[];
+  flex: Top100PlayerTableItem[];
+}
+
+export async function getTop100PlayerTable(
+  game: SupportGame,
+  param: AvailableQueryMap["getTop100PlayerTable"]
+): Promise<Top100PlayerTable | undefined> {
+  return await fetch(getUrl("getTop100PlayerTable", game, param))
+    .then((res) => res.json())
+    .catch(() => undefined);
+}
+
+export async function getMyRanking(
+  game: SupportGame,
+  param: AvailableQueryMap["getMyRanking"]
+): Promise<{ 
+  solo: number; 
+  flex: number;
+  info: Top100PlayerTableItem;
+} | undefined> {
+  return await fetch(getUrl("getMyRanking", game, param))
+    .then((res) => res.json())
+    .catch(() => undefined);
+}

@@ -6,6 +6,7 @@ import { query } from "../api/query";
 import Spinner from "./Spinner";
 import Image from "next/image";
 import { SupportGameJsonItem } from "../api/nextHandler";
+import { CDN_URL } from "../utils/vars";
 
 export default function HostInfo({
   hashedId,
@@ -14,8 +15,6 @@ export default function HostInfo({
   hashedId: string;
   gameInfo: SupportGameJsonItem;
 }) {
-  const CDN_URL = "https://ddragon.leagueoflegends.com/cdn/14.6.1/img/profileicon";
-
   const [loading, setLoading] = useState(true);
   const [name, setName] = useState("Unkown");
   const [iconId, setIconId] = useState<number>(-1);
@@ -41,7 +40,7 @@ export default function HostInfo({
           <Frame type="small" className="relative !w-[60px] !h-[60px] p-[10px] !rounded-xl !bg-dark">
             {iconId !== -1 ? (
               <Image
-                src={`${CDN_URL}/${iconId}.png`}
+                src={`${CDN_URL[gameInfo["game-name"]]}/${iconId}.png`}
                 alt="profile-icon"
                 width={36}
                 height={36}
