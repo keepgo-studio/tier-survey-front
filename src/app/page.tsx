@@ -4,14 +4,25 @@ import { MdInsertChart } from "react-icons/md";
 import { BsPersonWorkspace } from "react-icons/bs";
 import Link from "next/link";
 
+export default function Home() {
+  return (
+    <section className={"flex-1 fcenter" + " " + SharedFonts.Jua.className}>
+      <div className="p-8 max-w-5xl flex flex-col gap-12 items-center justify-between w-full md:flex-row md:gap-0">
+        <TextSection />    
+        <ButtonSection />
+      </div>
+    </section>
+  );
+}
+
 function TextSection() {
   return (
     <div className="text-center md:text-left">
-      <h1 className="text-7xl font-bold">너의 티어는,</h1>
+      <h1 className="text-4xl sm:text-7xl font-bold">너의 티어는,</h1>
 
       <div className="h-6"/>
 
-      <div className="text-3xl font-bold text-bright-gray leading-normal">
+      <div className="text-xl sm:text-3xl font-bold text-bright-gray leading-normal">
         <span>방송에서,</span> 함께
         <br/>
         서로의 티어를 공유해보아요
@@ -55,22 +66,11 @@ function ButtonSection() {
               <Shared.Frame type="small" className="fcenter w-10 h-10">
                 {_item.icon}
               </Shared.Frame>
-              <span className="font-bold text-lg">{_item.text}</span>
+              <span className="font-bold text-sm sm:text-lg">{_item.text}</span>
             </Shared.Frame>
           </Link>
         ))}
       </Shared.Frame>
     </div>
   )
-}
-
-export default function Home() {
-  return (
-    <section className={"flex-1 fcenter" + " " + SharedFonts.Jua.className}>
-      <div className="p-8 max-w-5xl flex flex-col gap-12 items-center justify-between w-full md:flex-row md:gap-0">
-        <TextSection />    
-        <ButtonSection />
-      </div>
-    </section>
-  );
 }
