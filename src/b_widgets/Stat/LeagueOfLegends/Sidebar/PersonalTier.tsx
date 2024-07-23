@@ -1,6 +1,6 @@
 "use client";
 
-import Shared, { GameStat, SharedApi, SharedBrowserUtils } from "@shared";
+import Shared, { PlayerTableItem, SharedApi, SharedBrowserUtils } from "@shared";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { generateTierRank } from "../utils";
@@ -9,29 +9,29 @@ import Auth from "src/b_widgets/Auth/Auth";
 import { StatProps } from "../../Stat";
 import MiniPermission from "./MiniPermission";
 
-export default function PersonalTier({ gameInfo, hashedId }: StatProps) {
+export default function PersonalTier({ gameInfo, hashedId: hostHashedId }: StatProps) {
   const currentHashedIdMap = Entities.hooks.useAppSelector(
     Entities.user.selectHashedId
   );
-  const currentHashedId = currentHashedIdMap[gameInfo["game-name"]];
+  const hashedId = currentHashedIdMap[gameInfo["game-name"]];
   const [loading, setLoading] = useState(true);
-  const [stat, setStat] = useState<GameStat | null>(null);
+  const [info, setInfo] = useState<PlayerTableItem | null>(null);
 
   useEffect(() => {
-    if (!currentHashedId) return;
+    if (!hashedId) return;
 
     setLoading(true);
-    SharedApi.query("getStat", gameInfo["game-name"], {
-      hashedId: currentHashedId,
+    SharedApi.query("getMyInfoFromPlayerTable", gameInfo["game-name"], {
+      hostHashedId, hashedId,
     })
       .then((data) => {
         if (!data) return;
-        setStat(data);
+        setInfo(data);
       })
       .finally(() => setLoading(false));
-  }, [gameInfo, currentHashedId]);
+  }, [gameInfo, hostHashedId, hashedId]);
 
-  if (!currentHashedId) {
+  if (!hashedId) {
     return (
       <Shared.Frame className="!p-4 bg-dark-black flex flex-col gap-2">
         <div className="uppercase text-xs rounded-full border border-border bg-dark py-2 px-3 text-red flex gap-2 justify-center">
@@ -45,19 +45,18 @@ export default function PersonalTier({ gameInfo, hashedId }: StatProps) {
     );
   }
 
-  const isHost = hashedId === currentHashedId;
+  const isHost = hashedId === hashedId;
 
   const renderStat = () => {
     if (loading) return <Shared.Spinner />;
 
-    if (stat) {
+    if (info) {
       return (
         <>
-          <Update time={stat.updateTime} />
-          <Shared.HostInfo gameInfo={gameInfo} hashedId={currentHashedId} />
-          <Level color={gameInfo["theme-color"]} level={stat.level} />
-          <Tier type="solo" numericTier={stat.tierNumeric} />
-          <Tier type="flex" numericTier={stat.flexTierNumeric} />
+          <Shared.HostInfo gameInfo={gameInfo} hashedId={hashedId} />
+          <Level color={gameInfo["theme-color"]} level={info.level} />
+          <Tier type="solo" numericTier={info.tierNumeric} />
+          <Tier type="flex" numericTier={info.flexTierNumeric} />
         </>
       );
     }
@@ -71,7 +70,7 @@ export default function PersonalTier({ gameInfo, hashedId }: StatProps) {
         {isHost && (
           <MiniPermission
             currentGame={gameInfo["game-name"]}
-            hashedId={currentHashedId}
+            hashedId={hashedId}
             hostHashedId={hashedId}
           />
         )}
@@ -89,7 +88,7 @@ export default function PersonalTier({ gameInfo, hashedId }: StatProps) {
 function Update({ time }: { time: number }) {
   return (
     <div className="uppercase text-xs rounded-full border border-border py-2 px-3 bg-dark text-bright-gray flex gap-2 justify-center">
-      <span>updated at</span>
+      <span>joined at</span>
       {time && <span>{new Date(time).toISOString().slice(0, 10)}</span>}
     </div>
   );

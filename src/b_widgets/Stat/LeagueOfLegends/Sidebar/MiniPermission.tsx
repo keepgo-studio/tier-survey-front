@@ -1,7 +1,6 @@
 'use client'
 
 import Shared, { SharedApi } from '@shared'
-import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
 import { LeagueOfLegendsPermissions } from 'src/b_widgets/PermissionPanel/utils';
 
@@ -14,7 +13,6 @@ export default function MiniPermission({
   hashedId: string;
   hostHashedId: string;
 }) {
-  const router = useRouter();
   const [loading, setLoading] = useState(false);
 
   const handleJoinForHost = async () => {
@@ -28,7 +26,9 @@ export default function MiniPermission({
       }))
     );
 
-    router.refresh();    
+    await SharedApi.query("joinSurvey", currentGame, { hashedId, hostHashedId });
+
+    window.location.reload();
   }
 
   if (loading) return <Shared.Spinner />;

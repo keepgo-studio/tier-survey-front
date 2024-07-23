@@ -90,7 +90,7 @@ function NavigateToStat({
       {hashedId ? (
         <div>
           <h4 className="uppercase font-light text-xs text-bright-gray">
-            survey info.
+            survey host info.
           </h4>
 
           <div className='h-2'/>

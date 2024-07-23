@@ -38,9 +38,12 @@ export default function Leaderboards({
 
       <div className="h-6" />
 
-      <p>현재 설문의 상위 100명 플레이어 정보입니다.</p>
+      <p className="leading-7">
+        현재 설문의 상위 100명 플레이어 정보입니다.
+        <br/>
+        <span className="text-sm text-bright-gray">UNRANK는 순위에 반영되지 않습니다.</span>
+      </p>
 
-      <p className="text-sm text-bright-gray">UNRANK는 순위에 반영되지 않습니다.</p>
 
       <div className="h-4" />
 
@@ -180,7 +183,7 @@ export function ImageTier({ numericTier }: { numericTier: number; }) {
   const { tier } = generateTierRank(numericTier);
 
   return (
-    <Shared.Frame type="small" className="h-full bg-black !p-2 fcenter aspect-square">
+    <Shared.Frame type="small" className="h-full bg-black w-[48px] aspect-square fcenter">
       <Image
         src={`/data/ranked-emblems/league-of-legends/${tier}.webp`}
         alt="tier-image"

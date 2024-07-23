@@ -3,16 +3,16 @@
 import Entities from "@entities";
 import Shared, { SharedApi, Top100PlayerTableItem } from "@shared";
 import { useEffect, useState } from "react";
-import { ImageTier, Profile, RankType, TextTier } from "./Leaderboards";
+import { ImageTier, Profile, TextTier } from "./Leaderboards";
 
 export default function MyRanking({ hostHashedId }: { hostHashedId: string; }) {
   const user = Entities.hooks.useAppSelector(Entities.user.selectHashedId);
+  const hashedId = user["league of legends"];
   const [soloRank, setSoloRank] = useState(-1);
   const [flexRank, setFlexRank] = useState(-1);
   const [info, setInfo] = useState<Top100PlayerTableItem | null>(null)
 
   useEffect(() => {
-    const hashedId = user["league of legends"];
     
     if (!hashedId) return;
 
@@ -24,7 +24,7 @@ export default function MyRanking({ hostHashedId }: { hostHashedId: string; }) {
           setInfo(data.info);
         }
       })
-  }, [user, hostHashedId]);
+  }, [hashedId, hostHashedId]);
 
   return (
     <Shared.Frame className="!p-8 bg-dark">
@@ -32,17 +32,19 @@ export default function MyRanking({ hostHashedId }: { hostHashedId: string; }) {
       
       <div className="h-6" />
 
-      <p>
-        설문에서의 내 순위
+      <p className="leading-7">
+        <span>설문에서의 내 순위</span> <span className="text-xs text-bright-gray">(이 순위는 나만 볼 수 있습니다.)</span>
         <br/>
-        <span className="text-sm text-bright-gray">UNRANK는 순위에 반영되지 않습니다.</span>
+        <span className="text-sm text-bright-gray">
+          <span className="text-white">UNRANK</span>
+          는 순위에 반영되지 않습니다.
+        </span>
         <br/>
-        <span className="text-sm text-bright-gray">이 순위는 나만 볼 수 있습니다.</span>
       </p>
       
       <div className="h-4" />
 
-      {info && (
+      {info ? (
         <div className="flex flex-col gap-4">
           <Shared.Frame className="grid grid-cols-[auto_1fr_auto] items-center gap-3 text-sm xl:text-base">
             <div className="fcenter"><Profile id={info.profileIconId} /></div>
@@ -76,7 +78,7 @@ export default function MyRanking({ hostHashedId }: { hostHashedId: string; }) {
             </div>
           </Shared.Frame>
         </div>
-      )}
+      ) : <p className="text-center text-sm text-red">만약 참여하지 않았다면 보이지 않습니다.</p>}
 
 
 

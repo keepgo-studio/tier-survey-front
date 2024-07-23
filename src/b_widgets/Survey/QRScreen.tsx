@@ -175,7 +175,7 @@ export default function QRScreen({
               </Shared.Button>
             )}
             <Shared.Button onClick={resetHandler} className="bg-purple">
-              설문 다시하기
+              설문 지금 끝내기
             </Shared.Button>
           </div>
         </div>

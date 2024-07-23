@@ -138,19 +138,20 @@ export type LeagueOfLegendsChampionInfo = {
   championPoints: number;
 };
 
-export type GameStat = {
+export type PlayerTableItem = {
   tierNumeric: number;
   flexTierNumeric: number;
-  champions: LeagueOfLegendsChampionInfo[];
   level: number;
-  updateTime: number
+  gameName: string;
+  tagLine: string;
+  profileIconId: number;
 };
 
-export async function getStat(
+export async function getMyInfoFromPlayerTable(
   game: SupportGame,
-  param: AvailableQueryMap["getStat"]
-): Promise<GameStat | undefined> {
-  return await fetch(getUrl("getStat", game, param))
+  param: AvailableQueryMap["getMyInfoFromPlayerTable"]
+): Promise<PlayerTableItem | undefined> {
+  return await fetch(getUrl("getMyInfoFromPlayerTable", game, param))
     .then((res) => res.json())
     .catch(() => undefined);
 }

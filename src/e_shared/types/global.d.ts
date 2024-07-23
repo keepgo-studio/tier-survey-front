@@ -37,9 +37,6 @@ interface AvailableQueryMap {
   "getUser": {
     hashedId: string;
   };
-  "getStat": {
-    hashedId: string;
-  };
   "getChart": {
     hashedId: string;
   };
@@ -52,7 +49,11 @@ interface AvailableQueryMap {
   };
   "getJoinedSurvey": {
     hashedId: string;
-  }
+  };
+  "getMyInfoFromPlayerTable": {
+    hashedId: string;
+    hostHashedId: string;
+  };
 };
 
 type AvailableQuery = keyof AvailableQueryMap;

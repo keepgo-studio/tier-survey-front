@@ -83,7 +83,7 @@ export type {
   LeagueOfLegendsChampionInfo,
   LeagueOfLegendsChart,
   CheckSurveyResponse,
-  GameStat,
+  PlayerTableItem,
   Survey,
   Top100PlayerTable,
   Top100PlayerTableItem,

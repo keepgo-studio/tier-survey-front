@@ -7,7 +7,7 @@ import { colorArr, getChampionNameMap, getMaxTiers, numberWithCommas, orderTier,
 import Image from "next/image";
 import { FaHeart } from "react-icons/fa6";
 import TierD3 from "./TierD3";
-import Leaderboards from "./Leaderboards";
+import Leaderboards, { ImageTier, TextTier } from "./Leaderboards";
 import MyRanking from "./MyRanking";
 
 export default function Chart({ gameInfo, hashedId: hostHashedId }: StatProps) {
@@ -144,6 +144,8 @@ function RankPie({
   const total = SharedUtils.sum(Object.values(data));
   const maxTierArr = getMaxTiers(data);
   const [focusTier, setFocusTier] = useState<TierTypes | null>(null);
+  const totalCnt = SharedUtils.sum(Object.values(data));
+  const avgTier = totalCnt / Object.values(data).length;
 
   return (
     <Shared.Frame className="!p-8 bg-dark">
@@ -164,6 +166,16 @@ function RankPie({
         )}
       </div>
       
+      <div className="h-6" />
+
+      <Shared.Frame className="!w-fit !p-4 m-auto">
+        <div className="fcenter flex-col gap-3">
+          <p className="uppercase">average tier</p>
+            <ImageTier numericTier={Math.round(avgTier)} />
+            <TextTier numericTier={Math.round(avgTier)} />
+        </div>
+      </Shared.Frame>
+
       <div className="h-6" />
 
       <TierD3 data={data} onFocus={(_t) => setFocusTier(_t)} />
