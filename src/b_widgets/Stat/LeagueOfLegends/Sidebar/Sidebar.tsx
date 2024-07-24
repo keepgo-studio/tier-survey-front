@@ -6,7 +6,7 @@ import { StatProps } from "../../Stat";
 
 export default function Sidebar(props: StatProps) {
   return (
-    <div className="grid sm:grid-rows-[auto_1fr] md:grid-cols-[auto_1fr] lg:flex lg:flex-col gap-4">
+    <div className="grid sm:grid-rows-[auto_1fr] md:grid-cols-[auto_1fr] lg:flex lg:flex-col gap-4 max-h-screen overflow-y-auto">
       <div>
         <h4 className="uppercase font-light text-xs text-bright-gray mb-2">
           host info.

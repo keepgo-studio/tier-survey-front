@@ -14,6 +14,7 @@ export default function PersonalTier({ gameInfo, hashedId: hostHashedId }: StatP
     Entities.user.selectHashedId
   );
   const hashedId = currentHashedIdMap[gameInfo["game-name"]];
+  const [surveyExist, setSurveyExist] = useState(false);
   const [loading, setLoading] = useState(true);
   const [info, setInfo] = useState<PlayerTableItem | null>(null);
 
@@ -27,6 +28,7 @@ export default function PersonalTier({ gameInfo, hashedId: hostHashedId }: StatP
       .then((data) => {
         if (!data) return;
         setInfo(data);
+        setSurveyExist(true);
       })
       .finally(() => setLoading(false));
   }, [gameInfo, hostHashedId, hashedId]);
@@ -50,36 +52,43 @@ export default function PersonalTier({ gameInfo, hashedId: hostHashedId }: StatP
   const renderStat = () => {
     if (loading) return <Shared.Spinner />;
 
-    if (info) {
+    if (!surveyExist) {
+      return (
+        <div className="uppercase text-xs rounded-full border border-border bg-dark py-2 px-3 text-red flex gap-2 justify-center">
+          설문이 없습니다.
+        </div>
+      )
+    }
+
+    if (!info) {
       return (
         <>
-          <Shared.HostInfo gameInfo={gameInfo} hashedId={hashedId} />
-          <Level color={gameInfo["theme-color"]} level={info.level} />
-          <Tier type="solo" numericTier={info.tierNumeric} />
-          <Tier type="flex" numericTier={info.flexTierNumeric} />
+          <div className="uppercase text-xs rounded-full border border-border bg-dark py-2 px-3 text-red flex gap-2 justify-center">
+            참여한 적이 없는 설문입니다.
+          </div>
+          {isHost && (
+            <MiniPermission
+              currentGame={gameInfo["game-name"]}
+              hashedId={hashedId}
+              hostHashedId={hashedId}
+            />
+          )}
         </>
       );
     }
 
-    // if stat not exist
     return (
-      <>
-        <div className="uppercase text-xs rounded-full border border-border bg-dark py-2 px-3 text-red flex gap-2 justify-center">
-          참여한 적이 없는 설문입니다.
-        </div>
-        {isHost && (
-          <MiniPermission
-            currentGame={gameInfo["game-name"]}
-            hashedId={hashedId}
-            hostHashedId={hashedId}
-          />
-        )}
-      </>
+      <section className="w-full flex flex-col gap-2">
+        <Shared.HostInfo gameInfo={gameInfo} hashedId={hashedId} />
+        <Level color={gameInfo["theme-color"]} level={info.level} />
+        <Tier type="solo" numericTier={info.tierNumeric} />
+        <Tier type="flex" numericTier={info.flexTierNumeric} />
+      </section>
     );
   };
 
   return (
-    <Shared.Frame className="!p-4 bg-dark-black flex flex-col gap-3">
+    <Shared.Frame className="!p-4 bg-dark-black fcenter flex-col gap-3 h-full">
       {renderStat()}
     </Shared.Frame>
   );

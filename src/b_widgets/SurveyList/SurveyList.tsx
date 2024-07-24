@@ -76,14 +76,28 @@ function NavigateToStat({
   gameInfo: SupportGameJsonItem;
   hashedId: string | null;
 }) {
+  const [exist, setExist] = useState(false);
   const [createdAt, setCreatedAt] = useState(0);
 
   useEffect(() => {
     if (!hashedId) return;
 
       SharedApi.query("getSurvey", gameInfo['game-name'], { hashedId })
-        .then(res => setCreatedAt(res?.startTime ?? 0));
+        .then(res => {
+          if (res) {
+            setCreatedAt(res.startTime);
+            setExist(true);
+          }
+        });
   }, [gameInfo, hashedId])
+
+  if (!exist) {
+    return (
+      <Shared.Frame className='!p-4'>
+        <p className='text-center'>not found</p>
+      </Shared.Frame>
+    )
+  }
 
   return (
     <Shared.Frame className='!p-4'>
@@ -116,12 +130,12 @@ function NavigateToStat({
           </div>
         </div>
       ) : (
-        <Shared.Frame type='small' className='!p-4 w-fit m-auto'>
-          <h4 className='text-red bg-black rounded-full text-center'>cannot find user</h4>
+        <Shared.Frame type='small' className='!p-4 w-fit m-auto fcenter flex-col'>
+          <h4 className='text-red bg-black rounded-full text-center w-full p-1 text-xs'>cannot found user</h4>
 
           <div className='h-4'/>
 
-          <p className='text-sm'>sing in if you want to make survey</p>
+          <p className='text-sm uppercase'>sing in</p>
 
           <div className='h-6'/>
 
