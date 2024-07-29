@@ -56,3 +56,7 @@ export async function delay(mili: number) {
 export function sum(arr: number[]) {
   return arr.reduce((total, num) => total + num, 0);
 }
+
+export function isMobile() {
+  return Boolean(/iPhone|iPad|iPod|Android/i.test(navigator.userAgent));
+}

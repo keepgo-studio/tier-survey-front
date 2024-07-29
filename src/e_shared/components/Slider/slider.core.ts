@@ -1,5 +1,5 @@
 import { Ease } from "../../utils/vars";
-import { debounce, floatFormat, parseMinMax } from "../../utils/utils";
+import { debounce, floatFormat, isMobile, parseMinMax } from "../../utils/utils";
 
 class MouseCoor {
   isMouseDown = false;
@@ -156,7 +156,7 @@ export function attachDragAnimation(
   }
 
   requestAnimationFrame(renderChildren);
-  // ------------------------- mouse -------------------------
+  
   function moveToX(
     from: number,
     dest: number,
@@ -208,26 +208,32 @@ export function attachDragAnimation(
     }
   }
 
+  // ------------------------- mouse -------------------------
   const coor = new MouseCoor();
 
-  rootElem.addEventListener('mousedown', (e) => {
-    coor.mousedown(e.x, e.y);
-  });
-
-  rootElem.addEventListener('mousemove', (e) => {
-    if (!coor.isMouseDown) return;
-
-    const from = State.x,
-          to = from + -e.movementX;
-
-    moveToX(from, to, "static");
-  });
-
-  function mouseOffListener(e: MouseEvent) {
+  if (isMobile()) {
+    rootElem.addEventListener("touchstart", (e) => {
+      if (e.touches.length === 1) {
+        coor.mousedown(e.touches[0].clientX, e.touches[0].clientY);
+        coor.x2 = e.touches[0].clientX;
+      }
+    });
+  
+    rootElem.addEventListener("touchmove", (e) => {
       if (!coor.isMouseDown) return;
 
-      coor.mouseup(e.x, e.y);
+      const from = State.x,
+            to = from + (e.touches[0].clientX - coor.x2);
       
+      moveToX(from, to, "static");
+      coor.x2 = e.touches[0].clientX;
+    });
+  
+    rootElem.addEventListener("touchend", () => {
+      if (!coor.isMouseDown) return;
+
+      coor.mouseup(coor.x2, coor.x1);
+
       const from = State.x,
             disX = coor.x2 - coor.x1,
             velocity = disX / (coor.endTime - coor.startTime),
@@ -235,10 +241,37 @@ export function attachDragAnimation(
             to = from + -disX * (absVelocity > 1 ? absVelocity / 3 : 0);
 
       moveToX(from, to, "smooth");
+    })
+  } else {
+    rootElem.addEventListener('mousedown', (e) => {
+      coor.mousedown(e.x, e.y);
+    });
+  
+    rootElem.addEventListener('mousemove', (e) => {
+      if (!coor.isMouseDown) return;
+  
+      const from = State.x,
+            to = from + -e.movementX;
+  
+      moveToX(from, to, "static");
+    });
+  
+    function mouseOffListener(e: MouseEvent) {
+        if (!coor.isMouseDown) return;
+  
+        coor.mouseup(e.x, e.y);
+        
+        const from = State.x,
+              disX = coor.x2 - coor.x1,
+              velocity = disX / (coor.endTime - coor.startTime),
+              absVelocity = Math.abs(velocity),
+              to = from + -disX * (absVelocity > 1 ? absVelocity / 3 : 0);
+  
+        moveToX(from, to, "smooth");
+    }
+    rootElem.addEventListener('mouseleave', mouseOffListener);
+    rootElem.addEventListener('mouseup', mouseOffListener);
   }
-  rootElem.addEventListener('mouseleave', mouseOffListener);
-  rootElem.addEventListener('mouseup', mouseOffListener);
-
 
   return function cleanup() {
     State.lifeCycle = false;

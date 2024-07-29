@@ -39,7 +39,7 @@ export default function GameSelect({ data }: { data: SupportGameJsonItem[] }) {
 const GameItem = ({ item }: { item: SupportGameJsonItem }) => {
   return (
       <Link
-        className={`w-72 h-96 block ${item.available ? 'clickable' : 'cursor-not-allowed'}`}
+        className={`w-52 sm:w-72 aspect-[288/384] block ${item.available ? 'clickable' : 'cursor-not-allowed'}`}
         href={item.available ? SharedUtils.generateHostQRUrl(item["game-name"]) : ''}
         draggable={false}
       >

@@ -33,7 +33,7 @@ export default function RootLayout({
 
   return (
     <html lang="ko">
-      <body className={SharedFonts.LexendMega.className + " " + "overflow-x-hidden"}>
+      <body className={SharedFonts.LexendMega.className + " " + "overflow-hidden"}>
         <Shared.LoadingBar />
 
         <Entities.Provider user={{ 
