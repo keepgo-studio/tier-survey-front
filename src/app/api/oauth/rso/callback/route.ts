@@ -7,11 +7,6 @@ import { requestRSOToken, RiotAPI, writeUser } from "./utils";
 
 export const dynamic = 'force-dynamic'
 
-type State = {
-  game: SupportGame;
-  redirect: string;
-}
-
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
   const accessCode = searchParams.get('code');
@@ -29,7 +24,9 @@ export async function GET(req: NextRequest) {
     });
   }
 
-  const { game, redirect: redirectUrl } = JSON.parse(state) as State;
+  // const { game, redirect: redirectUrl } = JSON.parse(state) as State;
+  const game = "league of legends";
+  const redirectUrl = state;
 
   try {
     const payload = await requestRSOToken(accessCode);

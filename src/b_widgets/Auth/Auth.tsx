@@ -30,7 +30,6 @@ export default function Auth({
             height={80}
             alt="logo"
           />
-
           <Link
             className="block w-fit"
             href={SharedUtils.getQuery(AUTH_PROVIDER, {
@@ -38,10 +37,7 @@ export default function Auth({
               client_id: process.env.NEXT_PUBLIC_CLIENT_ID ?? "",
               response_type: "code",
               scope: "openid",
-              state: JSON.stringify({
-                game,
-                redirect: redirect ? redirect : window.location.href
-              }),
+              state: redirect ? redirect : window.location.href,
             })}
           >
             <Shared.Frame className="flex items-center gap-4 px-4 py-2 text-xs bg-dark-black clickable">
